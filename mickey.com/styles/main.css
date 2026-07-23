@@ -1,0 +1,365 @@
+﻿.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  position: relative;
+  overflow: hidden;
+}
+
+.page .topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: red;
+}
+
+.page .hero {
+  position: relative;
+  min-height: 100vh;
+  padding: 56px 64px;
+  color: var(--color-white);
+  background: url(../all-images/background-images/Job-Application-scaled.jpeg) center/cover no-repeat;
+}
+
+.page .hero .image-background-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--color-hero-overlay);
+  pointer-events: none;
+}
+
+.page .hero .hero-footer {
+  padding-left: 56px;
+}
+
+.page .hero .brand {
+  padding-left: 56px;
+}
+
+.page .hero .hero-copy {
+  padding-left: 56px;
+}
+
+.page .hero .brand {
+  padding-top: 114px;
+  font-size: 50px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.page .hero .brand .dot {
+  color: var(--color-brand-accent);
+}
+
+.page .hero .hero-copy {
+  max-width: 560px;
+  color: var(--color-white);
+  margin-top: 30px;
+}
+
+.page .hero .hero-copy h1 {
+  font-size: 30px;
+  line-height: 1.25;
+  padding-left: 0;
+  color: var(--color-white);
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+
+.page .hero .hero-copy p {
+  font-size: 15px;
+  padding-left: 0;
+  padding-bottom: 10px;
+  line-height: 1.6;
+  color: var(--color-white);
+  max-width: 520px;
+}
+
+.page .hero .hero-footer {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  align-items: center;
+  gap: 20px;
+  padding-top: 117px;
+  position: relative;
+  z-index: 2;
+}
+
+.page .hero .hero-footer .socials {
+  display: grid;
+  grid-auto-columns: 34px;
+  grid-auto-flow: column;
+  gap: 12px;
+}
+
+.page .hero .hero-footer .socials a {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--color-white);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.page .hero .hero-footer .socials .s-fb {
+  background: var(--color-facebook);
+}
+
+.page .hero .hero-footer .socials .s-tw {
+  background: var(--color-twitter);
+}
+
+.page .hero .hero-footer .socials .s-gp {
+  background: var(--color-google-plus);
+}
+
+.page .hero .hero-footer .socials .s-li {
+  background: var(--color-linkedin);
+}
+
+.page .hero .hero-footer .socials .s-pi {
+  background: var(--color-pinterest);
+}
+
+.page .hero .hero-footer .copyright {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-white);
+  margin-left: 150px;
+}
+
+.page .card-wrap {
+  position: relative;
+  background: var(--color-white);
+  min-height: 100vh;
+}
+
+.page .card-wrap .card {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 560px;
+  height: 600px;
+  padding: 64px 56px;
+  border-radius: var(--card-radius);
+  background: var(--color-white);
+  box-shadow: 0 30px 80px var(--color-card-shadow);
+  transform: translate(-20%, -50%);
+  z-index: 5;
+}
+
+.page .card-wrap .card .progress-label {
+  font-size: 14.5px;
+  color: var(--color-text-dark);
+  margin-bottom: 12px;
+}
+
+.page .card-wrap .card .progress-track {
+  width: 100%;
+  height: 6px;
+  background: var(--track);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 34px;
+}
+
+.page .card-wrap .card .progress-fill {
+  width: 16.6%;
+  height: 100%;
+  background: var(--blue);
+  border-radius: 6px;
+}
+
+.page .card-wrap .card .section-title {
+  padding-left: 0;
+  font-size: 35px;
+  font-weight: 700;
+  color: var(--color-page-background);
+  margin: 50px 20px;
+}
+
+.page .card-wrap .card .section-titles {
+  padding-left: 0;
+  font-size: 35px;
+  font-weight: 700;
+  color: var(--color-page-background);
+  margin: 50px 20px;
+}
+
+.page .card-wrap .card .section-titler {
+  padding-left: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-page-background);
+  margin: 50px 10px;
+}
+
+.page .card-wrap .card .section-titlec {
+  padding-left: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-page-background);
+  margin: 50px 10px;
+}
+
+.page .card-wrap .card form .field {
+  margin-bottom: 16px;
+}
+
+.page .card-wrap .card .forgot-password {
+  display: inline-block;
+  margin-top: 5px;
+  margin-bottom: 30px;
+  color: var(--color-link);
+  text-decoration: underline;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.page .card-wrap .card .footer-text {
+  margin-top: 20px;
+  font-size: 14px;
+  display: inline-block;
+  margin-top: 5px;
+  margin-bottom: 30px;
+  font-weight: 500;
+  font-size: 14px;
+  padding-left: 130px;
+}
+
+.page .card-wrap .card .footer-text a {
+  color: var(--color-link);
+  text-decoration: underline;
+}
+
+.page .card-wrap .card form .field input[type="password"] {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid var(--color-input-border);
+  border-radius: 30px;
+  font-size: 14.5px;
+  color: var(--color-input-text);
+  outline: none;
+  background: var(--color-white);
+  transition: border-color .15s ease;
+}
+
+.page .card-wrap .card form .field input[type="text"] {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid var(--color-input-border);
+  border-radius: 30px;
+  font-size: 14.5px;
+  color: var(--color-input-text);
+  outline: none;
+  background: var(--color-white);
+  transition: border-color .15s ease;
+}
+
+.page .card-wrap .card form .field input[type="email"] {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid var(--color-input-border);
+  border-radius: 30px;
+  font-size: 14.5px;
+  color: var(--color-input-text);
+  outline: none;
+  background: var(--color-white);
+  transition: border-color .15s ease;
+}
+
+.page .card-wrap .card form .field input[type="tel"] {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid var(--color-input-border);
+  border-radius: 30px;
+  font-size: 14.5px;
+  color: var(--color-input-text);
+  outline: none;
+  background: var(--color-white);
+  transition: border-color .15s ease;
+}
+
+.page .card-wrap .card form .field input[type="number"] {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid var(--color-input-border);
+  border-radius: 30px;
+  font-size: 14.5px;
+  color: var(--color-input-text);
+  outline: none;
+  background: var(--color-white);
+  transition: border-color .15s ease;
+}
+
+.page .card-wrap .card form .field input::placeholder {
+  color: var(--color-placeholder);
+}
+
+.page .card-wrap .card form .field input:focus {
+  border-color: var(--blue);
+}
+
+.page .card-wrap .card .row-two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 190px;
+}
+
+.page .card-wrap .card .row-two .field {
+  min-width: 0;
+}
+
+.page .card-wrap .card .gender-label {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--color-page-background);
+  margin: 24px 0 12px;
+}
+
+.page .card-wrap .card .gender-options {
+  display: grid;
+  grid-auto-columns: max-content;
+  grid-auto-flow: column;
+  justify-content: start;
+  gap: 28px;
+  margin-bottom: 32px;
+}
+
+.page .card-wrap .card .next-btn {
+  padding-left: 150px;
+  background: var(--blue);
+  color: var(--color-white);
+  border: none;
+  padding: 14px 40px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.page .card-wrap .card .next-btnf {
+  padding-left: 150px;
+  background: var(--blue);
+  color: var(--color-white);
+  border: none;
+  width: 450px;
+  padding: 14px 40px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.page .card-wrap .card .next-btn:hover {
+  background: var(--color-button-hover);
+}
+
+.page .card-wrap .card .next-btn:active {
+  transform: translateY(1px);
+}
