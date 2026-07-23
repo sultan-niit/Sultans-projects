@@ -267,6 +267,7 @@
   box-sizing: border-box;
 }
 
+
 .page .card-wrap .card .next-btnf {
   width: 100%;
   background: var(--blue);
@@ -289,15 +290,9 @@
   background: var(--color-button-hover);
 }
 
-.page .card-wrap .card .next-btn:active {
-  transform: translateY(1px);
-}
 
-.page .card-wrap .card .next-btnf:active {
-  transform: translateY(1px);
-}
 
-@media all and (max-width: 1420px) {
+@media (max-width: 1420px) {
   .page .hero {
     display: none;
   }
@@ -327,4 +322,10 @@
   .page .card-wrap .card .row-two {
     grid-template-columns: 1fr;
   }
+}
+@media  (max-width: 320px) {
+  .page .card-wrap .card .forgot-password {
+  display: none;
+  }
+
 }
