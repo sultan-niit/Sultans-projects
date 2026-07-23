@@ -1,59 +1,45 @@
-body {
-    margin: 0px;
-    padding: 0px;
-    font-family: body-font;
-   
-}
-
 :root {
-    --primary-color: #00b050;
-    --secondary-color: #000000;
-    --facebook-color: #3b66de;
-    --google-color : #e33e3b;
-    --gray-color : #ccc;
-    --input-bg-color: #F5F5F4;
-    --black-color: #000;
+  /* Theme Colors */
+  --primary-color: #00b050;
+  --secondary-color: #000000;
+  --black-color: #000000;
+  --white-color: #ffffff;
+  
+  /* Brand Social Colors */
+  --facebook-color: #3b66de;
+  --google-color: #e33e3b;
+  
+  /* UI & Input Colors */
+  --gray-color: #cccccc;
+  --input-bg-color: #F5F5F4;
+  --text-muted: #7a7a7a;
+  --text-subtle: #6c757d;
+  --footer-text-color: #4a4b4a;
+  --placeholder-color: #b3b3b3;
+  --border-light: #e0e0e0;
+  --border-tab: #e9f0f0;
+  --border-dark: #2d2b2b;
+  
+  /* Overlays & Shadows */
+  --overlay-bg: rgba(0, 0, 0, 0.45);
+  --card-shadow: rgba(0, 0, 0, 0.16);
+  --button-shadow: rgba(0, 176, 80, 0.2);
 }
 
 @font-face {
-    font-family: title-font;
-    src: url(Poppins/Poppins-Bold.ttf);
+  font-family: title-font;
+  src: url(Poppins/Poppins-Bold.ttf);
 }
 
 @font-face {
-    font-family: sub-title-font;
-    src: url(Poppins/Poppins-Medium.ttf);
+  font-family: sub-title-font;
+  src: url(Poppins/Poppins-Medium.ttf);
 }
 
 @font-face {
-    font-family: body-font;
-    src: url(Poppins/Poppins-Regular.ttf);
+  font-family: body-font;
+  src: url(Poppins/Poppins-Regular.ttf);
 }
-
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: title-font;
-    margin: 0px;
-    padding: 0px;
-}
-
-p {
-    margin: 0px;
-    padding: 0px;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-
-
 
 * {
   box-sizing: border-box;
@@ -64,16 +50,31 @@ a {
 html {
   height: 100%;
 }
-@media (max-width: 480px) {
-  .auth-page-background .auth-overlay {
-    padding: 20px;
-  }
 
-  .auth-page-background .auth-overlay .log-container .login-container {
-    padding: 32px 22px;
-  }
-
-  .auth-page-background .auth-overlay .log-container .login-container .top-text {
-    font-size: 28px;
-  }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: body-font, sans-serif;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: title-font, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+

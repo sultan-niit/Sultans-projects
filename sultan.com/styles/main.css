@@ -1,10 +1,14 @@
+/* Authentication Layout */
 .auth-section {
   width: 100%;
 }
 
 .auth-page-background {
   position: fixed;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background: url('../all-images/body-images/bg-image.jpeg') no-repeat center center fixed;
@@ -13,19 +17,19 @@
 
 .auth-page-background .auth-overlay {
   position: fixed;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   min-height: 100%;
   padding: 32px;
-  background-color: rgba(0, 0, 0, 0.45);
+  background-color: var(--overlay-bg);
   overflow-y: auto;
-  border-top-left-radius: 18px;
-  border-top-right-radius: 18px;
-  border-bottom-left-radius: 18px;
-  border-bottom-right-radius: 18px;
+  border-radius: 18px;
 }
 
 .auth-page-background .auth-overlay .log-container {
@@ -40,10 +44,10 @@
 .auth-page-background .auth-overlay .log-container .login-container {
   width: 500px;
   max-width: 100%;
-  padding: 19px ;
+  padding: 19px;
   border-radius: 18px;
-  background-color: #ffffff;
-  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.16);
+  background-color: var(--white-color);
+  box-shadow: 0 26px 70px var(--card-shadow);
   text-align: center;
 }
 
@@ -66,34 +70,34 @@
   height: auto;
 }
 
-.auth-page-background .auth-overlay .log-container .login-container .text{
+.auth-page-background .auth-overlay .log-container .login-container .text {
   text-align: center;
-  color: #7a7a7a;
+  color: var(--text-muted);
   margin-bottom: 14px;
 }
 
-.auth-page-background .auth-overlay .log-container .login-container .form-tabs{
+.auth-page-background .auth-overlay .log-container .login-container .form-tabs {
   display: flex;
   gap: 10px;
   justify-content: center;
   margin-bottom: 14px;
 }
 
-.auth-page-background .auth-overlay .log-container .login-container .form-tabs .form-tab{
+.auth-page-background .auth-overlay .log-container .login-container .form-tabs .form-tab {
   width: 58px;
   height: 44px;
   border-radius: 50px;
-  background: #fff;
-  border: 2px solid #e9f0f0;
+  background: var(--white-color);
+  border: 2px solid var(--border-tab);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.auth-page-background .auth-overlay .log-container .login-container .form-tabs .form-tab input{
+.auth-page-background .auth-overlay .log-container .login-container .form-tabs .form-tab input {
   width: 100%;
   height: 100%;
-  border: 0.2px solid rgb(45, 43, 43);
+  border: 0.2px solid var(--border-dark);
   border-radius: 50px;
   text-align: center;
   font-size: 22px;
@@ -107,8 +111,9 @@
 
 .auth-page-background .auth-overlay .log-container .login-container .form-group input {
   width: 300px;
+  max-width: 100%;
   padding: 14px 20px;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border-light);
   background-color: var(--input-bg-color);
   border-radius: 50px;
   outline: none;
@@ -118,7 +123,7 @@
 }
 
 .auth-page-background .auth-overlay .log-container .login-container .form-group input::placeholder {
-  color: #b3b3b3;
+  color: var(--placeholder-color);
 }
 
 .auth-page-background .auth-overlay .log-container .login-container .form-group input:focus {
@@ -139,13 +144,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   width: 300px;
   max-width: 100%;
-  padding: 14px;
+  padding: 14px 20px;
   margin: 0 auto 18px;
   border: none;
   border-radius: 50px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
@@ -159,33 +165,28 @@
 .auth-page-background .auth-overlay .log-container .login-container .btn-login {
   margin: 0 auto 25px;
   background-color: var(--primary-color);
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 176, 80, 0.2);
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .btn-social {
-  position: relative;
+  color: var(--white-color);
+  box-shadow: 0 4px 12px var(--button-shadow);
 }
 
 .auth-page-background .auth-overlay .log-container .login-container .btn-facebook {
   background-color: var(--facebook-color);
-  color: #ffffff;
+  color: var(--white-color);
 }
 
 .auth-page-background .auth-overlay .log-container .login-container .btn-google {
   background-color: var(--google-color);
-  color: #ffffff;
+  color: var(--white-color);
 }
 
 .auth-page-background .auth-overlay .log-container .login-container .btn-icon {
-  position: absolute;
-  left: 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 18px;
   height: 18px;
-  color: #ffffff;
+  color: var(--white-color);
+  flex-shrink: 0;
 }
 
 .auth-page-background .auth-overlay .log-container .login-container .separator {
@@ -207,209 +208,52 @@
   font-weight: 600;
 }
 
-
 .footer {
   margin-top: 20px;
   font-size: 12px;
-    color: #4a4b4a;
-
+  color: var(--footer-text-color);
 }
 
 .footer span {
   font-weight: bold;
   text-decoration: underline;
-
 }
 
- .footer2 {
+.footer2 {
   display: inline-block;
   font-weight: bold;
   text-decoration: underline;
   font-size: 12px;
-  color: #4a4b4a;
+  color: var(--footer-text-color);
 }
+
 .form-text {
- font-size: 19px;
-  font-weight: 400;         
-  color: #6c757d;            
-  line-height: 1.6;         
-  max-width: 320px;         
-  margin-left: auto;  
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--text-subtle);
+  line-height: 1.6;
+  max-width: 320px;
+  margin-left: auto;
   margin-right: auto;
   margin-bottom: 24px;
 }
-@media all and (max-width:420px) {
-    
 
-.auth-page-background .auth-overlay .log-container .login-container {
-  width: 400px;
-  max-width: 100%;
-  padding: 19px ;
-  border-radius: 18px;
-  background-color: #ffffff;
-  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.16);
-  text-align: center;
-}
+@media (max-width: 480px) {
+  .auth-page-background .auth-overlay {
+    padding: 20px;
+  }
 
-.auth-page-background .auth-overlay .log-container .login-container .top-text {
-  margin-bottom: 20px;
-  font-size: 34px;
-  font-weight: 700;
-  color: var(--secondary-color);
-}
+  .auth-page-background .auth-overlay .log-container .login-container {
+    padding: 32px 22px;
+  }
 
-.auth-page-background .auth-overlay .log-container .login-container .form-icon {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 16px;
-}
+  .auth-page-background .auth-overlay .log-container .login-container .top-text {
+    font-size: 28px;
+  }
 
-.auth-page-background .auth-overlay .log-container .login-container .form-icon img {
-  width: 80px;
-  max-width: 100%;
-  height: auto;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .text{
-  text-align: center;
-  color: #7a7a7a;
-  margin-bottom: 14px;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .form-tabs{
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-bottom: 14px;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .form-tabs .form-tab{
-  width: 58px;
-  height: 44px;
-  border-radius: 50px;
-  background: #fff;
-  border: 2px solid #e9f0f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .form-tabs .form-tab input{
-  width: 100%;
-  height: 100%;
-  border: 0.2px solid rgb(45, 43, 43);
-  border-radius: 50px;
-  text-align: center;
-  font-size: 22px;
-  outline: none;
-  background: transparent;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .form-group {
-  margin-bottom: 20px;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .form-group input {
-  width: 300px;
-  max-width: 100%;
-  padding: 14px 20px;
-  border: 2px solid #e0e0e0;
-  background-color: var(--input-bg-color);
-  border-radius: 50px;
-  outline: none;
-  font-size: 15px;
-  color: var(--black-color);
-  transition: border-color 0.2s ease;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .form-group input::placeholder {
-  color: #b3b3b3;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .form-group input:focus {
-  border-color: var(--primary-color);
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .forgot-password {
-  display: inline-block;
-  margin-top: 5px;
-  margin-bottom: 30px;
-  color: var(--secondary-color);
-  text-decoration: underline;
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 300px;
-  max-width: 100%;
-  padding: 14px;
-  margin: 0 auto 18px;
-  border: none;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .btn:hover {
-  opacity: 0.9;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .btn-login {
-  margin: 0 auto 25px;
-  background-color: var(--primary-color);
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 176, 80, 0.2);
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .btn-social {
-  position: relative;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .btn-facebook {
-  background-color: var(--facebook-color);
-  color: #ffffff;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .btn-google {
-  background-color: var(--google-color);
-  color: #ffffff;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .btn-icon {
-  position: absolute;
-  left: 20px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  color: #ffffff;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .separator {
-  margin-bottom: 25px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--secondary-color);
-  text-transform: uppercase;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .footer-text {
-  margin-top: 20px;
-  font-size: 14px;
-}
-
-.auth-page-background .auth-overlay .log-container .login-container .footer-text a {
-  color: var(--primary-color);
-  text-decoration: underline;
-  font-weight: 600;
-}
-
+  .auth-page-background .auth-overlay .log-container .login-container .btn {
+    font-size: 13.5px;
+    padding: 12px 14px;
+    gap: 8px;
+  }
 }
