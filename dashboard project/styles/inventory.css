@@ -1,0 +1,592 @@
+.dashboard-wrapper .content-wrapper .top-header .header-title-box .page-main-heading,
+.page-main-heading {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-color);
+    letter-spacing: -0.4px;
+    font-family: title-font;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-toolbar,
+.inventory-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-toolbar-left,
+.inventory-toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .filter-pill,
+.filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--white-color);
+    border: 1px solid var(--border-color);
+    border-radius: 100px;
+    padding: 9px 18px;
+    color: var(--text-secondary-color);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    font-family: sub-title-font;
+    transition: all ease 0.2s;
+    -webkit-transition: all ease 0.2s;
+    -ms-transition: all ease 0.2s;
+    -o-transition: all ease 0.2s;
+    -moz-transition: all ease 0.2s;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .filter-pill:hover,
+.filter-pill:hover {
+    background-color: var(--hover-bg-color);
+    border-color: var(--border-hover-color);
+    color: var(--text-dark-color);
+}
+
+.dashboard-wrapper .content-wrapper .main-content .filter-pill i.bi-funnel,
+.filter-pill i.bi-funnel {
+    font-size: 13px;
+    color: var(--text-muted-color);
+}
+
+.dashboard-wrapper .content-wrapper .main-content .filter-pill i.bi-chevron-down,
+.filter-pill i.bi-chevron-down {
+    font-size: 11px;
+    color: var(--text-muted-color);
+    margin-left: 2px;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-toolbar-right,
+.inventory-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-search-bar,
+.inventory-search-bar {
+    display: flex;
+    align-items: center;
+    background-color: var(--white-color);
+    border: 1px solid var(--border-color);
+    border-radius: 100px;
+    padding: 0 16px;
+    height: 42px;
+    width: 280px;
+    gap: 10px;
+    transition: all ease 0.2s;
+    -webkit-transition: all ease 0.2s;
+    -ms-transition: all ease 0.2s;
+    -o-transition: all ease 0.2s;
+    -moz-transition: all ease 0.2s;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-search-bar:focus-within,
+.inventory-search-bar:focus-within {
+    background-color: var(--white-color);
+    border-color: var(--primary-color);
+    box-shadow: 0px 0px 0px 3px var(--primary-glow-color);
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-search-bar i,
+.inventory-search-bar i {
+    color: var(--text-muted-color);
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-search-bar input,
+.inventory-search-bar input {
+    border: none;
+    outline: none !important;
+    background: transparent;
+    width: 100%;
+    font-size: 13px;
+    color: var(--text-color);
+    font-family: sub-title-font;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-search-bar input::placeholder,
+.inventory-search-bar input::placeholder {
+    color: var(--text-muted-color);
+    font-family: sub-title-font;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .btn-filter-toggle,
+.btn-filter-toggle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background-color: var(--white-color);
+    color: var(--text-secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all ease 0.2s;
+    -webkit-transition: all ease 0.2s;
+    -ms-transition: all ease 0.2s;
+    -o-transition: all ease 0.2s;
+    -moz-transition: all ease 0.2s;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .btn-filter-toggle:hover,
+.btn-filter-toggle:hover {
+    background-color: var(--hover-bg-color);
+    color: var(--text-dark-color);
+    border-color: var(--border-hover-color);
+}
+
+.dashboard-wrapper .content-wrapper .main-content .btn-add-item-action,
+.btn-add-item-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--text-dark-color);
+    color: var(--white-color);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 0 20px;
+    height: 42px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    font-family: sub-title-font;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+    transition: all ease 0.2s;
+    -webkit-transition: all ease 0.2s;
+    -ms-transition: all ease 0.2s;
+    -o-transition: all ease 0.2s;
+    -moz-transition: all ease 0.2s;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .btn-add-item-action:hover,
+.btn-add-item-action:hover {
+    background-color: var(--text-color);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
+}
+
+.dashboard-wrapper .content-wrapper .main-content .btn-add-item-action i,
+.btn-add-item-action i {
+    font-size: 15px;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-main-card,
+.inventory-main-card {
+    background-color: var(--card-color);
+    border: 1px solid var(--border-light-color);
+    border-radius: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    overflow: hidden;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-table-wrap,
+.inventory-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-data-table,
+.inventory-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-data-table thead th,
+.inventory-data-table thead th {
+    padding: 15px 18px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--table-header-color);
+    border-bottom: 1px solid var(--table-border-color);
+    white-space: nowrap;
+    background-color: var(--white-color);
+    font-family: sub-title-font;
+    user-select: none;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-data-table thead th.sortable-th,
+.inventory-data-table thead th.sortable-th {
+    cursor: pointer;
+    transition: color ease 0.15s;
+    -webkit-transition: color ease 0.15s;
+    -ms-transition: color ease 0.15s;
+    -o-transition: color ease 0.15s;
+    -moz-transition: color ease 0.15s;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-data-table thead th.sortable-th:hover,
+.inventory-data-table thead th.sortable-th:hover {
+    color: var(--text-dark-color);
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-data-table thead th.sortable-th i,
+.inventory-data-table thead th.sortable-th i {
+    font-size: 11px;
+    margin-left: 4px;
+    color: var(--border-hover-color);
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-data-table thead th.sortable-th:hover i,
+.inventory-data-table thead th.sortable-th:hover i {
+    color: var(--text-dark-color);
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-data-table tbody tr,
+.inventory-data-table tbody tr {
+    border-bottom: 1px solid var(--border-light-color);
+    transition: background-color ease 0.15s;
+    -webkit-transition: background-color ease 0.15s;
+    -ms-transition: background-color ease 0.15s;
+    -o-transition: background-color ease 0.15s;
+    -moz-transition: background-color ease 0.15s;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-data-table tbody tr:last-child,
+.inventory-data-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-data-table tbody tr:hover,
+.inventory-data-table tbody tr:hover {
+    background-color: var(--hover-bg-color);
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-data-table tbody td,
+.inventory-data-table tbody td {
+    padding: 12px 18px;
+    font-size: 13px;
+    color: var(--text-dark-color);
+    vertical-align: middle;
+    white-space: nowrap;
+    font-family: sub-title-font;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .table-checkbox,
+.table-checkbox {
+    width: 17px;
+    height: 17px;
+    border: 1.5px solid var(--border-hover-color);
+    border-radius: 4px;
+    cursor: pointer;
+    accent-color: var(--text-dark-color);
+    display: block;
+}
+
+.item-thumb-container {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 10px;
+    background-color: var(--input-bg-color);
+    border: 1px solid var(--border-light-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 3px;
+}
+
+.item-thumb-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 6px;
+    display: block;
+}
+
+.item-name-cell {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 13.5px;
+    font-family: sub-title-font;
+}
+
+.item-category-cell {
+    color: var(--text-secondary-color);
+    font-weight: 500;
+    font-size: 13px;
+    font-family: sub-title-font;
+}
+
+.availability-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.2;
+    font-family: sub-title-font;
+}
+
+.availability-pill .pill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.availability-pill.available {
+    background-color: var(--status-success-bg-color);
+    color: var(--status-success-text-color);
+    border: 1px solid var(--status-success-border-color);
+}
+
+.availability-pill.available .pill-dot {
+    background-color: var(--status-success-text-color);
+}
+
+.availability-pill.low {
+    background-color: var(--status-pending-bg-color);
+    color: var(--status-pending-text-color);
+    border: 1px solid var(--status-pending-border-color);
+}
+
+.availability-pill.low .pill-dot {
+    background-color: var(--status-pending-text-color);
+}
+
+.availability-pill.out-of-stock {
+    background-color: var(--status-danger-bg-color);
+    color: var(--status-danger-text-color);
+    border: 1px solid var(--status-danger-border-color);
+}
+
+.availability-pill.out-of-stock .pill-dot {
+    background-color: var(--status-danger-text-color);
+}
+
+.item-metric-val {
+    font-weight: 500;
+    color: var(--text-dark-color);
+    font-size: 13px;
+    font-family: sub-title-font;
+}
+
+.table-row-actions-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-view-item-action {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--white-color);
+    color: var(--text-secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all ease 0.2s;
+    -webkit-transition: all ease 0.2s;
+    -ms-transition: all ease 0.2s;
+    -o-transition: all ease 0.2s;
+    -moz-transition: all ease 0.2s;
+}
+
+.btn-view-item-action:hover {
+    background-color: var(--hover-bg-color);
+    color: var(--text-dark-color);
+    border-color: var(--border-hover-color);
+}
+
+.btn-view-item-action i {
+    font-size: 14px;
+}
+
+.btn-reorder-item-action {
+    border: 1px solid var(--border-color);
+    background-color: var(--input-bg-color);
+    color: var(--text-dark-color);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: sub-title-font;
+    cursor: pointer;
+    transition: all ease 0.2s;
+    -webkit-transition: all ease 0.2s;
+    -ms-transition: all ease 0.2s;
+    -o-transition: all ease 0.2s;
+    -moz-transition: all ease 0.2s;
+}
+
+.btn-reorder-item-action:hover {
+    background-color: var(--hover-bg-color);
+    color: var(--text-dark-color);
+    border-color: var(--border-hover-color);
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-pagination-row,
+.inventory-pagination-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-top: 1px solid var(--border-light-color);
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .pagination-info,
+.pagination-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary-color);
+    font-family: sub-title-font;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .pagination-size-select,
+.pagination-size-select {
+    border: 1px solid var(--border-color);
+    background-color: var(--white-color);
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 12.5px;
+    color: var(--text-dark-color);
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    font-family: sub-title-font;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .pagination-controls,
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .btn-page-step,
+.btn-page-step {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--white-color);
+    color: var(--text-secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: sub-title-font;
+    transition: all ease 0.2s;
+    -webkit-transition: all ease 0.2s;
+    -ms-transition: all ease 0.2s;
+    -o-transition: all ease 0.2s;
+    -moz-transition: all ease 0.2s;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .btn-page-step:hover,
+.btn-page-step:hover {
+    background-color: var(--hover-bg-color);
+    border-color: var(--border-hover-color);
+    color: var(--text-dark-color);
+}
+
+.dashboard-wrapper .content-wrapper .main-content .btn-page-step.active,
+.btn-page-step.active {
+    background-color: var(--text-dark-color);
+    color: var(--white-color);
+    border-color: var(--text-dark-color);
+    font-weight: 600;
+}
+
+.page-step-ellipsis {
+    color: var(--text-muted-color);
+    font-size: 13px;
+    padding: 0 4px;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .inventory-page-footer,
+.inventory-page-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .footer-credits,
+.footer-credits {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 13px;
+    color: var(--text-secondary-color);
+    flex-wrap: wrap;
+    font-family: sub-title-font;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .footer-credits a,
+.footer-credits a {
+    color: var(--text-secondary-color);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color ease 0.2s;
+    -webkit-transition: color ease 0.2s;
+    -ms-transition: color ease 0.2s;
+    -o-transition: color ease 0.2s;
+    -moz-transition: color ease 0.2s;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .footer-credits a:hover,
+.footer-credits a:hover {
+    color: var(--text-dark-color);
+}
+
+.dashboard-wrapper .content-wrapper .main-content .footer-social-links,
+.footer-social-links {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .footer-social-links a,
+.footer-social-links a {
+    color: var(--text-muted-color);
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color ease 0.2s;
+    -webkit-transition: color ease 0.2s;
+    -ms-transition: color ease 0.2s;
+    -o-transition: color ease 0.2s;
+    -moz-transition: color ease 0.2s;
+}
+
+.dashboard-wrapper .content-wrapper .main-content .footer-social-links a:hover,
+.footer-social-links a:hover {
+    color: var(--text-dark-color);
+}

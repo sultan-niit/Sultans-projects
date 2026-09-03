@@ -1,34 +1,104 @@
 body {
-    margin: 0px;
-    padding: 0px;
-    font-family: body-font;
+  margin: 0px;
+  padding: 0px;
+  font-family: body-font;
+  height: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 :root {
-    --primary-color: #f4a046;
-    --secondary-color: #FF6600;
-    --white-color: #fff;
-    --semiblack-color : #444;
-    --gray-color : #ccc;
-    --input-bg-color: #F5F5F4;
-    --black-color: #000;
+  --primary-color: #f4a046;
+  --secondary-color: #f4a046;
+  --primary-orange-color: #f6921e;
+  --accent-gold-color: #ff9900;
+  --accent-hover-color: #f4a046;
+  --accent-dark-orange: #cc4a1d;
+  --btn-accent-color: #d84c1b;
+  --light-orange-tint: #fbf5ef;
+  --white-color: #fff;
+  --black-color: #000;
+  --gray-color: #ccc;
+  --semiblack-color: #444;
+  --dark-color: #222222;
+  --dark-alt-color: #22252a;
+  --dark-gray-color: #333333;
+  --very-dark-gray-color: #1a1a1a;
+  --almost-black-color: #212121;
+  --dark-coal-color: #0f0f0f;
+  --dark-surface-color: #1e1e1e;
+  --darkest-color: #111111;
+  --light-bg-color: #f7f7f7;
+  --light-gray-bg-color: #f4f4f4;
+  --light-gray-alt: #f4f4f5;
+  --text-muted-color: #555555;
+  --text-subtle-color: #666666;
+  --text-soft-color: #888888;
+  --text-secondary-gray: #999999;
+  --text-placeholder-color: #aaaaaa;
+  --text-light-color: #cccccc;
+  --text-lightest-color: #ffffff;
+  --text-light-overlay-color: rgba(255, 255, 255, 0.85);
+  --hero-overlay-dark: rgba(0, 0, 0, 0.55);
+  --hero-overlay-dark-soft: rgba(0, 0, 0, 0.45);
+  --hero-text-light: #ffffff;
+  --hero-link-light: rgba(255, 255, 255, 0.85);
+  --hero-link-hover: #ffffff;
+  --hero-separator-color: var(--primary-color);
+  --breadcrumb-separator-color: rgba(255, 255, 255, 0.6);
+  --border-light-color: rgba(255, 255, 255, 0.1);
+  --border-subtle-color: rgba(255, 255, 255, 0.08);
+  --border-light-gray-color: #eeeeee;
+  --border-card-color: #ebeef2;
+  --border-card-hover-color: #e5e9ee;
+  --border-subtle-dark: rgba(0, 0, 0, 0.06);
+  --white-transparent: rgba(255, 255, 255, 0);
+  --white-trans-02: rgba(255, 255, 255, 0.02);
+  --white-trans-15: rgba(255, 255, 255, 0.15);
+  --white-trans-16: rgba(255, 255, 255, 0.16);
+  --white-trans-22: rgba(255, 255, 255, 0.22);
+  --white-trans-40: rgba(255, 255, 255, 0.4);
+  --overlay-light-color: rgba(255, 255, 255, 0.2);
+  --overlay-light-soft-color: rgba(255, 255, 255, 0.7);
+  --overlay-dark-color: rgba(0, 0, 0, 0.5);
+  --overlay-darker-color: rgba(0, 0, 0, 0.65);
+  --overlay-dark-15: rgba(0, 0, 0, 0.15);
+  --overlay-dark-18: rgba(0, 0, 0, 0.18);
+  --overlay-dark-25: rgba(0, 0, 0, 0.25);
+  --overlay-dark-75: rgba(0, 0, 0, 0.75);
+  --overlay-dark-80: rgba(0, 0, 0, 0.8);
+  --overlay-dark-85: rgba(0, 0, 0, 0.85);
+  --overlay-gradient-black: linear-gradient(
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.5)
+  );
+  --dark-banner-85: rgba(8, 10, 14, 0.85);
+  --dark-banner-65: rgba(8, 10, 14, 0.65);
+  --dark-banner-35: rgba(8, 10, 14, 0.35);
+  --shadow-color: rgba(0, 0, 0, 0.15);
+  --shadow-strong-color: rgba(0, 0, 0, 0.3);
+  --shadow-subtle: rgba(0, 0, 0, 0.05);
+  --shadow-card-soft: rgba(0, 0, 0, 0.08);
+  --shadow-card-elevation: rgba(0, 0, 0, 0.16);
+  --slider-arrow-bg-color: rgba(120, 120, 120, 0.55);
+  --accent-glow-color: rgba(255, 143, 0, 0.16);
+  --accent-border-glow: rgba(255, 143, 0, 0.18);
 }
 
 @font-face {
-    font-family: title-font;
-    src: url(Poppins/Poppins-Bold.ttf);
+  font-family: title-font;
+  src: url(Poppins/Poppins-Bold.ttf);
 }
 
 @font-face {
-    font-family: sub-title-font;
-    src: url(Poppins/Poppins-Medium.ttf);
+  font-family: sub-title-font;
+  src: url(Poppins/Poppins-Medium.ttf);
 }
 
 @font-face {
-    font-family: body-font;
-    src: url(Poppins/Poppins-Regular.ttf);
+  font-family: body-font;
+  src: url(Poppins/Poppins-Regular.ttf);
 }
-
 
 h1,
 h2,
@@ -36,17 +106,19 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: title-font;
-    margin: 0px;
-    padding: 0px;
+  margin: 0px;
+  padding: 0px;
+  font-family: title-font;
 }
 
-p {
-    margin: 0px;
-    padding: 0px;
+ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
 }

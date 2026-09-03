@@ -1,0 +1,586 @@
+.login-body {
+    font-family: sub-title-font;
+    background-color: var(--body-bg-color);
+    height: 100vh;
+    max-height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.login-body .frame {
+    width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    background: var(--white-color);
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    display: flex;
+}
+
+.login-body .frame .left-panel {
+    width: 50%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 48px;
+    background: var(--white-color);
+    position: relative;
+    font-family: sub-title-font;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.login-body .frame .left-panel .logo {
+    position: absolute;
+    top: 36px;
+    left: 48px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    z-index: 10;
+}
+
+.login-body .frame .left-panel .logo .logo-icon {
+    width: 44px;
+    height: 44px;
+    background-color: var(--primary-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px var(--primary-glow-color);
+}
+
+.login-body .frame .left-panel .logo .logo-icon svg {
+    width: 26px;
+    height: 26px;
+    stroke: var(--primary-color-dark);
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.login-body .frame .left-panel .logo .logo-icon i {
+    font-size: 24px;
+    color: var(--primary-color-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-body .frame .left-panel .logo .logo-text {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-color);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: sub-title-font;
+}
+
+.login-body .frame .left-panel .card {
+    width: 100%;
+    max-width: 450px;
+    background: var(--white-color);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(15, 23, 42, 0.06);
+    border: 1px solid var(--border-light-color);
+    padding: 36px 40px;
+    font-family: sub-title-font;
+    box-sizing: border-box;
+    margin-top: 40px;
+    animation: authFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+
+.login-body .frame .left-panel .card.hidden {
+    display: none !important;
+}
+
+.login-body .frame .left-panel .card .card-header {
+    margin-bottom: 24px;
+}
+
+.login-body .frame .left-panel .card .card-header .card-title {
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 6px;
+    font-family: sub-title-font;
+}
+
+.login-body .frame .left-panel .card .card-header .card-subtitle {
+    font-size: 14px;
+    color: var(--text-secondary-color);
+    font-weight: 400;
+    font-family: sub-title-font;
+    line-height: 1.5;
+}
+
+.login-body .frame .left-panel .card form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-body .frame .left-panel .card form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.login-body .frame .left-panel .card form .form-group {
+    margin-bottom: 16px;
+}
+
+.login-body .frame .left-panel .card form .form-group .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dark-color);
+    margin-bottom: 6px;
+    font-family: sub-title-font;
+}
+
+.login-body .frame .left-panel .card form .form-group .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.login-body .frame .left-panel .card form .form-group .input-wrapper .input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    color: var(--text-muted-color);
+    stroke: var(--text-muted-color);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-body .frame .left-panel .card form .form-group .input-wrapper .form-input,
+.login-body .frame .left-panel .card form .form-group .input-wrapper .form-select {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px 0 44px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px;
+    font-family: sub-title-font;
+    font-size: 14px;
+    color: var(--text-color);
+    background: var(--input-bg-color);
+    outline: none;
+    transition: all ease 0.2s;
+    box-sizing: border-box;
+}
+
+.login-body .frame .left-panel .card form .form-group .input-wrapper .form-input.has-toggle {
+    padding-right: 42px;
+}
+
+.login-body .frame .left-panel .card form .form-group .input-wrapper .form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 16px;
+}
+
+.login-body .frame .left-panel .card form .form-group .input-wrapper .form-input::placeholder {
+    color: var(--text-muted-color);
+    font-size: 14px;
+}
+
+.login-body .frame .left-panel .card form .form-group .input-wrapper .form-input:focus,
+.login-body .frame .left-panel .card form .form-group .input-wrapper .form-select:focus {
+    background-color: var(--white-color);
+    border-color: var(--primary-color-dark);
+    box-shadow: 0 0 0 3px var(--primary-glow-color);
+}
+
+.login-body .frame .left-panel .card form .password-toggle-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted-color);
+    transition: color 0.2s ease;
+    border-radius: 6px;
+}
+
+.login-body .frame .left-panel .card form .password-toggle-btn:hover {
+    color: var(--primary-color-dark);
+}
+
+.login-body .frame .left-panel .card form .password-toggle-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.login-body .frame .left-panel .card form .form-options-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+.login-body .frame .left-panel .card form .checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.login-body .frame .left-panel .card form .checkbox-label input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 5px;
+    background: var(--input-bg-color);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    margin: 0;
+}
+
+.login-body .frame .left-panel .card form .checkbox-label input[type="checkbox"]:checked {
+    background-color: var(--primary-color-dark);
+    border-color: var(--primary-color-dark);
+}
+
+.login-body .frame .left-panel .card form .checkbox-label input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid var(--white-color);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.login-body .frame .left-panel .card form .checkbox-label .terms-link {
+    color: var(--primary-color-dark);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.login-body .frame .left-panel .card form .checkbox-label .terms-link:hover {
+    text-decoration: underline;
+}
+
+.login-body .frame .left-panel .card form .forgot-link {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--primary-color-dark);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: sub-title-font;
+    transition: all ease 0.2s;
+}
+
+.login-body .frame .left-panel .card form .forgot-link:hover {
+    text-decoration: underline;
+}
+
+.login-body .frame .left-panel .card form .btn-login {
+    width: 100%;
+    height: 48px;
+    background-color: var(--primary-color);
+    color: var(--primary-color-dark);
+    font-family: sub-title-font;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px var(--primary-glow-color);
+    transition: all ease 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.login-body .frame .left-panel .card form .btn-login:hover {
+    background-color: var(--primary-color-hover);
+    box-shadow: 0 6px 20px var(--primary-glow-color);
+}
+
+.login-body .frame .left-panel .card form .btn-login:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px var(--primary-glow-color);
+}
+
+.login-body .frame .left-panel .card form .switch-auth-row {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--text-secondary-color);
+    font-family: sub-title-font;
+}
+
+.login-body .frame .left-panel .card form .switch-auth-row .switch-auth-link {
+    color: var(--primary-color-dark);
+    font-weight: 600;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: sub-title-font;
+    font-size: 13px;
+    margin-left: 4px;
+    transition: all ease 0.2s;
+}
+
+.login-body .frame .left-panel .card form .switch-auth-row .switch-auth-link:hover {
+    text-decoration: underline;
+}
+
+.login-body .frame .left-panel .card .auth-alert {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 18px;
+    line-height: 1.4;
+}
+
+.login-body .frame .left-panel .card .auth-alert.hidden {
+    display: none !important;
+}
+
+.login-body .frame .left-panel .card .auth-alert.alert-success {
+    background-color: var(--status-success-bg-color);
+    color: var(--status-success-text-color);
+    border: 1px solid var(--status-success-border-color);
+}
+
+.login-body .frame .left-panel .card .auth-alert.alert-info {
+    background-color: #EFF6FF;
+    color: #1D4ED8;
+    border: 1px solid #BFDBFE;
+}
+
+.login-body .frame .left-panel .card .auth-alert.alert-error {
+    background-color: var(--status-danger-bg-color);
+    color: var(--status-danger-text-color);
+    border: 1px solid var(--status-danger-border-color);
+}
+
+.login-body .frame .left-panel .card .auth-alert svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.login-body .frame .left-panel .card .otp-badge-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.login-body .frame .left-panel .card .otp-input-field {
+    letter-spacing: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.login-body .frame .left-panel .card .back-btn-row {
+    margin-bottom: 16px;
+}
+
+.login-body .frame .left-panel .card .back-btn-row .btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.login-body .frame .left-panel .card .back-btn-row .btn-back:hover {
+    color: var(--primary-color-dark);
+}
+
+.login-body .frame .left-panel .card .back-btn-row .btn-back svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.login-body .frame .right-panel {
+    width: 50%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    font-family: sub-title-font;
+}
+
+.login-body .frame .right-panel .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.login-body .frame .right-panel .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(13, 92, 86, 0.88) 0%, rgba(125, 229, 215, 0.68) 100%);
+}
+
+.login-body .frame .right-panel .hero-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--white-color);
+    padding: 48px;
+    font-family: sub-title-font;
+}
+
+.login-body .frame .right-panel .hero-content .hero-icon-wrap {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+}
+
+.login-body .frame .right-panel .hero-content .hero-icon-wrap svg {
+    width: 48px;
+    height: 48px;
+    stroke: var(--white-color);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.login-body .frame .right-panel .hero-content .hero-icon-wrap i {
+    font-size: 44px;
+    color: var(--white-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-body .frame .right-panel .hero-content .hero-heading {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.3;
+    max-width: 480px;
+    margin-bottom: 20px;
+    color: var(--white-color);
+    font-family: sub-title-font;
+}
+
+.login-body .frame .right-panel .hero-content .hero-body {
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 460px;
+    opacity: 0.95;
+    margin-bottom: 40px;
+    color: var(--white-color);
+    font-family: sub-title-font;
+}
+
+.login-body .frame .right-panel .hero-content .hero-stats {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    font-family: sub-title-font;
+}
+
+.login-body .frame .right-panel .hero-content .hero-stats .stat-item {
+    text-align: center;
+    font-family: sub-title-font;
+}
+
+.login-body .frame .right-panel .hero-content .hero-stats .stat-item .stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    display: block;
+    color: var(--white-color);
+    font-family: sub-title-font;
+}
+
+.login-body .frame .right-panel .hero-content .hero-stats .stat-item .stat-label {
+    font-size: 14px;
+    opacity: 0.9;
+    color: var(--white-color);
+    font-family: sub-title-font;
+}

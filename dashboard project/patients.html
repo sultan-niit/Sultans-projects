@@ -1,0 +1,458 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http: //www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="all-images/icon-images/icon.png" rel="shortcut icon" type="image/png" />
+    <link href="styles/icons-1.11.3/font/bootstrap-icons.css" type="text/css" rel="stylesheet" />
+    <link href="styles/contants.css" type="text/css" rel="stylesheet" />
+    <link href="styles/main.css" type="text/css" rel="stylesheet" />
+    <link href="styles/patients.css" type="text/css" rel="stylesheet" />
+    <title>SULTAN - Hospital Management Admin | Patients</title>
+</head>
+
+<body>
+    <div class="dashboard-wrapper">
+        <div class="side-panel">
+            <div class="logo-div">
+                <a href="dashboard.html" class="logo-brand">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                        </svg>
+                    </div>
+                    <span class="logo-text">SULTAN</span>
+                </a>
+            </div>
+
+            <div class="nav-list">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="appointments.html" class="nav-link">
+                    <i class="bi bi-calendar-check"></i>
+                    <span>Appointments</span>
+                </a>
+
+                <a href="patients.html" class="nav-link active">
+                    <i class="bi bi-person-wheelchair"></i>
+                    <span>Patients</span>
+                </a>
+
+                <a href="doctors.html" class="nav-link">
+                    <i class="bi bi-heart-pulse"></i>
+                    <span>Doctors</span>
+                </a>
+
+                <a href="departments.html" class="nav-link">
+                    <i class="bi bi-building"></i>
+                    <span>Departments</span>
+                </a>
+
+                <a href="#" class="nav-link">
+                    <i class="bi bi-calendar-week"></i>
+                    <span>Doctors' Schedule</span>
+                </a>
+
+                <a href="payments.html" class="nav-link">
+                    <i class="bi bi-credit-card"></i>
+                    <span>Payments</span>
+                </a>
+
+                <a href="inventory.html" class="nav-link">
+                    <i class="bi bi-box-seam"></i>
+                    <span>Inventory</span>
+                </a>
+
+                <a href="#" class="nav-link">
+                    <i class="bi bi-chat-dots"></i>
+                    <span>Messages</span>
+                    <span class="badge-count">7</span>
+                </a>
+            </div>
+
+            <div class="bottom-div">
+                <a href="index.html" class="nav-link logout-link">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="top-header">
+                <div class="header-title-box">
+                    <h1 class="page-main-heading">Patients</h1>
+                </div>
+
+                <div class="action-div">
+                    <button type="button" class="icon-btn" title="Settings">
+                        <i class="bi bi-gear"></i>
+                    </button>
+
+                    <button type="button" class="icon-btn" title="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="notif-dot"></span>
+                    </button>
+
+                    <div class="profile-div">
+                        <div class="profile-img">
+                            <img src="all-images/body-images/profile-avatar.jpg" alt="sultoon abdulraheem" onerror="this.src='all-images/body-images/doctor-1.jpg'" />
+                        </div>
+                        <span class="profile-name">sultoon abdulraheem</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content" style="padding: 24px 32px 40px 32px;">
+                <div class="patients-toolbar">
+                    <div class="patients-toolbar-left">
+                        <div class="patients-filter-pill">
+                            <i class="bi bi-calendar-week"></i>
+                            <span>1 July - 20 July 2028</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+
+                        <div class="patients-filter-pill">
+                            <i class="bi bi-funnel"></i>
+                            <span>All Treatment</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+
+                        <div class="patients-filter-pill">
+                            <i class="bi bi-funnel"></i>
+                            <span>All Status</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                    </div>
+
+                    <div class="patients-toolbar-right">
+                        <div class="patients-search-bar">
+                            <i class="bi bi-search"></i>
+                            <input type="text" placeholder="Search name, ID, age, etc" />
+                        </div>
+
+                        <button type="button" class="btn-patients-filter" title="Filter Settings">
+                            <i class="bi bi-sliders"></i>
+                        </button>
+
+                        <button type="button" class="btn-add-patient-action">
+                            <i class="bi bi-plus-lg"></i>
+                            <span>Add Patient</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="patients-main-card">
+                    <div class="patients-table-wrap">
+                        <table class="patients-data-table">
+                            <thead>
+                                <tr>
+                                    <th class="sortable-th">
+                                        <span>Name</span>
+                                        <i class="bi bi-arrow-down-up"></i>
+                                    </th>
+                                    <th class="sortable-th">
+                                        <span>ID</span>
+                                        <i class="bi bi-arrow-down-up"></i>
+                                    </th>
+                                    <th class="sortable-th">
+                                        <span>Age</span>
+                                        <i class="bi bi-arrow-down-up"></i>
+                                    </th>
+                                    <th class="sortable-th">
+                                        <span>Check In</span>
+                                        <i class="bi bi-arrow-down-up"></i>
+                                    </th>
+                                    <th class="sortable-th">
+                                        <span>Treatment</span>
+                                        <i class="bi bi-arrow-down-up"></i>
+                                    </th>
+                                    <th class="sortable-th">
+                                        <span>Doctor Assigned</span>
+                                        <i class="bi bi-arrow-down-up"></i>
+                                    </th>
+                                    <th class="sortable-th">
+                                        <span>Room</span>
+                                        <i class="bi bi-arrow-down-up"></i>
+                                    </th>
+                                    <th class="sortable-th">
+                                        <span>Status</span>
+                                        <i class="bi bi-arrow-down-up"></i>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="patient-profile-cell">
+                                            <div class="patient-cell-avatar">
+                                                <img src="all-images/body-images/patient-1.jpg" alt="Caren G. Simpson" onerror="this.src='all-images/body-images/doctor-1.jpg'" />
+                                            </div>
+                                            <span class="patient-name-txt">Caren G. Simpson</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="patient-id-txt">301</span></td>
+                                    <td>35</td>
+                                    <td>20 July 2028</td>
+                                    <td>Routine Check-Up</td>
+                                    <td>Dr. Petra Winsburry</td>
+                                    <td>-</td>
+                                    <td><span class="patient-status-badge status-active">Active</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="patient-profile-cell">
+                                            <div class="patient-cell-avatar">
+                                                <img src="all-images/body-images/patient-2.jpg" alt="Edgar Warrow" onerror="this.src='all-images/body-images/doctor-2.jpg'" />
+                                            </div>
+                                            <span class="patient-name-txt">Edgar Warrow</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="patient-id-txt">302</span></td>
+                                    <td>45</td>
+                                    <td>20 July 2028</td>
+                                    <td>Cardiac Consultation</td>
+                                    <td>Dr. Olivia Martinez</td>
+                                    <td>-</td>
+                                    <td><span class="patient-status-badge status-active">Active</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="patient-profile-cell">
+                                            <div class="patient-cell-avatar">
+                                                <img src="all-images/body-images/patient-3.jpg" alt="Ocean Jane Lupre" onerror="this.src='all-images/body-images/doctor-3.jpg'" />
+                                            </div>
+                                            <span class="patient-name-txt">Ocean Jane Lupre</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="patient-id-txt">303</span></td>
+                                    <td>10</td>
+                                    <td>20 July 2028</td>
+                                    <td>Pediatric Check-Up</td>
+                                    <td>Dr. Damian Sanchez</td>
+                                    <td>Double - 303</td>
+                                    <td><span class="patient-status-badge status-new">New Patient</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="patient-profile-cell">
+                                            <div class="patient-cell-avatar">
+                                                <img src="all-images/body-images/patient-4.jpg" alt="Shane Riddick" onerror="this.src='all-images/body-images/doctor-4.jpg'" />
+                                            </div>
+                                            <span class="patient-name-txt">Shane Riddick</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="patient-id-txt">304</span></td>
+                                    <td>50</td>
+                                    <td>20 July 2028</td>
+                                    <td>Skin Allergy</td>
+                                    <td>Dr. Chloe Harrington</td>
+                                    <td>Single - 304</td>
+                                    <td><span class="patient-status-badge status-inactive">Inactive</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="patient-profile-cell">
+                                            <div class="patient-cell-avatar">
+                                                <img src="all-images/body-images/patient-5.jpg" alt="Queen Lawnston" onerror="this.src='all-images/body-images/doctor-5.jpg'" />
+                                            </div>
+                                            <span class="patient-name-txt">Queen Lawnston</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="patient-id-txt">305</span></td>
+                                    <td>60</td>
+                                    <td>20 July 2028</td>
+                                    <td>Follow-Up Visit</td>
+                                    <td>Dr. Petra Winsburry</td>
+                                    <td>Single - 305</td>
+                                    <td><span class="patient-status-badge status-active">Active</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="patient-profile-cell">
+                                            <div class="patient-cell-avatar">
+                                                <img src="all-images/body-images/patient-6.jpg" alt="Alice Mitchell" onerror="this.src='all-images/body-images/doctor-1.jpg'" />
+                                            </div>
+                                            <span class="patient-name-txt">Alice Mitchell</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="patient-id-txt">306</span></td>
+                                    <td>28</td>
+                                    <td>20 July 2028</td>
+                                    <td>Routine Check-Up</td>
+                                    <td>Dr. Emily Smith</td>
+                                    <td>-</td>
+                                    <td><span class="patient-status-badge status-active">Active</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="patient-profile-cell">
+                                            <div class="patient-cell-avatar">
+                                                <img src="all-images/body-images/patient-7.jpg" alt="Mikhail Morozov" onerror="this.src='all-images/body-images/doctor-2.jpg'" />
+                                            </div>
+                                            <span class="patient-name-txt">Mikhail Morozov</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="patient-id-txt">307</span></td>
+                                    <td>55</td>
+                                    <td>20 July 2028</td>
+                                    <td>Cardiac Consultation</td>
+                                    <td>Dr. Samuel Thompson</td>
+                                    <td>-</td>
+                                    <td><span class="patient-status-badge status-active">Active</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="patient-profile-cell">
+                                            <div class="patient-cell-avatar">
+                                                <img src="all-images/body-images/patient-8.jpg" alt="Mateus Fernandes" onerror="this.src='all-images/body-images/doctor-3.jpg'" />
+                                            </div>
+                                            <span class="patient-name-txt">Mateus Fernandes</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="patient-id-txt">308</span></td>
+                                    <td>12</td>
+                                    <td>20 July 2028</td>
+                                    <td>Pediatric Check-Up</td>
+                                    <td>Dr. Sarah Johnson</td>
+                                    <td>Double - 308</td>
+                                    <td><span class="patient-status-badge status-new">New Patient</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="patient-profile-cell">
+                                            <div class="patient-cell-avatar">
+                                                <img src="all-images/body-images/patient-9.jpg" alt="Pari Desai" onerror="this.src='all-images/body-images/doctor-4.jpg'" />
+                                            </div>
+                                            <span class="patient-name-txt">Pari Desai</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="patient-id-txt">309</span></td>
+                                    <td>40</td>
+                                    <td>20 July 2028</td>
+                                    <td>Skin Allergy</td>
+                                    <td>Dr. Luke Harrison</td>
+                                    <td>Single - 309</td>
+                                    <td><span class="patient-status-badge status-inactive">Inactive</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="patient-profile-cell">
+                                            <div class="patient-cell-avatar">
+                                                <img src="all-images/body-images/patient-10.jpg" alt="Omar Ali" onerror="this.src='all-images/body-images/doctor-5.jpg'" />
+                                            </div>
+                                            <span class="patient-name-txt">Omar Ali</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="patient-id-txt">310</span></td>
+                                    <td>70</td>
+                                    <td>20 July 2028</td>
+                                    <td>Follow-Up Visit</td>
+                                    <td>Dr. Andrew Peterson</td>
+                                    <td>Single - 310</td>
+                                    <td><span class="patient-status-badge status-active">Active</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="patient-profile-cell">
+                                            <div class="patient-cell-avatar">
+                                                <img src="all-images/body-images/patient-11.jpg" alt="Camila Alvarez" onerror="this.src='all-images/body-images/doctor-1.jpg'" />
+                                            </div>
+                                            <span class="patient-name-txt">Camila Alvarez</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="patient-id-txt">311</span></td>
+                                    <td>30</td>
+                                    <td>20 July 2028</td>
+                                    <td>Cardiac Check-Up</td>
+                                    <td>Dr. Olivia Martinez</td>
+                                    <td>-</td>
+                                    <td><span class="patient-status-badge status-active">Active</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="patient-profile-cell">
+                                            <div class="patient-cell-avatar">
+                                                <img src="all-images/body-images/patient-12.jpg" alt="Thabo van Rooyen" onerror="this.src='all-images/body-images/doctor-2.jpg'" />
+                                            </div>
+                                            <span class="patient-name-txt">Thabo van Rooyen</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="patient-id-txt">312</span></td>
+                                    <td>15</td>
+                                    <td>20 July 2028</td>
+                                    <td>Pediatric Check-Up</td>
+                                    <td>Dr. William Carter</td>
+                                    <td>Double - 312</td>
+                                    <td><span class="patient-status-badge status-new">New Patient</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="patients-pagination-row">
+                        <div class="patients-pagination-info">
+                            <span>Showing</span>
+                            <select class="patients-page-select">
+                                <option value="12" selected>12</option>
+                                <option value="24">24</option>
+                                <option value="48">48</option>
+                            </select>
+                            <span>out of 286</span>
+                        </div>
+
+                        <div class="patients-pagination-controls">
+                            <button type="button" class="btn-patients-step" title="Previous Page">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <button type="button" class="btn-patients-step active">1</button>
+                            <button type="button" class="btn-patients-step">2</button>
+                            <button type="button" class="btn-patients-step">3</button>
+                            <span class="page-step-ellipsis">...</span>
+                            <button type="button" class="btn-patients-step">16</button>
+                            <button type="button" class="btn-patients-step" title="Next Page">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="patients-page-footer">
+                    <div class="patients-footer-left">
+                        <span>Copyright &copy; 2024 Peterdraw</span>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Term and conditions</a>
+                        <a href="#">Contact</a>
+                    </div>
+
+                    <div class="patients-footer-socials">
+                        <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" title="X"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" title="YouTube"><i class="bi bi-youtube"></i></a>
+                        <a href="#" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

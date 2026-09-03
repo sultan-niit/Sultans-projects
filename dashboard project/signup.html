@@ -1,0 +1,128 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http: //www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SULTAN | Sign Up</title>
+  <link href="styles/contants.css" type="text/css" rel="stylesheet" />
+  <link href="styles/main.css" type="text/css" rel="stylesheet" />
+  <link href="styles/auth.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body class="login-body">
+
+  <div class="frame">
+
+    <div class="left-panel">
+
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+          </svg>
+        </div>
+        <span class="logo-text">SULTAN</span>
+      </a>
+
+      <div class="card auth-card">
+        <div class="card-header">
+          <h1 class="card-title">Create Account</h1>
+          <p class="card-subtitle">Join SULTAN Healthcare Management Platform</p>
+        </div>
+
+        <form action="dashboard.html" method="get">
+
+          <div class="form-group">
+            <label class="form-label" for="signupName">Name</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <input id="signupName" name="name" class="form-input" type="text" placeholder="e.g. Sultoon Abdulraheem"  />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="signupEmail">Work Email Address</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <path d="m2 7 10 7 10-7"></path>
+              </svg>
+              <input id="signupEmail" name="email" class="form-input" type="email" placeholder="name@gmail.com"
+                />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="signupPassword">Password</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <input id="signupPassword" name="password" class="form-input" type="password" placeholder="Min. 8 chars"
+                minlength="8"  />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-login">
+            <span>Create Account</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+
+          <p class="switch-auth-row">
+            Already have an account?
+            <a href="index.html" class="switch-auth-link">
+              Login
+            </a>
+          </p>
+
+        </form>
+      </div>
+
+    </div>
+
+    <div class="right-panel">
+      <img class="hero-img" src="all-images/body-images/images.jpg" alt="Healthcare professionals" />
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-icon-wrap">
+          <svg viewBox="0 0 24 24">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+          </svg>
+        </div>
+        <h2 class="hero-heading">Advanced Healthcare<br />Management</h2>
+        <p class="hero-body">
+          Streamline your hospital operations with our comprehensive management system.
+          Manage patients, appointments, staff, and records all in one place.
+        </p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">Support</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Secure</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">500+</span>
+            <span class="stat-label">Hospitals</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+
+</html>

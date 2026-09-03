@@ -1,0 +1,114 @@
+:root {
+    --primary-color: #7DE5D7;
+    --primary-color-hover: #6fe0d0;
+    --primary-color-dark: #0D5C56;
+    --primary-color-light: #E6FAF7;
+    --primary-glow-color: rgba(125, 229, 215, 0.28);
+
+    --body-bg-color: #F8F9FC;
+    --white-color: #FFFFFF;
+    --sidebar-color: #FFFFFF;
+    --header-color: #FFFFFF;
+    --card-color: #FFFFFF;
+    --input-bg-color: #F8FAFC;
+    --hover-bg-color: #F1F5F9;
+
+    --text-color: #0F172A;
+    --text-secondary-color: #64748B;
+    --text-muted-color: #94A3B8;
+    --text-dark-color: #1E293B;
+
+    --border-color: #E2E8F0;
+    --border-light-color: #EBF0F5;
+    --border-hover-color: #CBD5E1;
+
+    --table-color: #FFFFFF;
+    --table-header-color: #94A3B8;
+    --table-text-color: #64748B;
+    --table-border-color: #EBF0F5;
+
+    --badge-count-color: #FF3B30;
+    --badge-count-shadow: rgba(255, 59, 48, 0.35);
+    --logout-hover-color: #FEE2E2;
+
+    --status-success-bg-color: #E6FAF7;
+    --status-success-text-color: #0D5C56;
+    --status-success-border-color: rgba(125, 229, 215, 0.6);
+
+    --status-pending-bg-color: #FEF3C7;
+    --status-pending-text-color: #B45309;
+    --status-pending-border-color: rgba(245, 158, 11, 0.4);
+
+    --status-danger-bg-color: #FFF1F2;
+    --status-danger-text-color: #E11D48;
+    --status-danger-border-color: rgba(244, 63, 94, 0.3);
+
+    --trend-down-bg-color: #FECDD3;
+    --trend-down-text-color: #E11D48;
+
+    --sidebar-width: 250px;
+    --header-height: 76px;
+}
+
+@font-face {
+    font-family: title-font;
+    src: url(Poppins/Poppins-Bold.ttf);
+}
+
+@font-face {
+    font-family: sub-title-font;
+    src: url(Poppins/Poppins-Medium.ttf);
+}
+
+@font-face {
+    font-family: body-font;
+    src: url(Poppins/Poppins-Regular.ttf);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: sub-title-font;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sub-title-font;
+    background-color: var(--body-bg-color);
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: sub-title-font;
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+}
+
+p {
+    margin: 0;
+    padding: 0;
+    font-family: sub-title-font;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    font-family: sub-title-font;
+}
+
+button {
+    font-family: sub-title-font;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+input, textarea, select {
+    font-family: sub-title-font;
+}

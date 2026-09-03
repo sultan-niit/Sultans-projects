@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="ROBOTS" content="ALL" />
+    <meta name="Engine" content="all" />
+    <meta name="distribution" content="global" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:type" content="Website" />
+
+    <link
+      href="all-images/icon-images/icon.png"
+      rel="shortcut icon"
+      type="image-png"
+    />
+    <link
+      href="styles/icons-1.11.3/font/bootstrap-icons.css"
+      type="text/css"
+      rel="stylesheet"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="styles/contants.css" type="text/css" rel="stylesheet" />
+    <link href="styles/main.css" type="text/css" rel="stylesheet" />
+    <title>My First Web Project</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="header-wrapper">
+        <div class="logo-wrapper">
+          <img src="./all-images/icon-images/logo2.png" alt="Logo" />
+        </div>
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about-us-page.html">About Us</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="services-2.html">services-2</a></li>
+            <li class="active"><a href="certificates.html">certificates</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-contact-container">
+          <div class="contact">
+            <i class="bi bi-telephone-fill"></i>
+            <span>+2349021947874</span>
+          </div>
+          <button class="btn"><i class="bi bi-grid-3x3-gap-fill"></i></button>
+        </div>
+      </div>
+    </header>
+
+    <div class="landing-page-bg hero-compact hero-align-left">
+      <div class="overlay-bg">
+        <div class="hero-wrapper">
+          <div class="hero-content">
+            <div class="hero-breadcrumb">
+              <a href="index.html">Home</a>
+              <span class="breadcrumb-separator">&gt;</span>
+              <span class="breadcrumb-active">Certificates</span>
+            </div>
+            <h1 class="hero-page-title">Our Certificates</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="index-content-container">
+      <!-- Section 1: Certificates Grid -->
+      <section class="cert-professionalism-section">
+        <div class="cert-prof-container">
+          <div class="cert-prof-header">
+            
+            <h2>MAKE SURE OF OUR PROFESSIONALISM</h2>
+            <p class="cert-prof-description">
+              From exploration and production to transportation and refining, we offer a wide range of products and services that meet the unique needs of the oil &amp; gas industry.
+            </p>
+          </div>
+
+          <div class="cert-grid">
+            <div class="cert-card">
+              <img src="./all-images/body-images/fuelgize-56.webp" alt="Certificate 1" />
+            </div>
+            <div class="cert-card">
+              <img src="./all-images/body-images/fuelgize-57.webp" alt="Certificate 2" />
+            </div>
+            <div class="cert-card">
+              <img src="./all-images/body-images/fuelgize-55.webp" alt="Certificate 3" />
+            </div>
+            <div class="cert-card">
+              <img src="./all-images/body-images/fuelgize-55.webp" alt="Certificate 4" />
+            </div>
+            <div class="cert-card">
+              <img src="./all-images/body-images/fuelgize-56.webp" alt="Certificate 5" />
+            </div>
+            <div class="cert-card">
+              <img src="./all-images/body-images/fuelgize-57.webp" alt="Certificate 6" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Order a Service Form -->
+      <section class="order-service-section">
+        <div class="order-service-container">
+          <div class="order-service-header">
+            <div class="subtitle-wrapper">
+              <span class="subtitle-line"></span>
+              <span class="subtitle-text">Contact Us</span>
+            </div>
+            <h2>DO YOU WANT TO ORDER A SERVICE?</h2>
+          </div>
+
+          <form class="order-service-form" id="orderServiceForm">
+            <div class="order-form-grid">
+              <!-- Left Column: Inputs -->
+              <div class="form-col-left">
+                <div class="form-group">
+                  <label for="fullName">YOUR NAME</label>
+                  <input type="text" id="fullName" placeholder="" />
+                </div>
+                <div class="form-group">
+                  <label for="yourEmail">YOUR E-MAIL</label>
+                  <input type="email" id="yourEmail" placeholder="" />
+                </div>
+                <div class="form-group">
+                  <label for="serviceSelect">SERVICE YOU'RE INTERESTED IN (OPTIONAL)</label>
+                  <select id="serviceSelect">
+                    <option value="natural-gas">Natural Gas Production</option>
+                    <option value="exploration">Exploration &amp; Development</option>
+                    <option value="transportation">Transportation &amp; Distribution</option>
+                    <option value="refining">Refining &amp; Processing</option>
+                    <option value="environmental">Environmental Management</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Right Column: Textarea & Submit Button -->
+              <div class="form-col-right">
+                <div class="form-group form-group-textarea">
+                  <label for="inquiryMessage">YOUR QUESTION</label>
+                  <textarea id="inquiryMessage" placeholder=""></textarea>
+                </div>
+                <div class="form-group form-group-submit">
+                  <button type="submit" class="btn-submit-order-full">Submit</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Section 4: Certificates Dedicated Newsletter Banner -->
+      <section class="cert-newsletter-banner-section">
+        <div class="cert-newsletter-bg-overlay">
+          <div class="cert-newsletter-wrapper">
+            <div class="cert-newsletter-col-left">
+              <h2 class="cert-newsletter-title">SUBSCRIBE TO OUR NEWSLETTER</h2>
+              <div class="cert-newsletter-contact-list">
+                <div class="cert-newsletter-contact-item">
+                  <div class="cert-nl-icon-box">
+                    <i class="bi bi-telephone-fill"></i>
+                  </div>
+                  <span>(208) 555-0112, (316) 555-0116</span>
+                </div>
+                <div class="cert-newsletter-contact-item">
+                  <div class="cert-nl-icon-box">
+                    <i class="bi bi-envelope-fill"></i>
+                  </div>
+                  <span>debra.holt@example.com</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="cert-newsletter-col-right">
+              <p class="cert-newsletter-desc">
+                From exploration and production to transportation and refining, we offer a wide range of products and services. Follow our newsletter!
+              </p>
+              <form class="cert-newsletter-inline-form" id="certNewsletterBannerForm">
+                <label for="cert-bg-email-input">YOUR E-MAIL</label>
+                <div class="cert-newsletter-input-group">
+                  <input
+                    type="email"
+                    id="cert-bg-email-input"
+                    placeholder="Enter your E-Mail"
+                    required
+                  />
+                  <button type="submit" class="cert-newsletter-submit-btn" aria-label="Subscribe">
+                    <i class="bi bi-arrow-right"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div class="content-wrapper">
+          <div class="footer-main-content">
+            <div class="footer-col brand-col">
+              <div class="footer-logo">
+                <img src="./all-images/icon-images/logo2.png" alt="Intervio Logo" />
+              </div>
+              <p class="footer-tagline">
+                Education is a fundamental human right.
+              </p>
+              <div class="footer-contact-info">
+                <div class="footer-contact-item">
+                  <i class="bi bi-envelope"></i>
+                  <span>onlineedu@examplemail.com</span>
+                </div>
+                <div class="footer-contact-item">
+                  <i class="bi bi-telephone"></i>
+                  <span>(405) 555-0128</span>
+                </div>
+                <div class="footer-contact-item">
+                  <i class="bi bi-geo-alt"></i>
+                  <span>82706 Keneth Plains, New Jackson, GA 91098</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="footer-col links-col">
+              <h4>Pages</h4>
+              <ul>
+                <li><a href="about-us-page.html">About us</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="certificates.html">Certificates</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col links-col">
+              <h4>Support</h4>
+              <ul>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="shop.html">Shop</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col subscribe-col">
+              <h4>Subscribe To Newsletter</h4>
+              <div class="footer-subscribe-form">
+                <input type="email" placeholder="Enter your E-Mail" />
+                <button class="btn btn-subscribe">Subscribe</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-bottom-bar">
+            <div class="footer-legal-links">
+              <a href="about-us-page.html">About us</a>
+              <a href="contact.html">Contact</a>
+              <a href="#">Privacy policy</a>
+              <a href="#">Terms of Use</a>
+            </div>
+            <div class="footer-copyright">
+              &copy; Promo Theme 2024, All Rights Reserved
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

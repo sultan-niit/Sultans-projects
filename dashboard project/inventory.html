@@ -1,0 +1,675 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http: //www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="all-images/icon-images/icon.png" rel="shortcut icon" type="image/png" />
+    <link href="styles/icons-1.11.3/font/bootstrap-icons.css" type="text/css" rel="stylesheet" />
+    <link href="styles/contants.css" type="text/css" rel="stylesheet" />
+    <link href="styles/main.css" type="text/css" rel="stylesheet" />
+    <link href="styles/inventory.css" type="text/css" rel="stylesheet" />
+    <title>SULTAN - Hospital Management Admin | Inventory</title>
+</head>
+
+<body>
+    <div class="dashboard-wrapper">
+        <div class="side-panel">
+            <div class="logo-div">
+                <a href="dashboard.html" class="logo-brand">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                        </svg>
+                    </div>
+                    <span class="logo-text">SULTAN</span>
+                </a>
+            </div>
+
+            <div class="nav-list">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="appointments.html" class="nav-link">
+                    <i class="bi bi-calendar-check"></i>
+                    <span>Appointments</span>
+                </a>
+
+                <a href="patients.html" class="nav-link">
+                    <i class="bi bi-person-wheelchair"></i>
+                    <span>Patients</span>
+                </a>
+
+                <a href="doctors.html" class="nav-link">
+                    <i class="bi bi-heart-pulse"></i>
+                    <span>Doctors</span>
+                </a>
+
+                <a href="departments.html" class="nav-link">
+                    <i class="bi bi-building"></i>
+                    <span>Departments</span>
+                </a>
+
+                <a href="#" class="nav-link">
+                    <i class="bi bi-calendar-week"></i>
+                    <span>Doctors' Schedule</span>
+                </a>
+
+                <a href="payments.html" class="nav-link">
+                    <i class="bi bi-credit-card"></i>
+                    <span>Payments</span>
+                </a>
+
+                <a href="inventory.html" class="nav-link active">
+                    <i class="bi bi-box-seam"></i>
+                    <span>Inventory</span>
+                </a>
+
+                <a href="#" class="nav-link">
+                    <i class="bi bi-chat-dots"></i>
+                    <span>Messages</span>
+                    <span class="badge-count">7</span>
+                </a>
+            </div>
+
+            <div class="bottom-div">
+                <a href="index.html" class="nav-link logout-link">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="top-header">
+                <div class="header-title-box">
+                    <h1 class="page-main-heading">Inventory</h1>
+                </div>
+
+                <div class="action-div">
+                    <button type="button" class="icon-btn" title="Settings">
+                        <i class="bi bi-gear"></i>
+                    </button>
+
+                    <button type="button" class="icon-btn" title="Notifications">
+                        <i class="bi bi-bell"></i>
+                        <span class="notif-dot"></span>
+                    </button>
+
+                    <div class="profile-div">
+                        <div class="profile-img">
+                            <img src="all-images/body-images/profile-avatar.jpg" alt="sultoon abdulraheem" />
+                        </div>
+                        <span class="profile-name">sultoon abdulraheem</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content" style="padding: 24px 32px 40px 32px;">
+                <div class="inventory-toolbar">
+                    <div class="inventory-toolbar-left">
+                        <div class="filter-pill">
+                            <i class="bi bi-funnel"></i>
+                            <span>All Category</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+
+                        <div class="filter-pill">
+                            <i class="bi bi-funnel"></i>
+                            <span>All Status</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                    </div>
+
+                    <div class="inventory-toolbar-right">
+                        <div class="inventory-search-bar">
+                            <i class="bi bi-search"></i>
+                            <input type="text" placeholder="Search item, etc" />
+                        </div>
+
+                        <button type="button" class="btn-filter-toggle" title="Filter Settings">
+                            <i class="bi bi-sliders"></i>
+                        </button>
+
+                        <button type="button" class="btn-add-item-action">
+                            <i class="bi bi-plus-lg"></i>
+                            <span>Add Item</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="inventory-main-card">
+                    <div class="inventory-table-wrap">
+                        <table class="inventory-data-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 44px;">
+                                        <input type="checkbox" class="table-checkbox" />
+                                    </th>
+                                    <th>Image</th>
+                                    <th class="sortable-th">
+                                        <span>Item</span>
+                                        <i class="bi bi-arrow-down-up"></i>
+                                    </th>
+                                    <th class="sortable-th">
+                                        <span>Category</span>
+                                        <i class="bi bi-arrow-down-up"></i>
+                                    </th>
+                                    <th class="sortable-th">
+                                        <span>Availability</span>
+                                        <i class="bi bi-arrow-down-up"></i>
+                                    </th>
+                                    <th class="sortable-th">
+                                        <span>Qty In Stock</span>
+                                        <i class="bi bi-arrow-down-up"></i>
+                                    </th>
+                                    <th class="sortable-th">
+                                        <span>Qty In Reorder</span>
+                                        <i class="bi bi-arrow-down-up"></i>
+                                    </th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="table-checkbox" />
+                                    </td>
+                                    <td>
+                                        <div class="item-thumb-container">
+                                            <img src="all-images/body-images/surgical-masks.svg" alt="Surgical Masks" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="item-name-cell">Surgical Masks</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-category-cell">PPE</span>
+                                    </td>
+                                    <td>
+                                        <span class="availability-pill available">
+                                            <span class="pill-dot"></span>
+                                            <span>Available</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">500</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">200</span>
+                                    </td>
+                                    <td>
+                                        <div class="table-row-actions-wrap">
+                                            <button type="button" class="btn-view-item-action" title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn-reorder-item-action">Reorder</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="table-checkbox" />
+                                    </td>
+                                    <td>
+                                        <div class="item-thumb-container">
+                                            <img src="all-images/body-images/gloves.svg" alt="Gloves" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="item-name-cell">Gloves</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-category-cell">PPE</span>
+                                    </td>
+                                    <td>
+                                        <span class="availability-pill low">
+                                            <span class="pill-dot"></span>
+                                            <span>Low</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">50</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">150</span>
+                                    </td>
+                                    <td>
+                                        <div class="table-row-actions-wrap">
+                                            <button type="button" class="btn-view-item-action" title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn-reorder-item-action">Reorder</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="table-checkbox" />
+                                    </td>
+                                    <td>
+                                        <div class="item-thumb-container">
+                                            <img src="all-images/body-images/hand-sanitizer.svg" alt="Hand Sanitizer" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="item-name-cell">Hand Sanitizer</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-category-cell">Sanitizer</span>
+                                    </td>
+                                    <td>
+                                        <span class="availability-pill available">
+                                            <span class="pill-dot"></span>
+                                            <span>Available</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">200</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">100</span>
+                                    </td>
+                                    <td>
+                                        <div class="table-row-actions-wrap">
+                                            <button type="button" class="btn-view-item-action" title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn-reorder-item-action">Reorder</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="table-checkbox" />
+                                    </td>
+                                    <td>
+                                        <div class="item-thumb-container">
+                                            <img src="all-images/body-images/thermometers.svg" alt="Thermometers" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="item-name-cell">Thermometers</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-category-cell">Medical Equipment</span>
+                                    </td>
+                                    <td>
+                                        <span class="availability-pill out-of-stock">
+                                            <span class="pill-dot"></span>
+                                            <span>Out of Stock</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">0</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">300</span>
+                                    </td>
+                                    <td>
+                                        <div class="table-row-actions-wrap">
+                                            <button type="button" class="btn-view-item-action" title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn-reorder-item-action">Reorder</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="table-checkbox" />
+                                    </td>
+                                    <td>
+                                        <div class="item-thumb-container">
+                                            <img src="all-images/body-images/stethoscopes.svg" alt="Stethoscopes" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="item-name-cell">Stethoscopes</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-category-cell">Medical Equipment</span>
+                                    </td>
+                                    <td>
+                                        <span class="availability-pill available">
+                                            <span class="pill-dot"></span>
+                                            <span>Available</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">30</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">50</span>
+                                    </td>
+                                    <td>
+                                        <div class="table-row-actions-wrap">
+                                            <button type="button" class="btn-view-item-action" title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn-reorder-item-action">Reorder</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="table-checkbox" />
+                                    </td>
+                                    <td>
+                                        <div class="item-thumb-container">
+                                            <img src="all-images/body-images/blood-pressure-monitors.svg"
+                                                alt="Blood Pressure Monitors" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="item-name-cell">Blood Pressure Monitors</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-category-cell">Medical Equipment</span>
+                                    </td>
+                                    <td>
+                                        <span class="availability-pill low">
+                                            <span class="pill-dot"></span>
+                                            <span>Low</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">20</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">100</span>
+                                    </td>
+                                    <td>
+                                        <div class="table-row-actions-wrap">
+                                            <button type="button" class="btn-view-item-action" title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn-reorder-item-action">Reorder</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="table-checkbox" />
+                                    </td>
+                                    <td>
+                                        <div class="item-thumb-container">
+                                            <img src="all-images/body-images/bandages.svg" alt="Bandages" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="item-name-cell">Bandages</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-category-cell">First Aid</span>
+                                    </td>
+                                    <td>
+                                        <span class="availability-pill available">
+                                            <span class="pill-dot"></span>
+                                            <span>Available</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">300</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">200</span>
+                                    </td>
+                                    <td>
+                                        <div class="table-row-actions-wrap">
+                                            <button type="button" class="btn-view-item-action" title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn-reorder-item-action">Reorder</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="table-checkbox" />
+                                    </td>
+                                    <td>
+                                        <div class="item-thumb-container">
+                                            <img src="all-images/body-images/iv-fluids.svg" alt="IV Fluids" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="item-name-cell">IV Fluids</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-category-cell">Medical Supplies</span>
+                                    </td>
+                                    <td>
+                                        <span class="availability-pill low">
+                                            <span class="pill-dot"></span>
+                                            <span>Low</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">10</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">150</span>
+                                    </td>
+                                    <td>
+                                        <div class="table-row-actions-wrap">
+                                            <button type="button" class="btn-view-item-action" title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn-reorder-item-action">Reorder</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="table-checkbox" />
+                                    </td>
+                                    <td>
+                                        <div class="item-thumb-container">
+                                            <img src="all-images/body-images/scalpel-blades.svg" alt="Scalpel Blades" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="item-name-cell">Scalpel Blades</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-category-cell">Surgical Instruments</span>
+                                    </td>
+                                    <td>
+                                        <span class="availability-pill out-of-stock">
+                                            <span class="pill-dot"></span>
+                                            <span>Out of Stock</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">0</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">200</span>
+                                    </td>
+                                    <td>
+                                        <div class="table-row-actions-wrap">
+                                            <button type="button" class="btn-view-item-action" title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn-reorder-item-action">Reorder</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="table-checkbox" />
+                                    </td>
+                                    <td>
+                                        <div class="item-thumb-container">
+                                            <img src="all-images/body-images/syringes.svg" alt="Syringes" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="item-name-cell">Syringes</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-category-cell">Medical Supplies</span>
+                                    </td>
+                                    <td>
+                                        <span class="availability-pill available">
+                                            <span class="pill-dot"></span>
+                                            <span>Available</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">400</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">300</span>
+                                    </td>
+                                    <td>
+                                        <div class="table-row-actions-wrap">
+                                            <button type="button" class="btn-view-item-action" title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn-reorder-item-action">Reorder</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="table-checkbox" />
+                                    </td>
+                                    <td>
+                                        <div class="item-thumb-container">
+                                            <img src="all-images/body-images/medical-gowns.svg" alt="Medical Gowns" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="item-name-cell">Medical Gowns</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-category-cell">PPE</span>
+                                    </td>
+                                    <td>
+                                        <span class="availability-pill available">
+                                            <span class="pill-dot"></span>
+                                            <span>Available</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">150</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">100</span>
+                                    </td>
+                                    <td>
+                                        <div class="table-row-actions-wrap">
+                                            <button type="button" class="btn-view-item-action" title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn-reorder-item-action">Reorder</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="table-checkbox" />
+                                    </td>
+                                    <td>
+                                        <div class="item-thumb-container">
+                                            <img src="all-images/body-images/disinfectant-wipes.svg"
+                                                alt="Disinfectant Wipes" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="item-name-cell">Disinfectant Wipes</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-category-cell">Sanitizer</span>
+                                    </td>
+                                    <td>
+                                        <span class="availability-pill low">
+                                            <span class="pill-dot"></span>
+                                            <span>Low</span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">25</span>
+                                    </td>
+                                    <td>
+                                        <span class="item-metric-val">200</span>
+                                    </td>
+                                    <td>
+                                        <div class="table-row-actions-wrap">
+                                            <button type="button" class="btn-view-item-action" title="View Details">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <button type="button" class="btn-reorder-item-action">Reorder</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="inventory-pagination-row">
+                        <div class="pagination-info">
+                            <span>Showing</span>
+                            <select class="pagination-size-select">
+                                <option value="13" selected>13</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                            </select>
+                            <span>out of 128</span>
+                        </div>
+
+                        <div class="pagination-controls">
+                            <button type="button" class="btn-page-step" title="Previous Page">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <button type="button" class="btn-page-step active">1</button>
+                            <button type="button" class="btn-page-step">2</button>
+                            <button type="button" class="btn-page-step">3</button>
+                            <span class="page-step-ellipsis">...</span>
+                            <button type="button" class="btn-page-step">10</button>
+                            <button type="button" class="btn-page-step" title="Next Page">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inventory-page-footer">
+                    <div class="footer-credits">
+                        <span>Copyright &copy; 2024 Peterdraw</span>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Term and conditions</a>
+                        <a href="#">Contact</a>
+                    </div>
+
+                    <div class="footer-social-links">
+                        <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" title="X"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" title="YouTube"><i class="bi bi-youtube"></i></a>
+                        <a href="#" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
