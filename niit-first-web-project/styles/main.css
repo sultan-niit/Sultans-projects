@@ -3787,10 +3787,6 @@ color: var(--primary-color);
 
 
 
-/* ============================================
-   COMPACT HERO BANNER — Inner Pages
-   (Services, About Us, Contact, etc.)
-   ============================================ */
 
 .landing-page-bg.hero-compact {
   height: 260px;
@@ -3872,3 +3868,759 @@ color: var(--primary-color);
   padding-top: 50px;
   padding-bottom: 0;
 }
+
+/* ==========================================================================
+   PURE CSS MOBILE & TABLET RESPONSIVE SYSTEM
+   Fuelgize - All Pages Responsive Optimization (Zero JavaScript Required)
+   ========================================================================== */
+
+/* --- Global Mobile Hygiene & Overflow Prevention --- */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw;
+  width: 100%;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.index-content-container {
+  overflow-x: hidden !important;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* ==========================================================================
+   HEADER & NAVIGATION (PURE CSS RESPONSIVE PILL BAR)
+   ========================================================================== */
+@media (max-width: 992px) {
+  header {
+    height: auto !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--white-color) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    padding: 8px 0 6px !important;
+  }
+
+  header .header-wrapper {
+    height: auto !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    align-items: center;
+    row-gap: 8px;
+    width: 94% !important;
+    max-width: 100% !important;
+    margin: 0 auto;
+  }
+
+  header .header-wrapper .logo-wrapper {
+    grid-column: 1;
+    grid-row: 1;
+    width: 130px;
+    height: auto;
+  }
+
+  header .header-wrapper .logo-wrapper img {
+    height: auto;
+    max-height: 38px;
+    width: auto;
+  }
+
+  header .header-wrapper .header-contact-container {
+    grid-column: 2;
+    grid-row: 1;
+    gap: 8px;
+  }
+
+  header .header-wrapper .header-contact-container .contact {
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  header .header-wrapper .header-contact-container .btn {
+    display: none;
+  }
+
+  header .header-wrapper nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 2px 0 4px;
+  }
+
+  header .header-wrapper nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  header .header-wrapper nav ul {
+    display: flex !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    padding: 2px 2px !important;
+    width: max-content !important;
+    align-items: center;
+  }
+
+  header .header-wrapper nav ul li {
+    height: auto !important;
+    line-height: normal !important;
+    padding: 7px 14px !important;
+    background: #f1f3f6;
+    border-radius: 20px;
+    font-size: 12px !important;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    flex-shrink: 0;
+    border-bottom: none !important;
+    transition: all 0.2s ease;
+  }
+
+  header .header-wrapper nav ul li a {
+    color: #222 !important;
+    text-decoration: none;
+    display: block;
+  }
+
+  header .header-wrapper nav ul li.active {
+    background: var(--primary-color) !important;
+  }
+
+  header .header-wrapper nav ul li.active a {
+    color: var(--white-color) !important;
+  }
+
+  header .header-wrapper nav ul li:hover {
+    background: #e4e7ec;
+    border-bottom: none !important;
+  }
+
+  header .header-wrapper nav ul li.active:hover {
+    background: var(--primary-color) !important;
+  }
+
+  /* Compact Hero Header clearance for all inner pages */
+  .landing-page-bg.hero-compact {
+    margin-top: 96px !important;
+    height: 230px !important;
+    min-height: 230px !important;
+  }
+
+  .hero-page-title {
+    font-size: clamp(20px, 5.5vw, 30px) !important;
+  }
+
+  .hero-breadcrumb {
+    font-size: 13px !important;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  header .header-wrapper .header-contact-container .contact span {
+    display: none;
+  }
+
+  header .header-wrapper .header-contact-container .contact {
+    background: #f1f3f6;
+    padding: 7px 12px;
+    border-radius: 18px;
+    color: var(--primary-color);
+  }
+
+  header .header-wrapper .header-contact-container .contact i {
+    color: var(--primary-color);
+    font-size: 14px;
+  }
+}
+
+/* ==========================================================================
+   HOMEPAGE HERO BANNER (INDEX.HTML)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .landing-page-bg:not(.hero-compact) {
+    position: relative !important;
+    height: auto !important;
+    min-height: calc(100vh - 96px) !important;
+    padding-top: 96px !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .landing-page-bg:not(.hero-compact) .overlay-bg {
+    height: 100% !important;
+    min-height: calc(100vh - 96px) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 0 !important;
+  }
+
+  .landing-page-bg:not(.hero-compact) .overlay-bg .hero-wrapper {
+    height: auto !important;
+    padding: 20px 16px !important;
+  }
+
+  .landing-page-bg:not(.hero-compact) .overlay-bg .hero-wrapper .hero-content {
+    max-width: 100% !important;
+    gap: 16px !important;
+  }
+
+  .landing-page-bg:not(.hero-compact) .overlay-bg .hero-wrapper .hero-content h1 {
+    font-size: clamp(24px, 6vw, 38px) !important;
+    line-height: 1.2 !important;
+  }
+
+  .landing-page-bg:not(.hero-compact) .overlay-bg .hero-wrapper .hero-content p {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    width: 95% !important;
+  }
+
+  .landing-page-bg:not(.hero-compact) .overlay-bg .hero-wrapper .hero-content .hero-btn-container {
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .landing-page-bg:not(.hero-compact) .overlay-bg .hero-wrapper .hero-content .hero-btn-container .btn {
+    flex: 1 1 140px;
+    max-width: 190px;
+    font-size: 12px;
+    padding: 0 16px;
+  }
+
+  .landing-page-bg:not(.hero-compact) .overlay-bg .slider-arrow {
+    width: 32px;
+    height: 32px;
+    top: 50%;
+  }
+
+  .landing-page-bg:not(.hero-compact) .overlay-bg .slider-arrow-left {
+    left: 8px !important;
+  }
+
+  .landing-page-bg:not(.hero-compact) .overlay-bg .slider-arrow-right {
+    right: 8px !important;
+  }
+
+  .landing-page-bg:not(.hero-compact) .overlay-bg .theme-settings-btn {
+    display: none;
+  }
+
+  /* Content flow after relative hero */
+  .landing-page-bg:not(.hero-compact) + .index-content-container {
+    position: relative !important;
+    top: auto !important;
+  }
+}
+
+/* ==========================================================================
+   HOMEPAGE CONTENT SECTIONS
+   ========================================================================== */
+@media (max-width: 900px) {
+  /* Section 1: New Services 3-card banner */
+  .index-content-container .new-services-section {
+    margin-top: 0 !important;
+    padding: 20px 0 30px !important;
+  }
+
+  .new-services-section .cards-wrapper {
+    flex-direction: column !important;
+    gap: 20px !important;
+    margin: 20px 0 !important;
+  }
+
+  .new-services-section .service-image-card {
+    width: 100% !important;
+    height: 260px !important;
+  }
+
+  /* Section 2: About Us */
+  .about-us-container {
+    flex-direction: column !important;
+    margin-left: 0 !important;
+    margin-top: 20px !important;
+    gap: 30px !important;
+    width: 100% !important;
+  }
+
+  .about-us-container .about-us-content {
+    width: 100% !important;
+  }
+
+  .about-us-container .about-us-content .section-title-wrapper {
+    width: 100% !important;
+  }
+
+  .about-us-container .about-us-content.about-us-image {
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .about-us-container .about-us-content .image-wrapper {
+    height: 280px !important;
+    width: 100% !important;
+  }
+
+  .about-us-container .about-us-content .btn {
+    width: auto !important;
+    min-width: 160px !important;
+  }
+
+  /* Section 4: Benefits */
+  .index-content-container .benefits-section .content-container .content-wrapper .benefits-container {
+    flex-direction: column !important;
+    gap: 36px !important;
+  }
+
+  .index-content-container .benefits-section .content-container .content-wrapper .benefits-container .benefits-image-column,
+  .index-content-container .benefits-section .content-container .content-wrapper .benefits-container .benefits-content-column {
+    width: 100% !important;
+  }
+
+  .index-content-container .benefits-section .content-container .content-wrapper .benefits-container .benefits-image-column .benefits-main-image-placeholder {
+    height: 300px !important;
+  }
+
+  .index-content-container .benefits-section .content-container .content-wrapper .benefits-container .benefits-image-column .benefits-main-image-placeholder .benefits-overlay-image-placeholder {
+    left: 10px !important;
+    bottom: 15px !important;
+    width: 55% !important;
+    height: 130px !important;
+  }
+
+  .index-content-container .benefits-section .content-container .content-wrapper .benefits-container .benefits-content-column .benefits-header h2 {
+    font-size: clamp(24px, 5.5vw, 36px) !important;
+  }
+
+  .index-content-container .benefits-section .content-container .content-wrapper .benefits-container .benefits-content-column .benefits-grid .benefit-item {
+    width: 100% !important;
+  }
+
+  /* Section 8: Achievements */
+  .index-content-container .achievements-section .content-container .content-wrapper.achievements-wrapper {
+    flex-direction: column !important;
+    gap: 30px !important;
+  }
+
+  .index-content-container .achievements-section .achievements-content,
+  .index-content-container .achievements-section .achievements-image {
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    flex: none !important;
+  }
+
+  .index-content-container .achievements-section .achievements-container {
+    flex-direction: column !important;
+    gap: 30px !important;
+  }
+
+  /* Section 12: Contact Info */
+  .index-content-container .contact-info-section .content-container.light-gray-bg .content-wrapper .contact-info-container {
+    flex-direction: column !important;
+    gap: 30px !important;
+  }
+
+  .index-content-container .contact-info-section .content-container.light-gray-bg .content-wrapper .contact-info-container .contact-image-column,
+  .index-content-container .contact-info-section .content-container.light-gray-bg .content-wrapper .contact-info-container .contact-details-column {
+    width: 100% !important;
+    flex: none !important;
+  }
+
+  .index-content-container .contact-info-section .content-container.light-gray-bg .content-wrapper .contact-info-container .contact-image-placeholder {
+    height: 260px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Container paddings */
+  .index-content-container .content-container {
+    padding: 45px 0 !important;
+  }
+
+  .index-content-container .content-wrapper {
+    width: 92% !important;
+    max-width: 100% !important;
+  }
+
+  /* Section 3: Services Cards */
+  .index-content-container .services-section .content-container .content-wrapper .services-cards-container {
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  .index-content-container .services-section .content-container .content-wrapper .services-cards-container .service-card {
+    width: 100% !important;
+    padding: 30px 22px !important;
+  }
+
+  /* Section 5: Stats Section */
+  .index-content-container .stats-section .stats-bg-overlay .content-wrapper .stats-container {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 28px 16px !important;
+    width: 100% !important;
+  }
+
+  .index-content-container .stats-section .stats-bg-overlay .content-wrapper .stats-container .stat-item:not(:last-child)::after {
+    display: none !important;
+  }
+
+  .index-content-container .stats-section .stats-bg-overlay .content-wrapper .stats-container .stat-item .stat-number {
+    font-size: 34px !important;
+  }
+
+  .index-content-container .stats-section .stats-bg-overlay .content-wrapper .stats-container .stat-item .stat-icon {
+    font-size: 40px !important;
+    height: 48px !important;
+  }
+
+  /* Section 7: Certificates on Index */
+  .index-content-container .certificates-section .content-container.dark-bg .content-wrapper .certificates-top-bar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+
+  .index-content-container .certificates-section .content-container.dark-bg .content-wrapper .certificates-grid {
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  .index-content-container .certificates-section .content-container.dark-bg .content-wrapper .certificates-grid .certificate-card {
+    width: 100% !important;
+    height: 220px !important;
+  }
+
+  /* Section 9: Production Section */
+  .index-content-container .production-section .content-container .content-wrapper .production-cards-wrapper {
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  .index-content-container .production-section .content-container .content-wrapper .production-cards-wrapper .production-card {
+    width: 100% !important;
+    height: 260px !important;
+  }
+
+  .index-content-container .production-section .content-container .content-wrapper .production-cards-wrapper .prod-arrow {
+    display: none !important;
+  }
+
+  /* Section 10: Testimonials Section */
+  .index-content-container .testimonials-section {
+    margin-top: 30px !important;
+  }
+
+  .index-content-container .testimonials-section .content-container .content-wrapper .testimonial-banner-container {
+    height: auto !important;
+    position: static !important;
+  }
+
+  .index-content-container .testimonials-section .content-container .content-wrapper .testimonial-banner-container .testimonial-bg-placeholder {
+    height: 220px !important;
+    width: 100% !important;
+  }
+
+  .index-content-container .testimonials-section .content-container .content-wrapper .testimonial-banner-container .testimonial-card {
+    position: static !important;
+    transform: none !important;
+    width: 100% !important;
+    right: auto !important;
+    top: auto !important;
+    margin-top: -30px !important;
+    padding: 24px 18px !important;
+  }
+
+  .index-content-container .testimonials-section .content-container .content-wrapper .testimonial-banner-container .testimonial-card .testimonial-footer {
+    flex-wrap: wrap !important;
+    gap: 14px !important;
+  }
+
+  /* Section 11: Blog & News Grid */
+  .index-content-container .blog-news-section .content-container .content-wrapper .blog-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  /* Section 13: Newsletter Banner & Cert Newsletter */
+  .index-content-container .newsletter-banner-section .newsletter-bg-overlay,
+  .index-content-container .cert-newsletter-banner-section .cert-newsletter-bg-overlay {
+    height: auto !important;
+    min-height: auto !important;
+    padding: 45px 0 !important;
+  }
+
+  .index-content-container .newsletter-banner-section .newsletter-bg-overlay .newsletter-wrapper,
+  .index-content-container .cert-newsletter-banner-section .cert-newsletter-bg-overlay .cert-newsletter-wrapper {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 24px !important;
+    width: 92% !important;
+  }
+
+  .index-content-container .newsletter-banner-section .newsletter-bg-overlay .newsletter-wrapper .newsletter-title,
+  .index-content-container .cert-newsletter-banner-section .cert-newsletter-title,
+  .index-content-container .newsletter-banner-section .newsletter-bg-overlay .newsletter-wrapper h2 {
+    text-align: center !important;
+    width: 100% !important;
+    font-size: clamp(20px, 5vw, 28px) !important;
+    margin-bottom: 8px !important;
+  }
+
+  .index-content-container .newsletter-banner-section .newsletter-bg-overlay .newsletter-wrapper .newsletter-inline-form,
+  .index-content-container .newsletter-banner-section .newsletter-bg-overlay .newsletter-wrapper form,
+  .index-content-container .cert-newsletter-banner-section .cert-newsletter-wrapper form {
+    width: 100% !important;
+    max-width: 420px !important;
+    align-items: center !important;
+    flex-shrink: 1 !important;
+  }
+
+  .index-content-container .cert-newsletter-banner-section .cert-newsletter-col-left,
+  .index-content-container .cert-newsletter-banner-section .cert-newsletter-col-right {
+    max-width: 100% !important;
+    width: 100% !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  /* Section 14: Footer */
+  .index-content-container .site-footer .content-wrapper .footer-main-content {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 32px 20px !important;
+    padding-bottom: 35px !important;
+    margin-top: 20px !important;
+  }
+
+  .index-content-container .site-footer .content-wrapper .footer-main-content .footer-col {
+    padding: 0 !important;
+  }
+
+  .index-content-container .site-footer .content-wrapper .footer-main-content .footer-col + .footer-col::before {
+    display: none !important;
+  }
+
+  .index-content-container .site-footer .content-wrapper .footer-main-content .brand-col {
+    grid-column: 1 / -1 !important;
+  }
+
+  .index-content-container .site-footer .content-wrapper .footer-main-content .subscribe-col {
+    grid-column: 1 / -1 !important;
+  }
+
+  .index-content-container .site-footer .content-wrapper .footer-main-content .subscribe-col .footer-subscribe-form {
+    width: 100% !important;
+    max-width: 360px !important;
+  }
+
+  .index-content-container .site-footer .content-wrapper .footer-bottom-bar {
+    flex-direction: column !important;
+    gap: 14px !important;
+    text-align: center !important;
+    padding-top: 20px !important;
+  }
+
+  .index-content-container .site-footer .content-wrapper .footer-bottom-bar .footer-legal-links {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 10px 16px !important;
+  }
+}
+
+/* ==========================================================================
+   PHONE-SPECIFIC ADAPTATIONS (MAX-WIDTH: 576PX)
+   ========================================================================== */
+@media (max-width: 576px) {
+  /* Section 6: Provided Services 8 Cards */
+  .index-content-container .provided-services-section .content-container.dark-bg .content-wrapper .grid-services-container .grid-service-card {
+    width: 100% !important;
+    height: 220px !important;
+  }
+
+  /* Section 11: Blog Cards stack image above text */
+  .index-content-container .blog-news-section .content-container .content-wrapper .blog-grid .blog-card {
+    flex-direction: column !important;
+    gap: 14px !important;
+  }
+
+  .index-content-container .blog-news-section .content-container .content-wrapper .blog-grid .blog-card .blog-img-placeholder {
+    width: 100% !important;
+    height: 190px !important;
+  }
+
+  /* Footer 1-col on small phones */
+  .index-content-container .site-footer .content-wrapper .footer-main-content {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+
+  /* Stats on single col for very small screens */
+  .index-content-container .stats-section .stats-bg-overlay .content-wrapper .stats-container {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 24px 12px !important;
+  }
+
+  .index-content-container .stats-section .stats-bg-overlay .content-wrapper .stats-container .stat-item .stat-number {
+    font-size: 28px !important;
+  }
+}
+
+/* ==========================================================================
+   INNER PAGES RESPONSIVE ADJUSTMENTS
+   ========================================================================== */
+
+/* --- About Us Page (about-us-page.html) --- */
+@media (max-width: 900px) {
+  .index-content-container .short-steps-section .steps-content-grid {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+
+  .index-content-container .short-steps-section .steps-image-column img {
+    height: 260px !important;
+  }
+
+  .index-content-container .short-steps-section .steps-content-column {
+    padding-left: 0 !important;
+  }
+
+  .index-content-container .faq-section .faq-top-bar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  .index-content-container .faq-section .faq-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+}
+
+/* --- Services Page (services.html) --- */
+@media (max-width: 1024px) {
+  .index-content-container .services-page-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .index-content-container .services-page-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .index-content-container .services-stats-bar {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+    width: 100% !important;
+  }
+}
+
+/* --- Certificates Page (certificates.html) --- */
+@media (max-width: 900px) {
+  .index-content-container .cert-professionalism-section .cert-prof-header p {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .index-content-container .cert-professionalism-section .cert-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 18px !important;
+  }
+
+  .index-content-container .order-service-section .order-form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .index-content-container .cert-professionalism-section .cert-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* --- Shop Page (shop.html) --- */
+@media (max-width: 992px) {
+  .index-content-container .shop-main-section .shop-container {
+    flex-direction: column !important;
+    gap: 36px !important;
+  }
+
+  .index-content-container .shop-sidebar {
+    width: 100% !important;
+  }
+
+  .index-content-container .shop-products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 24px 16px !important;
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 540px) {
+  .index-content-container .shop-products-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* --- Contact Page (contact.html) --- */
+@media (max-width: 992px) {
+  .index-content-container .contact-cards-section .contact-header-top {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+
+  .index-content-container .contact-cards-section .contact-header-right p {
+    padding-bottom: 20px !important;
+    max-width: 100% !important;
+  }
+
+  .index-content-container .contact-cards-section .contact-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .index-content-container .contact-cards-section .contact-card {
+    width: 100% !important;
+    height: auto !important;
+    padding: 24px 20px !important;
+  }
+
+  .index-content-container .contact-form-section .contact-form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+
+  .index-content-container .contact-form-section .contact-image-col img {
+    height: 260px !important;
+  }
+
+  .index-content-container .contact-form-section .get-in-touch-form .form-row.two-cols {
+    grid-template-columns: 1fr !important;
+  }
+}
+
