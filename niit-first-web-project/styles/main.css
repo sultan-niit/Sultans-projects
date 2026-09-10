@@ -313,7 +313,7 @@ header .header-wrapper .header-contact-container .btn i {
 
 .hero-page-title {
   font-family: 'Oswald', title-font, sans-serif;
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 700;
   color: var(--white-color);
   line-height: 1.15;
@@ -1421,14 +1421,15 @@ header .header-wrapper .header-contact-container .btn i {
 
 .index-content-container .blog-news-section {
   width: 100%;
-  margin-top: 60px;
+  margin-top: 0;
+  padding-bottom: 60px;
 }
 
 .index-content-container .blog-news-section .content-container .content-wrapper .blog-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 40px 30px;
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .index-content-container .blog-news-section .content-container .content-wrapper .blog-grid .blog-card {
@@ -2683,8 +2684,9 @@ header .header-wrapper nav ul li a {
 
 .landing-page-bg.hero-compact.blog-hero {
   position: relative;
-  height: 432px;
-  min-height: 432px;
+  margin-top: 80px;
+  height: 320px;
+  min-height: 320px;
   background-image: url('../all-images/body-images/IMG-20260723-WA0172.jpg');
   background-size: cover;
   background-position: center 35%;
@@ -3784,3 +3786,89 @@ color: var(--primary-color);
 }
 
 
+
+/* ============================================
+   COMPACT HERO BANNER — Inner Pages
+   (Services, About Us, Contact, etc.)
+   ============================================ */
+
+.landing-page-bg.hero-compact {
+  height: 260px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.landing-page-bg.hero-compact .overlay-bg {
+  height: 100%;
+  width: 100%;
+  background: var(--overlay-dark-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-page-bg.hero-compact .hero-wrapper {
+  width: 92%;
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.landing-page-bg.hero-compact .hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-family: sub-title-font;
+}
+
+.hero-breadcrumb a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.hero-breadcrumb a:hover {
+  color: #fff;
+}
+
+.breadcrumb-separator {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+}
+
+.breadcrumb-active {
+  color: var(--primary-orange-color);
+  font-weight: 600;
+}
+
+.hero-page-title {
+  color: #fff;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.15;
+  margin: 0;
+}
+
+/* Fix: hero-compact must be relative (not absolute) and sit below fixed header */
+.landing-page-bg.hero-compact {
+  position: relative !important;
+  margin-top: 80px;
+}
+
+/* Blog page — reduce top gap after hero to match about-us spacing */
+.index-content-container .blog-news-section .content-container {
+  padding-top: 50px;
+  padding-bottom: 0;
+}
