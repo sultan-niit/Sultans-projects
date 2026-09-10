@@ -2,14 +2,14 @@
     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http: //www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <script src="JS/guard.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="all-images/icon-images/icon.png" rel="shortcut icon" type="image/png" />
     <link href="styles/icons-1.11.3/font/bootstrap-icons.css" type="text/css" rel="stylesheet" />
     <link href="styles/contants.css" type="text/css" rel="stylesheet" />
     <link href="styles/main.css" type="text/css" rel="stylesheet" />
-    <link href="styles/departments.css" type="text/css" rel="stylesheet" />
-    <title>SULTAN - Hospital Management Admin | Departments</title>
+    <title>ClinCore - Hospital Management Admin | Departments</title>
 </head>
 
 <body>
@@ -22,7 +22,7 @@
                             <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
                         </svg>
                     </div>
-                    <span class="logo-text">SULTAN</span>
+                    <span class="logo-text">ClinCore</span>
                 </a>
             </div>
 
@@ -102,13 +102,51 @@
                         <div class="profile-img">
                             <img src="all-images/body-images/profile-avatar.jpg" alt="sultoon abdulraheem" onerror="this.src='all-images/body-images/doctor-1.jpg'" />
                         </div>
-                        <span class="profile-name">sultoon abdulraheem</span>
+                        <span class="profile-name">Sultoon Abdulraheem</span>
                         <i class="bi bi-chevron-down"></i>
                     </div>
                 </div>
             </div>
 
             <div class="main-content" style="padding: 24px 32px 40px 32px;">
+                <div class="patients-toolbar">
+                    <div class="patients-toolbar-left">
+                        <div class="patients-filter-pill">
+                            <i class="bi bi-calendar-week"></i>
+                            <span>1 July - 20 July 2028</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+
+                        <div class="patients-filter-pill">
+                            <i class="bi bi-funnel"></i>
+                            <span>All Departments</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+
+                        <div class="patients-filter-pill">
+                            <i class="bi bi-funnel"></i>
+                            <span>All Status</span>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                    </div>
+
+                    <div class="patients-toolbar-right">
+                        <div class="patients-search-bar">
+                            <i class="bi bi-search"></i>
+                            <input type="text" placeholder="Search department, etc" />
+                        </div>
+
+                        <button type="button" class="btn-patients-filter" title="Filter Settings">
+                            <i class="bi bi-sliders"></i>
+                        </button>
+
+                        <button type="button" class="btn-add-patient-action">
+                            <i class="bi bi-plus-lg"></i>
+                            <span>Add Department</span>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="departments-grid">
 
                     <div class="department-card">
@@ -116,7 +154,10 @@
                             <img src="all-images/body-images/dept-general-medicine.jpg" alt="General Medicine" />
                         </div>
                         <div class="department-body">
-                            <h3 class="department-title">General Medicine</h3>
+                            <div class="department-title-row">
+                                <h3 class="department-title">General Medicine</h3>
+                                <span class="dept-status dept-status-active">Active</span>
+                            </div>
                             <p class="department-desc">Provides comprehensive healthcare services including routine check-ups, preventive care, and treatment for a wide range of illnesses.</p>
                             <div class="department-footer">
                                 <div class="department-staff-stack">
@@ -139,7 +180,10 @@
                             <img src="all-images/body-images/dept-cardiology.jpg" alt="Cardiology" />
                         </div>
                         <div class="department-body">
-                            <h3 class="department-title">Cardiology</h3>
+                            <div class="department-title-row">
+                                <h3 class="department-title">Cardiology</h3>
+                                <span class="dept-status dept-status-active">Active</span>
+                            </div>
                             <p class="department-desc">Specializes in the diagnosis and treatment of heart-related conditions, offering advanced cardiac care and preventive cardiology.</p>
                             <div class="department-footer">
                                 <div class="department-staff-stack">
@@ -162,7 +206,10 @@
                             <img src="all-images/body-images/dept-pediatrics.jpg" alt="Pediatrics" />
                         </div>
                         <div class="department-body">
-                            <h3 class="department-title">Pediatrics</h3>
+                            <div class="department-title-row">
+                                <h3 class="department-title">Pediatrics</h3>
+                                <span class="dept-status dept-status-active">Active</span>
+                            </div>
                             <p class="department-desc">Dedicated to the health and well-being of children, providing specialized care for infants, children, and adolescents.</p>
                             <div class="department-footer">
                                 <div class="department-staff-stack">
@@ -185,7 +232,10 @@
                             <img src="all-images/body-images/dept-dermatology.jpg" alt="Dermatology" />
                         </div>
                         <div class="department-body">
-                            <h3 class="department-title">Dermatology</h3>
+                            <div class="department-title-row">
+                                <h3 class="department-title">Dermatology</h3>
+                                <span class="dept-status dept-status-active">Active</span>
+                            </div>
                             <p class="department-desc">Focuses on the treatment of skin conditions, offering medical and cosmetic dermatology services to improve skin health.</p>
                             <div class="department-footer">
                                 <div class="department-staff-stack">
@@ -208,7 +258,10 @@
                             <img src="all-images/body-images/dept-internal-medicine.jpg" alt="Internal Medicine" />
                         </div>
                         <div class="department-body">
-                            <h3 class="department-title">Internal Medicine</h3>
+                            <div class="department-title-row">
+                                <h3 class="department-title">Internal Medicine</h3>
+                                <span class="dept-status dept-status-active">Active</span>
+                            </div>
                             <p class="department-desc">Provides primary care for adults, focusing on the prevention, diagnosis, and treatment of adult diseases.</p>
                             <div class="department-footer">
                                 <div class="department-staff-stack">
@@ -231,7 +284,10 @@
                             <img src="all-images/body-images/dept-orthopedics.jpg" alt="Orthopedics" />
                         </div>
                         <div class="department-body">
-                            <h3 class="department-title">Orthopedics</h3>
+                            <div class="department-title-row">
+                                <h3 class="department-title">Orthopedics</h3>
+                                <span class="dept-status dept-status-active">Active</span>
+                            </div>
                             <p class="department-desc">Specializes in the treatment of musculoskeletal system disorders, including bones, joints, ligaments, tendons, and muscles.</p>
                             <div class="department-footer">
                                 <div class="department-staff-stack">
@@ -254,7 +310,10 @@
                             <img src="all-images/body-images/dept-neurology.jpg" alt="Neurology" />
                         </div>
                         <div class="department-body">
-                            <h3 class="department-title">Neurology</h3>
+                            <div class="department-title-row">
+                                <h3 class="department-title">Neurology</h3>
+                                <span class="dept-status dept-status-active">Active</span>
+                            </div>
                             <p class="department-desc">Deals with disorders of the nervous system, offering expert care for conditions affecting the brain, spinal cord, and nerves.</p>
                             <div class="department-footer">
                                 <div class="department-staff-stack">
@@ -277,7 +336,10 @@
                             <img src="all-images/body-images/dept-oncology.jpg" alt="Oncology" />
                         </div>
                         <div class="department-body">
-                            <h3 class="department-title">Oncology</h3>
+                            <div class="department-title-row">
+                                <h3 class="department-title">Oncology</h3>
+                                <span class="dept-status dept-status-inactive">Inactive</span>
+                            </div>
                             <p class="department-desc">Focuses on the diagnosis and treatment of cancer, providing comprehensive cancer care and support services.</p>
                             <div class="department-footer">
                                 <div class="department-staff-stack">
@@ -300,7 +362,10 @@
                             <img src="all-images/body-images/dept-obgyn.jpg" alt="Obstetrics and Gynecology (OB/GYN)" />
                         </div>
                         <div class="department-body">
-                            <h3 class="department-title">Obstetrics and Gynecology (OB/GYN)</h3>
+                            <div class="department-title-row">
+                                <h3 class="department-title">Obstetrics and Gynecology (OB/GYN)</h3>
+                                <span class="dept-status dept-status-active">Active</span>
+                            </div>
                             <p class="department-desc">Provides care for women's health, including pregnancy, childbirth, and reproductive health.</p>
                             <div class="department-footer">
                                 <div class="department-staff-stack">
@@ -322,7 +387,7 @@
 
                 <div class="departments-page-footer">
                     <div class="departments-footer-left">
-                        <span>Copyright Â© 2024 Peterdraw</span>
+                        <span>Copyright © 2024 Peterdraw</span>
                         <a href="#">Privacy Policy</a>
                         <a href="#">Term and conditions</a>
                         <a href="#">Contact</a>

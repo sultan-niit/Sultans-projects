@@ -3,14 +3,14 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+    <script src="JS/guard.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="all-images/icon-images/icon.png" rel="shortcut icon" type="image/png" />
     <link href="styles/icons-1.11.3/font/bootstrap-icons.css" type="text/css" rel="stylesheet" />
     <link href="styles/contants.css" type="text/css" rel="stylesheet" />
     <link href="styles/main.css" type="text/css" rel="stylesheet" />
-    <link href="styles/messages.css" type="text/css" rel="stylesheet" />
-    <title>SULTAN - Hospital Management Admin | Messages</title>
+    <title>ClinCore - Hospital Management Admin | Messages</title>
 </head>
 
 <body>
@@ -23,7 +23,7 @@
                             <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
                         </svg>
                     </div>
-                    <span class="logo-text">SULTAN</span>
+                    <span class="logo-text">ClinCore</span>
                 </a>
             </div>
 
@@ -111,7 +111,6 @@
 
             <div class="main-content" style="padding: 24px 32px 40px 32px;">
                 <div class="messages-wrapper">
-                    <!-- Left Column: Inbox Panel -->
                     <div class="messages-inbox-panel">
                         <div class="inbox-search-box">
                             <i class="bi bi-search search-icon"></i>
@@ -122,7 +121,6 @@
                         </div>
 
                         <div class="conversations-list">
-                            <!-- 1. John Doe -->
                             <div class="conversation-item">
                                 <div class="avatar-container">
                                     <img src="all-images/body-images/patient-1.jpg" alt="John Doe" class="avatar-img" />
@@ -142,7 +140,6 @@
                                 </div>
                             </div>
 
-                            <!-- 2. Dr. Emily Smith -->
                             <div class="conversation-item">
                                 <div class="avatar-container">
                                     <img src="all-images/body-images/doctor-2.jpg" alt="Dr. Emily Smith" class="avatar-img" />
@@ -162,7 +159,6 @@
                                 </div>
                             </div>
 
-                            <!-- 3. Mary Johnson -->
                             <div class="conversation-item">
                                 <div class="avatar-container">
                                     <img src="all-images/body-images/patient-3.jpg" alt="Mary Johnson" class="avatar-img" />
@@ -182,7 +178,6 @@
                                 </div>
                             </div>
 
-                            <!-- 4. Dr. Michael Brown (Active) -->
                             <div class="conversation-item active">
                                 <div class="avatar-container">
                                     <img src="all-images/body-images/doctor-1.jpg" alt="Dr. Michael Brown" class="avatar-img" />
@@ -201,7 +196,6 @@
                                 </div>
                             </div>
 
-                            <!-- 5. Susan Lee -->
                             <div class="conversation-item">
                                 <div class="avatar-container">
                                     <img src="all-images/body-images/patient-4.jpg" alt="Susan Lee" class="avatar-img" />
@@ -220,7 +214,6 @@
                                 </div>
                             </div>
 
-                            <!-- 6. Kevin White -->
                             <div class="conversation-item">
                                 <div class="avatar-container">
                                     <img src="all-images/body-images/patient-5.jpg" alt="Kevin White" class="avatar-img" />
@@ -240,7 +233,6 @@
                                 </div>
                             </div>
 
-                            <!-- 7. Dr. Linda Green -->
                             <div class="conversation-item">
                                 <div class="avatar-container">
                                     <img src="all-images/body-images/doctor-3.jpg" alt="Dr. Linda Green" class="avatar-img" />
@@ -260,7 +252,6 @@
                                 </div>
                             </div>
 
-                            <!-- 8. Jennifer Adams -->
                             <div class="conversation-item">
                                 <div class="avatar-container">
                                     <img src="all-images/body-images/patient-6.jpg" alt="Jennifer Adams" class="avatar-img" />
@@ -279,7 +270,6 @@
                                 </div>
                             </div>
 
-                            <!-- 9. Dr. Samuel Thompson -->
                             <div class="conversation-item">
                                 <div class="avatar-container">
                                     <img src="all-images/body-images/doctor-4.jpg" alt="Dr. Samuel Thompson" class="avatar-img" />
@@ -298,7 +288,6 @@
                                 </div>
                             </div>
 
-                            <!-- 10. Mateus Fernandes -->
                             <div class="conversation-item">
                                 <div class="avatar-container">
                                     <img src="all-images/body-images/patient-7.jpg" alt="Mateus Fernandes" class="avatar-img" />
@@ -316,6 +305,116 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="conversation-item">
+                                <div class="avatar-container">
+                                    <img src="all-images/body-images/doctor-5.jpg" alt="Dr. Robert Wilson" class="avatar-img" />
+                                </div>
+                                <div class="conversation-details">
+                                    <div class="conversation-meta-top">
+                                        <div class="user-identity">
+                                            <span class="name-text">Dr. Robert Wilson</span>
+                                            <span class="role-tag doctor">Doctor</span>
+                                        </div>
+                                        <span class="timestamp-text">20/05/26</span>
+                                    </div>
+                                    <div class="conversation-meta-bottom">
+                                        <span class="message-snippet">The lab results for patient #4829 are ready...</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="conversation-item">
+                                <div class="avatar-container">
+                                    <img src="all-images/body-images/patient-8.jpg" alt="Sarah Jenkins" class="avatar-img" />
+                                </div>
+                                <div class="conversation-details">
+                                    <div class="conversation-meta-top">
+                                        <div class="user-identity">
+                                            <span class="name-text">Sarah Jenkins</span>
+                                            <span class="role-tag patient">Patient</span>
+                                        </div>
+                                        <span class="timestamp-text">19/05/26</span>
+                                    </div>
+                                    <div class="conversation-meta-bottom">
+                                        <span class="message-snippet">Could I get a refill for my prescription?</span>
+                                        <span class="unread-badge-count">1</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="conversation-item">
+                                <div class="avatar-container">
+                                    <img src="all-images/body-images/patient-9.jpg" alt="David Miller" class="avatar-img" />
+                                </div>
+                                <div class="conversation-details">
+                                    <div class="conversation-meta-top">
+                                        <div class="user-identity">
+                                            <span class="name-text">David Miller</span>
+                                            <span class="role-tag patient">Patient</span>
+                                        </div>
+                                        <span class="timestamp-text">18/05/26</span>
+                                    </div>
+                                    <div class="conversation-meta-bottom">
+                                        <span class="message-snippet">Thank you for the quick follow-up advice.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="conversation-item">
+                                <div class="avatar-container">
+                                    <img src="all-images/body-images/patient-10.jpg" alt="Dr. Jessica Taylor" class="avatar-img" />
+                                </div>
+                                <div class="conversation-details">
+                                    <div class="conversation-meta-top">
+                                        <div class="user-identity">
+                                            <span class="name-text">Dr. Jessica Taylor</span>
+                                            <span class="role-tag doctor">Doctor</span>
+                                        </div>
+                                        <span class="timestamp-text">16/05/26</span>
+                                    </div>
+                                    <div class="conversation-meta-bottom">
+                                        <span class="message-snippet">Cardiology meeting postponed to 3 PM.</span>
+                                        <span class="unread-badge-count">2</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="conversation-item">
+                                <div class="avatar-container">
+                                    <img src="all-images/body-images/patient-11.jpg" alt="Amanda Clark" class="avatar-img" />
+                                </div>
+                                <div class="conversation-details">
+                                    <div class="conversation-meta-top">
+                                        <div class="user-identity">
+                                            <span class="name-text">Amanda Clark</span>
+                                            <span class="role-tag patient">Patient</span>
+                                        </div>
+                                        <span class="timestamp-text">14/05/26</span>
+                                    </div>
+                                    <div class="conversation-meta-bottom">
+                                        <span class="message-snippet">My appointment went smoothly, thank you!</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="conversation-item">
+                                <div class="avatar-container">
+                                    <img src="all-images/body-images/patient-12.jpg" alt="William Harris" class="avatar-img" />
+                                </div>
+                                <div class="conversation-details">
+                                    <div class="conversation-meta-top">
+                                        <div class="user-identity">
+                                            <span class="name-text">William Harris</span>
+                                            <span class="role-tag patient">Patient</span>
+                                        </div>
+                                        <span class="timestamp-text">12/05/26</span>
+                                    </div>
+                                    <div class="conversation-meta-bottom">
+                                        <span class="message-snippet">Please confirm if Dr. Michael is available.</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <button type="button" class="btn-new-message">
@@ -324,9 +423,7 @@
                         </button>
                     </div>
 
-                    <!-- Right Column: Active Chat Panel -->
                     <div class="messages-chat-panel">
-                        <!-- Chat Header -->
                         <div class="chat-panel-header">
                             <div class="chat-user-profile">
                                 <div class="chat-avatar-wrap">
@@ -345,13 +442,11 @@
                             </div>
                         </div>
 
-                        <!-- Chat Messages Body -->
                         <div class="chat-panel-body">
                             <div class="chat-date-separator">
                                 <span class="date-badge">Today, July 23</span>
                             </div>
 
-                            <!-- Message 1: Incoming from Dr. Michael Brown -->
                             <div class="message-row incoming">
                                 <div class="msg-author-avatar">
                                     <img src="all-images/body-images/doctor-1.jpg" alt="Dr. Michael Brown" />
@@ -364,7 +459,6 @@
                                 </div>
                             </div>
 
-                            <!-- Message 2: Outgoing -->
                             <div class="message-row outgoing">
                                 <div class="msg-bubble">
                                     Sure, Dr. Brown. Let me check the schedule for you.
@@ -374,7 +468,6 @@
                                 </div>
                             </div>
 
-                            <!-- Message 3: Outgoing -->
                             <div class="message-row outgoing">
                                 <div class="msg-bubble">
                                     The Geriatric Care session is scheduled for 2:00 PM to 4:00 PM tomorrow. You have five patients lined up.
@@ -385,7 +478,6 @@
                                 </div>
                             </div>
 
-                            <!-- Message 4: Incoming from Dr. Michael Brown -->
                             <div class="message-row incoming">
                                 <div class="msg-author-avatar">
                                     <img src="all-images/body-images/doctor-1.jpg" alt="Dr. Michael Brown" />
@@ -398,7 +490,6 @@
                                 </div>
                             </div>
 
-                            <!-- Message 5: Outgoing with numbered list -->
                             <div class="message-row outgoing">
                                 <div class="msg-bubble">
                                     Of course. The patients are:
@@ -416,7 +507,6 @@
                                 </div>
                             </div>
 
-                            <!-- Message 6: Incoming from Dr. Michael Brown -->
                             <div class="message-row incoming">
                                 <div class="msg-author-avatar">
                                     <img src="all-images/body-images/doctor-1.jpg" alt="Dr. Michael Brown" />
@@ -429,7 +519,6 @@
                                 </div>
                             </div>
 
-                            <!-- Message 7: Outgoing -->
                             <div class="message-row outgoing">
                                 <div class="msg-bubble">
                                     You're welcome, Dr. Brown. If you need anything else, just let me know.
@@ -441,7 +530,6 @@
                             </div>
                         </div>
 
-                        <!-- Chat Input Footer -->
                         <div class="chat-panel-footer">
                             <div class="chat-input-container">
                                 <button type="button" class="input-addon-btn" title="Add Emoji">

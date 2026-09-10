@@ -3,14 +3,14 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+    <script src="JS/guard.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="all-images/icon-images/icon.png" rel="shortcut icon" type="image/png" />
     <link href="styles/icons-1.11.3/font/bootstrap-icons.css" type="text/css" rel="stylesheet" />
     <link href="styles/contants.css" type="text/css" rel="stylesheet" />
     <link href="styles/main.css" type="text/css" rel="stylesheet" />
-    <link href="styles/doctors.css" type="text/css" rel="stylesheet" />
-    <title>SULTAN - Hospital Management Admin | Doctors</title>
+    <title>ClinCore - Hospital Management Admin | Doctors</title>
 </head>
 
 <body>
@@ -23,7 +23,7 @@
                             <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
                         </svg>
                     </div>
-                    <span class="logo-text">SULTAN</span>
+                    <span class="logo-text">ClinCore</span>
                 </a>
             </div>
 
@@ -159,18 +159,19 @@
                         <table class="doctors-data-table" id="doctorsTable">
                             <thead>
                                 <tr>
-                                    <th class="sortable">Name <i class="bi bi-arrow-down-up"></i></th>
-                                    <th class="sortable">ID <i class="bi bi-arrow-down-up"></i></th>
+                                    <th class="sortable">Doctor ID <i class="bi bi-arrow-down-up"></i></th>
+                                    <th class="sortable">Doctor Name <i class="bi bi-arrow-down-up"></i></th>
                                     <th class="sortable">Department <i class="bi bi-arrow-down-up"></i></th>
                                     <th class="sortable">Specialist <i class="bi bi-arrow-down-up"></i></th>
                                     <th class="sortable">Total Patients <i class="bi bi-arrow-down-up"></i></th>
                                     <th class="sortable">Today's Appointment <i class="bi bi-arrow-down-up"></i></th>
-                                    <th class="sortable">Availability Status <i class="bi bi-arrow-down-up"></i></th>
+                                    <th class="sortable">Status <i class="bi bi-arrow-down-up"></i></th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="doctorsTableBody">
                                 <tr>
+                                    <td><span class="doctor-id-code">WNH-GM-001</span></td>
                                     <td>
                                         <div class="doctor-cell-profile">
                                             <div class="doctor-cell-avatar">
@@ -179,7 +180,6 @@
                                             <span class="doctor-cell-name">Dr. Petra Winsburry</span>
                                         </div>
                                     </td>
-                                    <td><span class="doctor-id-code">WNH-GM-001</span></td>
                                     <td><span class="doctor-dept-txt">General Medicine</span></td>
                                     <td><span class="doctor-spec-txt">Routine Check-Ups</span></td>
                                     <td><span class="doctor-metric-num">150</span></td>
@@ -188,12 +188,12 @@
                                     <td>
                                         <div class="table-row-actions">
                                             <button type="button" class="btn-table-action edit" title="Edit Doctor"><i class="bi bi-pencil-square"></i></button>
-                                            <button type="button" class="btn-table-action delete" title="Delete Doctor"><i class="bi bi-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
 
                                 <tr>
+                                    <td><span class="doctor-id-code">WNH-CD-001</span></td>
                                     <td>
                                         <div class="doctor-cell-profile">
                                             <div class="doctor-cell-avatar">
@@ -202,7 +202,6 @@
                                             <span class="doctor-cell-name">Dr. Olivia Martinez</span>
                                         </div>
                                     </td>
-                                    <td><span class="doctor-id-code">WNH-CD-001</span></td>
                                     <td><span class="doctor-dept-txt">Cardiology</span></td>
                                     <td><span class="doctor-spec-txt">Heart Specialist</span></td>
                                     <td><span class="doctor-metric-num">200</span></td>
@@ -211,12 +210,12 @@
                                     <td>
                                         <div class="table-row-actions">
                                             <button type="button" class="btn-table-action edit" title="Edit Doctor"><i class="bi bi-pencil-square"></i></button>
-                                            <button type="button" class="btn-table-action delete" title="Delete Doctor"><i class="bi bi-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
 
                                 <tr>
+                                    <td><span class="doctor-id-code">WNH-PD-001</span></td>
                                     <td>
                                         <div class="doctor-cell-profile">
                                             <div class="doctor-cell-avatar">
@@ -225,7 +224,6 @@
                                             <span class="doctor-cell-name">Dr. Damian Sanchez</span>
                                         </div>
                                     </td>
-                                    <td><span class="doctor-id-code">WNH-PD-001</span></td>
                                     <td><span class="doctor-dept-txt">Pediatrics</span></td>
                                     <td><span class="doctor-spec-txt">Child Health</span></td>
                                     <td><span class="doctor-metric-num">180</span></td>
@@ -234,12 +232,12 @@
                                     <td>
                                         <div class="table-row-actions">
                                             <button type="button" class="btn-table-action edit" title="Edit Doctor"><i class="bi bi-pencil-square"></i></button>
-                                            <button type="button" class="btn-table-action delete" title="Delete Doctor"><i class="bi bi-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
 
                                 <tr>
+                                    <td><span class="doctor-id-code">WNH-DM-001</span></td>
                                     <td>
                                         <div class="doctor-cell-profile">
                                             <div class="doctor-cell-avatar">
@@ -248,7 +246,6 @@
                                             <span class="doctor-cell-name">Dr. Chloe Harrington</span>
                                         </div>
                                     </td>
-                                    <td><span class="doctor-id-code">WNH-DM-001</span></td>
                                     <td><span class="doctor-dept-txt">Dermatology</span></td>
                                     <td><span class="doctor-spec-txt">Skin Specialist</span></td>
                                     <td><span class="doctor-metric-num">120</span></td>
@@ -257,12 +254,12 @@
                                     <td>
                                         <div class="table-row-actions">
                                             <button type="button" class="btn-table-action edit" title="Edit Doctor"><i class="bi bi-pencil-square"></i></button>
-                                            <button type="button" class="btn-table-action delete" title="Delete Doctor"><i class="bi bi-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
 
                                 <tr>
+                                    <td><span class="doctor-id-code">WNH-GM-002</span></td>
                                     <td>
                                         <div class="doctor-cell-profile">
                                             <div class="doctor-cell-avatar">
@@ -271,7 +268,6 @@
                                             <span class="doctor-cell-name">Dr. Emily Smith</span>
                                         </div>
                                     </td>
-                                    <td><span class="doctor-id-code">WNH-GM-002</span></td>
                                     <td><span class="doctor-dept-txt">General Medicine</span></td>
                                     <td><span class="doctor-spec-txt">Routine Check-Ups</span></td>
                                     <td><span class="doctor-metric-num">160</span></td>
@@ -280,12 +276,12 @@
                                     <td>
                                         <div class="table-row-actions">
                                             <button type="button" class="btn-table-action edit" title="Edit Doctor"><i class="bi bi-pencil-square"></i></button>
-                                            <button type="button" class="btn-table-action delete" title="Delete Doctor"><i class="bi bi-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
 
                                 <tr>
+                                    <td><span class="doctor-id-code">WNH-CD-002</span></td>
                                     <td>
                                         <div class="doctor-cell-profile">
                                             <div class="doctor-cell-avatar">
@@ -294,7 +290,6 @@
                                             <span class="doctor-cell-name">Dr. Samuel Thompson</span>
                                         </div>
                                     </td>
-                                    <td><span class="doctor-id-code">WNH-CD-002</span></td>
                                     <td><span class="doctor-dept-txt">Cardiology</span></td>
                                     <td><span class="doctor-spec-txt">Heart Specialist</span></td>
                                     <td><span class="doctor-metric-num">210</span></td>
@@ -303,12 +298,12 @@
                                     <td>
                                         <div class="table-row-actions">
                                             <button type="button" class="btn-table-action edit" title="Edit Doctor"><i class="bi bi-pencil-square"></i></button>
-                                            <button type="button" class="btn-table-action delete" title="Delete Doctor"><i class="bi bi-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
 
                                 <tr>
+                                    <td><span class="doctor-id-code">WNH-PD-002</span></td>
                                     <td>
                                         <div class="doctor-cell-profile">
                                             <div class="doctor-cell-avatar">
@@ -317,7 +312,6 @@
                                             <span class="doctor-cell-name">Dr. Sarah Johnson</span>
                                         </div>
                                     </td>
-                                    <td><span class="doctor-id-code">WNH-PD-002</span></td>
                                     <td><span class="doctor-dept-txt">Pediatrics</span></td>
                                     <td><span class="doctor-spec-txt">Child Health</span></td>
                                     <td><span class="doctor-metric-num">170</span></td>
@@ -326,12 +320,12 @@
                                     <td>
                                         <div class="table-row-actions">
                                             <button type="button" class="btn-table-action edit" title="Edit Doctor"><i class="bi bi-pencil-square"></i></button>
-                                            <button type="button" class="btn-table-action delete" title="Delete Doctor"><i class="bi bi-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
 
                                 <tr>
+                                    <td><span class="doctor-id-code">WNH-DM-002</span></td>
                                     <td>
                                         <div class="doctor-cell-profile">
                                             <div class="doctor-cell-avatar">
@@ -340,7 +334,6 @@
                                             <span class="doctor-cell-name">Dr. Luke Harrison</span>
                                         </div>
                                     </td>
-                                    <td><span class="doctor-id-code">WNH-DM-002</span></td>
                                     <td><span class="doctor-dept-txt">Dermatology</span></td>
                                     <td><span class="doctor-spec-txt">Skin Specialist</span></td>
                                     <td><span class="doctor-metric-num">130</span></td>
@@ -349,12 +342,12 @@
                                     <td>
                                         <div class="table-row-actions">
                                             <button type="button" class="btn-table-action edit" title="Edit Doctor"><i class="bi bi-pencil-square"></i></button>
-                                            <button type="button" class="btn-table-action delete" title="Delete Doctor"><i class="bi bi-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
 
                                 <tr>
+                                    <td><span class="doctor-id-code">WNH-IM-001</span></td>
                                     <td>
                                         <div class="doctor-cell-profile">
                                             <div class="doctor-cell-avatar">
@@ -363,7 +356,6 @@
                                             <span class="doctor-cell-name">Dr. Andrew Peterson</span>
                                         </div>
                                     </td>
-                                    <td><span class="doctor-id-code">WNH-IM-001</span></td>
                                     <td><span class="doctor-dept-txt">Internal Medicine</span></td>
                                     <td><span class="doctor-spec-txt">Internal Health</span></td>
                                     <td><span class="doctor-metric-num">190</span></td>
@@ -372,12 +364,12 @@
                                     <td>
                                         <div class="table-row-actions">
                                             <button type="button" class="btn-table-action edit" title="Edit Doctor"><i class="bi bi-pencil-square"></i></button>
-                                            <button type="button" class="btn-table-action delete" title="Delete Doctor"><i class="bi bi-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
 
                                 <tr>
+                                    <td><span class="doctor-id-code">WNH-PD-003</span></td>
                                     <td>
                                         <div class="doctor-cell-profile">
                                             <div class="doctor-cell-avatar">
@@ -386,7 +378,6 @@
                                             <span class="doctor-cell-name">Dr. William Carter</span>
                                         </div>
                                     </td>
-                                    <td><span class="doctor-id-code">WNH-PD-003</span></td>
                                     <td><span class="doctor-dept-txt">Pediatrics</span></td>
                                     <td><span class="doctor-spec-txt">Child Health</span></td>
                                     <td><span class="doctor-metric-num">175</span></td>
@@ -395,12 +386,12 @@
                                     <td>
                                         <div class="table-row-actions">
                                             <button type="button" class="btn-table-action edit" title="Edit Doctor"><i class="bi bi-pencil-square"></i></button>
-                                            <button type="button" class="btn-table-action delete" title="Delete Doctor"><i class="bi bi-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
 
                                 <tr>
+                                    <td><span class="doctor-id-code">WNH-OR-001</span></td>
                                     <td>
                                         <div class="doctor-cell-profile">
                                             <div class="doctor-cell-avatar">
@@ -409,7 +400,6 @@
                                             <span class="doctor-cell-name">Dr. Mark Wilson</span>
                                         </div>
                                     </td>
-                                    <td><span class="doctor-id-code">WNH-OR-001</span></td>
                                     <td><span class="doctor-dept-txt">Orthopedics</span></td>
                                     <td><span class="doctor-spec-txt">Bone Specialist</span></td>
                                     <td><span class="doctor-metric-num">140</span></td>
@@ -418,12 +408,12 @@
                                     <td>
                                         <div class="table-row-actions">
                                             <button type="button" class="btn-table-action edit" title="Edit Doctor"><i class="bi bi-pencil-square"></i></button>
-                                            <button type="button" class="btn-table-action delete" title="Delete Doctor"><i class="bi bi-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
 
                                 <tr>
+                                    <td><span class="doctor-id-code">WNH-NL-001</span></td>
                                     <td>
                                         <div class="doctor-cell-profile">
                                             <div class="doctor-cell-avatar">
@@ -432,7 +422,6 @@
                                             <span class="doctor-cell-name">Dr. Thomas Brown</span>
                                         </div>
                                     </td>
-                                    <td><span class="doctor-id-code">WNH-NL-001</span></td>
                                     <td><span class="doctor-dept-txt">Neurology</span></td>
                                     <td><span class="doctor-spec-txt">Brain Specialist</span></td>
                                     <td><span class="doctor-metric-num">155</span></td>
@@ -441,7 +430,6 @@
                                     <td>
                                         <div class="table-row-actions">
                                             <button type="button" class="btn-table-action edit" title="Edit Doctor"><i class="bi bi-pencil-square"></i></button>
-                                            <button type="button" class="btn-table-action delete" title="Delete Doctor"><i class="bi bi-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>

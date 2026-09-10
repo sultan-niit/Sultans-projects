@@ -5,13 +5,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SULTAN | Sign Up</title>
+  <title>ClinCore | Sign Up</title>
   <link href="styles/contants.css" type="text/css" rel="stylesheet" />
-  <link href="styles/main.css" type="text/css" rel="stylesheet" />
-  <link href="styles/auth.css" type="text/css" rel="stylesheet" />
-</head>
+    <link href="styles/main.css" type="text/css" rel="stylesheet" />
+  </head>
 
 <body class="login-body">
+
+  <div class="alert-overlay" id="alert"></div>
 
   <div class="frame">
 
@@ -23,16 +24,16 @@
             <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
           </svg>
         </div>
-        <span class="logo-text">SULTAN</span>
+        <span class="logo-text">ClinCore</span>
       </a>
 
       <div class="card auth-card">
         <div class="card-header">
           <h1 class="card-title">Create Account</h1>
-          <p class="card-subtitle">Join SULTAN Healthcare Management Platform</p>
+          <p class="card-subtitle">Join ClinCore Healthcare Management Platform</p>
         </div>
 
-        <form action="dashboard.html" method="get">
+        <form onsubmit="event.preventDefault(); signUpHandle();" novalidate>
 
           <div class="form-group">
             <label class="form-label" for="signupName">Name</label>
@@ -41,8 +42,9 @@
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>
-              <input id="signupName" name="name" class="form-input" type="text" placeholder="e.g. Sultoon Abdulraheem"  />
+              <input id="fullName" name="name" class="form-input" type="text" placeholder="e.g. Sultoon Abdulraheem"  />
             </div>
+            <span class="error-text" hidden></span>
           </div>
 
           <div class="form-group">
@@ -52,9 +54,21 @@
                 <rect x="2" y="4" width="20" height="16" rx="2"></rect>
                 <path d="m2 7 10 7 10-7"></path>
               </svg>
-              <input id="signupEmail" name="email" class="form-input" type="email" placeholder="name@gmail.com"
+              <input id="emailAddress" name="email" class="form-input" type="email" placeholder="name@gmail.com"
                 />
             </div>
+            <span class="error-text" hidden></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="phoneNumber">Phone Number</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              <input id="phoneNumber" name="phone" class="form-input" type="tel" placeholder="e.g. 08012345678" />
+            </div>
+            <span class="error-text" hidden></span>
           </div>
 
           <div class="form-group">
@@ -64,12 +78,13 @@
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                 <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
               </svg>
-              <input id="signupPassword" name="password" class="form-input" type="password" placeholder="Min. 8 chars"
+              <input id="password" name="password" class="form-input" type="password" placeholder="Min. 8 chars"
                 minlength="8"  />
             </div>
+            <span class="error-text" hidden></span>
           </div>
 
-          <button type="submit" class="btn-login">
+          <button type="submit" id="submitBtnId" class="btn-login">
             <span>Create Account</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
@@ -123,6 +138,8 @@
 
   </div>
 
+  <script src="JS/validator.js"></script>
+  <script src="JS/auth.js"></script>
 </body>
 
 </html>

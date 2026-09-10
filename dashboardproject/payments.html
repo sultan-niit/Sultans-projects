@@ -3,14 +3,14 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+    <script src="JS/guard.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="all-images/icon-images/icon.png" rel="shortcut icon" type="image/png" />
     <link href="styles/icons-1.11.3/font/bootstrap-icons.css" type="text/css" rel="stylesheet" />
     <link href="styles/contants.css" type="text/css" rel="stylesheet" />
     <link href="styles/main.css" type="text/css" rel="stylesheet" />
-    <link href="styles/payments.css" type="text/css" rel="stylesheet" />
-    <title>SULTAN - Hospital Management Admin | Payments</title>
+    <title>ClinCore - Hospital Management Admin | Payments</title>
 </head>
 
 <body>
@@ -23,7 +23,7 @@
                             <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
                         </svg>
                     </div>
-                    <span class="logo-text">SULTAN</span>
+                    <span class="logo-text">ClinCore</span>
                 </a>
             </div>
 
@@ -231,6 +231,10 @@
                                         <span>Status</span>
                                         <i class="bi bi-arrow-down-up"></i>
                                     </th>
+                                    <th class="sortable-th">
+                                        <span>Payment Method</span>
+                                        <i class="bi bi-arrow-down-up"></i>
+                                    </th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -264,16 +268,15 @@
                                         </span>
                                     </td>
                                     <td>
+                                        <span class="pay-method-text">Card</span>
+                                    </td>
+                                    <td>
                                         <div class="payment-row-actions">
                                             <button type="button" class="btn-invoice-action" title="View Invoice">
                                                 <i class="bi bi-eye"></i>
                                                 <span>View</span>
                                             </button>
-                                            <button type="button" class="btn-invoice-action" title="Edit Invoice">
-                                                <i class="bi bi-pencil-square"></i>
-                                                <span>Edit</span>
-                                            </button>
-                                        </div>
+                                                                                    </div>
                                     </td>
                                 </tr>
 
@@ -306,14 +309,13 @@
                                         </span>
                                     </td>
                                     <td>
+                                        <span class="pay-method-text">Transfer</span>
+                                    </td>
+                                    <td>
                                         <div class="payment-row-actions">
                                             <button type="button" class="btn-invoice-action" title="View Invoice">
                                                 <i class="bi bi-eye"></i>
                                                 <span>View</span>
-                                            </button>
-                                            <button type="button" class="btn-invoice-action" title="Edit Invoice">
-                                                <i class="bi bi-pencil-square"></i>
-                                                <span>Edit</span>
                                             </button>
                                         </div>
                                     </td>
@@ -348,14 +350,13 @@
                                         </span>
                                     </td>
                                     <td>
+                                        <span class="pay-method-text">Card</span>
+                                    </td>
+                                    <td>
                                         <div class="payment-row-actions">
                                             <button type="button" class="btn-invoice-action" title="View Invoice">
                                                 <i class="bi bi-eye"></i>
                                                 <span>View</span>
-                                            </button>
-                                            <button type="button" class="btn-invoice-action" title="Edit Invoice">
-                                                <i class="bi bi-pencil-square"></i>
-                                                <span>Edit</span>
                                             </button>
                                         </div>
                                     </td>
@@ -390,14 +391,13 @@
                                         </span>
                                     </td>
                                     <td>
+                                        <span class="pay-method-text">Cash</span>
+                                    </td>
+                                    <td>
                                         <div class="payment-row-actions">
                                             <button type="button" class="btn-invoice-action" title="View Invoice">
                                                 <i class="bi bi-eye"></i>
                                                 <span>View</span>
-                                            </button>
-                                            <button type="button" class="btn-invoice-action" title="Edit Invoice">
-                                                <i class="bi bi-pencil-square"></i>
-                                                <span>Edit</span>
                                             </button>
                                         </div>
                                     </td>
@@ -432,14 +432,13 @@
                                         </span>
                                     </td>
                                     <td>
+                                        <span class="pay-method-text">Card</span>
+                                    </td>
+                                    <td>
                                         <div class="payment-row-actions">
                                             <button type="button" class="btn-invoice-action" title="View Invoice">
                                                 <i class="bi bi-eye"></i>
                                                 <span>View</span>
-                                            </button>
-                                            <button type="button" class="btn-invoice-action" title="Edit Invoice">
-                                                <i class="bi bi-pencil-square"></i>
-                                                <span>Edit</span>
                                             </button>
                                         </div>
                                     </td>
@@ -474,14 +473,13 @@
                                         </span>
                                     </td>
                                     <td>
+                                        <span class="pay-method-text">Cash</span>
+                                    </td>
+                                    <td>
                                         <div class="payment-row-actions">
                                             <button type="button" class="btn-invoice-action" title="View Invoice">
                                                 <i class="bi bi-eye"></i>
                                                 <span>View</span>
-                                            </button>
-                                            <button type="button" class="btn-invoice-action" title="Edit Invoice">
-                                                <i class="bi bi-pencil-square"></i>
-                                                <span>Edit</span>
                                             </button>
                                         </div>
                                     </td>
@@ -516,14 +514,13 @@
                                         </span>
                                     </td>
                                     <td>
+                                        <span class="pay-method-text">Transfer</span>
+                                    </td>
+                                    <td>
                                         <div class="payment-row-actions">
                                             <button type="button" class="btn-invoice-action" title="View Invoice">
                                                 <i class="bi bi-eye"></i>
                                                 <span>View</span>
-                                            </button>
-                                            <button type="button" class="btn-invoice-action" title="Edit Invoice">
-                                                <i class="bi bi-pencil-square"></i>
-                                                <span>Edit</span>
                                             </button>
                                         </div>
                                     </td>
@@ -558,14 +555,13 @@
                                         </span>
                                     </td>
                                     <td>
+                                        <span class="pay-method-text">Card</span>
+                                    </td>
+                                    <td>
                                         <div class="payment-row-actions">
                                             <button type="button" class="btn-invoice-action" title="View Invoice">
                                                 <i class="bi bi-eye"></i>
                                                 <span>View</span>
-                                            </button>
-                                            <button type="button" class="btn-invoice-action" title="Edit Invoice">
-                                                <i class="bi bi-pencil-square"></i>
-                                                <span>Edit</span>
                                             </button>
                                         </div>
                                     </td>
@@ -600,14 +596,13 @@
                                         </span>
                                     </td>
                                     <td>
+                                        <span class="pay-method-text">Cash</span>
+                                    </td>
+                                    <td>
                                         <div class="payment-row-actions">
                                             <button type="button" class="btn-invoice-action" title="View Invoice">
                                                 <i class="bi bi-eye"></i>
                                                 <span>View</span>
-                                            </button>
-                                            <button type="button" class="btn-invoice-action" title="Edit Invoice">
-                                                <i class="bi bi-pencil-square"></i>
-                                                <span>Edit</span>
                                             </button>
                                         </div>
                                     </td>
@@ -642,14 +637,13 @@
                                         </span>
                                     </td>
                                     <td>
+                                        <span class="pay-method-text">Card</span>
+                                    </td>
+                                    <td>
                                         <div class="payment-row-actions">
                                             <button type="button" class="btn-invoice-action" title="View Invoice">
                                                 <i class="bi bi-eye"></i>
                                                 <span>View</span>
-                                            </button>
-                                            <button type="button" class="btn-invoice-action" title="Edit Invoice">
-                                                <i class="bi bi-pencil-square"></i>
-                                                <span>Edit</span>
                                             </button>
                                         </div>
                                     </td>
@@ -684,14 +678,13 @@
                                         </span>
                                     </td>
                                     <td>
+                                        <span class="pay-method-text">Card</span>
+                                    </td>
+                                    <td>
                                         <div class="payment-row-actions">
                                             <button type="button" class="btn-invoice-action" title="View Invoice">
                                                 <i class="bi bi-eye"></i>
                                                 <span>View</span>
-                                            </button>
-                                            <button type="button" class="btn-invoice-action" title="Edit Invoice">
-                                                <i class="bi bi-pencil-square"></i>
-                                                <span>Edit</span>
                                             </button>
                                         </div>
                                     </td>
@@ -731,11 +724,7 @@
                                                 <i class="bi bi-eye"></i>
                                                 <span>View</span>
                                             </button>
-                                            <button type="button" class="btn-invoice-action" title="Edit Invoice">
-                                                <i class="bi bi-pencil-square"></i>
-                                                <span>Edit</span>
-                                            </button>
-                                        </div>
+                                                                                    </div>
                                     </td>
                                 </tr>
                             </tbody>
