@@ -5,6 +5,7 @@ import ForgotPassword from "./pages/forgotpassword";
 import ResetPassword from "./pages/resetpassword";
 import Dashboard from "./pages/dashboard";
 import Appointments from "./pages/appointment";
+import Rooms from "./pages/rooms";
 import Patients from "./pages/patient";
 import Doctors from "./pages/doctors";
 import Departments from "./pages/department";
@@ -52,6 +53,14 @@ export const router = createBrowserRouter([
   {
     path: "/appointment",
     element: <Appointments />
+  },
+  {
+    path: "/rooms",
+    element: <Rooms />
+  },
+  {
+    path: "/room",
+    element: <Rooms />
   },
   
   {

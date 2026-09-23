@@ -1,4 +1,7 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
+import InputField from "../components/InputField";
+import ButtonComponents from "../components/ButtonComponents";
+import AuthHeroPanel from "../components/AuthHeroPanel";
 
 export default function Home() {
   return (
@@ -6,6 +9,9 @@ export default function Home() {
       <div className="alert-overlay" id="alert"></div>
 
       <div className="frame">
+        {/* ============================================================ */}
+        {/* LEFT SIDE: Login Form & Card (Edited to use UI Components)   */}
+        {/* ============================================================ */}
         <div className="left-panel">
           <Link to="/" className="logo">
             <div className="logo-icon">
@@ -23,41 +29,19 @@ export default function Home() {
             </div>
 
             <form onSubmit={(e) => e.preventDefault()} noValidate>
-              <div className="form-group">
-                <label className="form-label" htmlFor="emailAddress">Email Address</label>
-                <div className="input-wrapper">
-                  <svg className="input-icon" viewBox="0 0 24 24">
-                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                    <path d="m2 7 10 7 10-7"></path>
-                  </svg>
-                  <input
-                    id="emailAddress"
-                    name="email"
-                    className="form-input"
-                    type="email"
-                    placeholder="Enter your email"
-                  />
-                </div>
-                <span className="error-text" hidden></span>
-              </div>
+              {/* InputField component for Email Address */}
+              <InputField
+                title="Email Address"
+                inputType="email"
+                placeHolder="Enter your email"
+              />
 
-              <div className="form-group">
-                <label className="form-label" htmlFor="password">Password</label>
-                <div className="input-wrapper">
-                  <svg className="input-icon" viewBox="0 0 24 24">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                  </svg>
-                  <input
-                    id="password"
-                    name="password"
-                    className="form-input"
-                    type="password"
-                    placeholder="Enter your password"
-                  />
-                </div>
-                <span className="error-text" hidden></span>
-              </div>
+              {/* InputField component for Password */}
+              <InputField
+                title="Password"
+                inputType="password"
+                placeHolder="Enter your password"
+              />
 
               <div className="form-options-row">
                 <label className="checkbox-label">
@@ -72,13 +56,12 @@ export default function Home() {
                 <Link to="/forgot-password" className="forgot-link">Forgot Password?</Link>
               </div>
 
-              <Link to="/dashboard" id="signInBtnId" className="btn-login" style={{ textDecoration: "none" }}>
-                <span>Sign In</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
+              {/* ButtonComponents for Login action */}
+              <Link to="/dashboard">
+                <ButtonComponents
+                  inputType="button"
+                  buttonTitle="Sign In"
+                />
               </Link>
 
               <p className="switch-auth-row">
@@ -89,36 +72,10 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="right-panel">
-          <img className="hero-img" src="/all-images/body-images/images.jpg" alt="Healthcare professionals" />
-          <div className="hero-overlay"></div>
-          <div className="hero-content">
-            <div className="hero-icon-wrap">
-              <svg viewBox="0 0 24 24">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-              </svg>
-            </div>
-            <h2 className="hero-heading">Advanced Healthcare<br />Management</h2>
-            <p className="hero-body">
-              Streamline your hospital operations with our comprehensive management system.
-              Manage patients, appointments, staff, and records all in one place.
-            </p>
-            <div className="hero-stats">
-              <div className="stat-item">
-                <span className="stat-number">24/7</span>
-                <span className="stat-label">Support</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">100%</span>
-                <span className="stat-label">Secure</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">500+</span>
-                <span className="stat-label">Hospitals</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* ============================================================ */}
+        {/* RIGHT SIDE: Auth Hero Illustration & Stats (AuthHeroPanel)   */}
+        {/* ============================================================ */}
+        <AuthHeroPanel />
       </div>
     </div>
   );

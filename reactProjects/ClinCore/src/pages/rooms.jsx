@@ -1,12 +1,11 @@
 import Sidebar from "../components/Sidebar";
 import TopHeader from "../components/TopHeader";
-import TabFilter from "../components/TabFilter";
 import SearchBar from "../components/SearchBar";
 import FilterPill from "../components/FilterPill";
-import AppointmentsTable from "../components/AppointmentsTable";
+import RoomsTable from "../components/RoomsTable";
 import PageFooter from "../components/PageFooter";
 
-export default function Appointments() {
+export default function Rooms() {
   return (
     <div className="dashboard-wrapper">
       <Sidebar />
@@ -17,30 +16,36 @@ export default function Appointments() {
           {/* TOOLBAR SECTION: Tab Filters, Search & Action Pills           */}
           {/* ============================================================ */}
           <div className="appointments-toolbar">
-            {/* Filter Tabs Component */}
-            <TabFilter />
+            {/* Filter Tabs for Rooms */}
+            <div className="appointments-filter-tabs">
+              <button type="button" className="tab-filter-btn active">All (48)</button>
+              <button type="button" className="tab-filter-btn">Available (24)</button>
+              <button type="button" className="tab-filter-btn">Occupied (18)</button>
+              <button type="button" className="tab-filter-btn">Unavailable (6)</button>
+            </div>
 
             <div className="appointments-actions-right">
               {/* SearchBar UI Component */}
-              <SearchBar placeHolder="Search placeholder" />
+              <SearchBar placeHolder="Search room name, ID, type..." />
 
-              {/* FilterPill Component for Date */}
+              {/* FilterPill Component for Capacity */}
               <FilterPill
-                icon="bi-calendar-week"
-                title="Today"
+                icon="bi-funnel"
+                title="All Capacity"
                 className="appointments-date-pill"
               />
 
               <button type="button" className="btn-add-appointment-action">
-                <span>Add Appointment</span>
+                <i className="bi bi-plus-lg"></i>
+                <span>Add Room</span>
               </button>
             </div>
           </div>
 
           {/* ============================================================ */}
-          {/* TABLE SECTION: Appointments Data Table Component              */}
+          {/* TABLE SECTION: Rooms Data Table Component                     */}
           {/* ============================================================ */}
-          <AppointmentsTable />
+          <RoomsTable />
 
           {/* ============================================================ */}
           {/* FOOTER SECTION: Copyright & Social Links Component            */}

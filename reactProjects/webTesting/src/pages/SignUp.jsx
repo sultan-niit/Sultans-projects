@@ -1,7 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import niitLogo from "../assets/niit-logo.png";
+import InputField from "../components/inputfield";
+import ButtonComponents from "../components/buttonComponents";
+import { useState } from "react";
+import AlertModal from "../components/alertmodal";
 
 export default function SignUp() {
+  const navigate = useNavigate();
+  const [modal, setModal] = useState(false);
+
+ 
   return (
     <>
       <section className="auth-section">
@@ -28,36 +36,46 @@ export default function SignUp() {
                             </div>
 
                             <div className="input-container">
-                                <div className="input-wrapper">
-                                    <label>Fullname: <span>*</span></label>
-                                    <input type="text" className="text-field" id="fullName"
-                                        placeholder="Enter your fullname" />
-                                    <span className="error-text" hidden></span>
-                                </div>
+                                <InputField
+                                    title="Fullname:"
+                                    inputType="text"
+                                    id="fullName"
+                                    placeHolder="Enter your fullname"
+                                    required={true}
+                                />
 
+                                <InputField
+                                    title="Email Address:"
+                                    inputType="email"
+                                    id="emailAddress"
+                                    placeHolder="Enter your email Address"
+                                    dataType="gmail"
+                                    required={true}
+                                />
 
-                                <div className="input-wrapper">
-                                    <label>Email Address: <span>*</span></label>
-                                    <input type="text" className="text-field" id="emailAddress"
-                                        placeholder="Enter your email Address" data-type="gmail" />
-                                    <span className="error-text" hidden></span>
-                                </div>
+                                <InputField
+                                    title="Phone Number:"
+                                    inputType="tel"
+                                    id="phoneNumber"
+                                    placeHolder="Enter your phone number"
+                                    dataType="phone"
+                                    required={true}
+                                />
 
-                                <div className="input-wrapper">
-                                    <label>Phone Number: <span>*</span></label>
-                                    <input type="text" className="text-field" id="phoneNumber"
-                                        placeholder="Enter your phone number" data-type="phone" />
-                                    <span className="error-text" hidden></span>
-                                </div>
+                                <InputField
+                                    title="Password:"
+                                    inputType="password"
+                                    id="password"
+                                    placeHolder="Enter your password"
+                                    dataType="password"
+                                    required={true}
+                                />
 
-                                <div className="input-wrapper">
-                                    <label>Password: <span>*</span></label>
-                                    <input type="password" className="text-field" id="password"
-                                        placeholder="Enter your password" data-type="password" />
-                                    <span className="error-text" hidden></span>
-                                </div>
-
-                                <button className="btn" type="button" id="submitBtnId" title="Sign Up">Sign Up</button>
+                                <ButtonComponents
+                                    inputType="button"
+                                    buttonTitle="Sign Up"
+                                    action={(e)=>{setModal(true)}}
+                                />
                             </div>
 
 
@@ -66,7 +84,9 @@ export default function SignUp() {
                     <div className="form-content text-content">
                         <div className="text-wrapper">
                             <div className="logo-container">
-                                <img src={niitLogo} alt="NIIT logo" />
+                                <Link to="/">
+                                    <img src={niitLogo} alt="NIIT logo" />
+                                </Link>
                             </div>
                             <div className="title">
                                 <h1>Welcome to Student Portal</h1>
@@ -74,7 +94,10 @@ export default function SignUp() {
                             </div>
 
                             <Link to="/signin">
-                                <button className="btn" title="Sign In">Sign In</button>
+                                <ButtonComponents
+                                    inputType="button"
+                                    buttonTitle="Sign In"
+                                />
                             </Link>
 
                         </div>
@@ -89,6 +112,7 @@ export default function SignUp() {
 
         </div>
     </section>
+    {modal && <AlertModal message="Registration Successful!" redirectUrl="/signin"  />}
             
     </>
   );

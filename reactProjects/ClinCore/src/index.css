@@ -409,3 +409,143 @@ input, textarea, select {
 }
 
 
+
+/* ============================================================
+   CSS FIXES - Component Compatibility Patches
+   ============================================================ */
+
+/* FIX 1: Form input left padding
+   MainStyle.css sets padding: 0 14px 0 44px on .form-input
+   (44px left is reserved for an .input-icon element).
+   When InputField renders without an icon, text is indented 44px.
+   This fix resets left padding to 14px when no .input-icon is present. */
+.input-wrapper:not(:has(.input-icon)) .form-input {
+    padding-left: 14px !important;
+}
+
+/* FIX 2: Ensure .bi icons always flex-shrink correctly */
+.bi {
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* FIX 3: bi-star-fill - DoctorCard rating star */
+.bi-star-fill {
+    background-color: #f59e0b;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/%3E%3C/svg%3E");
+}
+
+/* FIX 4: bi-x-lg / bi-x - close/cross icon */
+.bi-x-lg,
+.bi-x {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
+}
+
+/* FIX 5: bi-paperclip - messages attachment */
+.bi-paperclip {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48'/%3E%3C/svg%3E");
+}
+
+/* FIX 6: bi-telephone / bi-phone */
+.bi-telephone,
+.bi-phone {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 10.1 19.79 19.79 0 0 1 1.61 1.5 2 2 0 0 1 3.6 0h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.1A16 16 0 0 0 16 16.09l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 24 17z'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 10.1 19.79 19.79 0 0 1 1.61 1.5 2 2 0 0 1 3.6 0h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.1A16 16 0 0 0 16 16.09l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 24 17z'/%3E%3C/svg%3E");
+}
+
+/* FIX 7: bi-envelope - auth forms and contact */
+.bi-envelope,
+.bi-envelope-fill {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='20' height='16' x='2' y='4' rx='2'/%3E%3Cpath d='m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='20' height='16' x='2' y='4' rx='2'/%3E%3Cpath d='m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'/%3E%3C/svg%3E");
+}
+
+/* FIX 8: bi-currency-dollar / bi-cash - payments page */
+.bi-currency-dollar,
+.bi-cash,
+.bi-cash-stack {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='12' y1='1' x2='12' y2='23'/%3E%3Cpath d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='12' y1='1' x2='12' y2='23'/%3E%3Cpath d='M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'/%3E%3C/svg%3E");
+}
+
+/* FIX 9: bi-image - inventory / media */
+.bi-image {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='18' height='18' x='3' y='3' rx='2' ry='2'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3Cpolyline points='21 15 16 10 5 21'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='18' height='18' x='3' y='3' rx='2' ry='2'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3Cpolyline points='21 15 16 10 5 21'/%3E%3C/svg%3E");
+}
+
+/* FIX 10: bi-three-dots-vertical - vertical row action menus */
+.bi-three-dots-vertical {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='5' r='1' fill='black'/%3E%3Ccircle cx='12' cy='12' r='1' fill='black'/%3E%3Ccircle cx='12' cy='19' r='1' fill='black'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='5' r='1' fill='black'/%3E%3Ccircle cx='12' cy='12' r='1' fill='black'/%3E%3Ccircle cx='12' cy='19' r='1' fill='black'/%3E%3C/svg%3E");
+}
+
+/* Sidebar active nav link badge count color protection */
+.dashboard-wrapper .side-panel .nav-list .nav-link .badge-count,
+.dashboard-wrapper .side-panel .nav-list .nav-link.active .badge-count {
+    background-color: var(--badge-count-color) !important;
+    color: #ffffff !important;
+}
+
+/* FIX 11: bi-door-closed / bi-door-open */
+.bi-door-closed,
+.bi-door,
+.bi-door-open {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 20V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14'/%3E%3Cpath d='M2 20h20'/%3E%3Cpath d='M14 12v.01'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 20V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14'/%3E%3Cpath d='M2 20h20'/%3E%3Cpath d='M14 12v.01'/%3E%3C/svg%3E");
+}
+
+/* Rooms Table Cell Styles */
+.room-cell-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.room-name-txt {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 13.5px;
+    font-family: sub-title-font;
+}
+
+.room-id-txt {
+    font-size: 11.5px;
+    color: var(--text-muted-color);
+    font-family: sub-title-font;
+}
+
+.room-capacity-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: var(--hover-bg-color);
+    color: var(--text-dark-color);
+    border: 1px solid var(--border-color);
+}
+
+.appointment-status-pill.status-available {
+    background-color: var(--status-success-bg-color);
+    color: var(--status-success-text-color);
+    border: 1px solid var(--status-success-border-color);
+}
+
+.appointment-status-pill.status-unavailable {
+    background-color: var(--status-danger-bg-color);
+    color: var(--status-danger-text-color);
+    border: 1px solid var(--status-danger-border-color);
+}
+
+.appointment-status-pill.status-occupied {
+    background-color: var(--status-pending-bg-color);
+    color: var(--status-pending-text-color);
+    border: 1px solid var(--status-pending-border-color);
+}
+
+

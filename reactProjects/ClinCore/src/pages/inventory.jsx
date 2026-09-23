@@ -1,108 +1,17 @@
 import { Link } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import TopHeader from "../components/TopHeader";
 
 export default function Inventory() {
   return (
     <>
       <div className="dashboard-wrapper">
-        <div className="side-panel">
-          <div className="logo-div">
-            <Link to="/dashboard" className="logo-brand">
-              <div className="logo-icon">
-                <svg viewBox="0 0 24 24">
-                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                </svg>
-              </div>
-              <span className="logo-text">ClinCore</span>
-            </Link>
-          </div>
-
-          <div className="nav-list">
-            <Link to="/dashboard" className="nav-link">
-              <i className="bi bi-grid-fill"></i>
-              <span>Dashboard</span>
-            </Link>
-
-            <Link to="/appointments" className="nav-link">
-              <i className="bi bi-calendar-check"></i>
-              <span>Appointments</span>
-            </Link>
-
-            <Link to="/patients" className="nav-link">
-              <i className="bi bi-person-wheelchair"></i>
-              <span>Patients</span>
-            </Link>
-
-            <Link to="/doctors" className="nav-link">
-              <i className="bi bi-heart-pulse"></i>
-              <span>Doctors</span>
-            </Link>
-
-            <Link to="/departments" className="nav-link">
-              <i className="bi bi-building"></i>
-              <span>Departments</span>
-            </Link>
-
-            <Link to="/doctors" className="nav-link">
-              <i className="bi bi-calendar-week"></i>
-              <span>Doctors' Schedule</span>
-            </Link>
-
-            <Link to="/payments" className="nav-link">
-              <i className="bi bi-credit-card"></i>
-              <span>Payments</span>
-            </Link>
-
-            <Link to="/inventory" className="nav-link active">
-              <i className="bi bi-box-seam"></i>
-              <span>Inventory</span>
-            </Link>
-
-            <Link to="/messages" className="nav-link">
-              <i className="bi bi-chat-dots"></i>
-              <span>Messages</span>
-              <span className="badge-count">7</span>
-            </Link>
-          </div>
-
-          <div className="bottom-div">
-            <Link to="/" className="nav-link logout-link">
-              <i className="bi bi-box-arrow-right"></i>
-              <span>Logout</span>
-            </Link>
-          </div>
-        </div>
+        <Sidebar />
 
         <div className="content-wrapper">
-          <div className="top-header">
-            <div className="header-title-box">
-              <h1 className="page-main-heading">Inventory</h1>
-            </div>
+          <TopHeader pageTitle="Inventory" />
 
-            <div className="action-div">
-              <button type="button" className="icon-btn" title="Settings">
-                <i className="bi bi-gear"></i>
-              </button>
-
-              <button type="button" className="icon-btn" title="Notifications">
-                <i className="bi bi-bell"></i>
-                <span className="notif-dot"></span>
-              </button>
-
-              <div className="profile-div">
-                <div className="profile-img">
-                  <img 
-                    src="/all-images/body-images/profile-avatar.jpg" 
-                    alt="sultoon abdulraheem" 
-                    onError={(e) => { e.currentTarget.src = '/all-images/body-images/doctor-1.jpg'; }} 
-                  />
-                </div>
-                <span className="profile-name">sultoon abdulraheem</span>
-                <i className="bi bi-chevron-down"></i>
-              </div>
-            </div>
-          </div>
-
-            <div className="main-content" style={{ padding: "24px 32px 40px 32px" }}>
+          <div className="main-content" style={{ padding: "24px 32px 40px 32px" }}>
                 <div class="inventory-toolbar">
                     <div class="inventory-toolbar-left">
                         <div class="filter-pill">
