@@ -29,7 +29,7 @@ export default function ResetPassword() {
             </div>
 
             <div className="alert-success">
-              âœ“ <span className="alert-highlight">ClinCore</span>, an OTP has been sent to your <span
+              Hi <span className="alert-highlight">Sultan</span>, an OTP has been sent to your <span
                 className="alert-highlight">email address</span> to reset your password.
             </div>
 

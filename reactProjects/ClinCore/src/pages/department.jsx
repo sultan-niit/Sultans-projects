@@ -2,6 +2,7 @@ import Sidebar from "../components/Sidebar";
 import TopHeader from "../components/TopHeader";
 import FilterPill from "../components/FilterPill";
 import SearchBar from "../components/SearchBar";
+import ButtonComponents from "../components/ButtonComponents";
 import DepartmentCard from "../components/DepartmentCard";
 import PageFooter from "../components/PageFooter";
 
@@ -12,18 +13,14 @@ export default function Departments() {
       <div className="content-wrapper">
         <TopHeader />
         <div className="main-content">
-          {/* ============================================================ */}
-          {/* TOOLBAR SECTION: Filters, Search & Action Buttons             */}
-          {/* ============================================================ */}
+      
           <div className="patients-toolbar">
             <div className="patients-toolbar-left">
-              {/* FilterPill Component for Date Range */}
               <FilterPill
                 icon="bi-calendar-week"
                 title="1 July - 20 July 2028"
               />
 
-              {/* FilterPill Component for Departments */}
               <FilterPill
                 icon="bi-funnel"
                 title="All Departments"
@@ -47,10 +44,11 @@ export default function Departments() {
                 <i className="bi bi-sliders"></i>
               </button>
 
-              <button type="button" className="btn-add-patient-action">
-                <i className="bi bi-plus-lg"></i>
-                <span>Add Department</span>
-              </button>
+              <ButtonComponents
+                className="btn-add-patient-action"
+                icon="bi-plus-lg"
+                title="Add Department"
+              />
             </div>
           </div>
 
@@ -176,9 +174,7 @@ export default function Departments() {
             />
           </div>
 
-          {/* ============================================================ */}
-          {/* FOOTER SECTION: Copyright & Social Links Component            */}
-          {/* ============================================================ */}
+          
           <PageFooter className="departments-page-footer" />
         </div>
       </div>

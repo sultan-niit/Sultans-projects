@@ -6,7 +6,7 @@ export default function AppointmentsTable({ ...props }) {
                     <table className="appointments-data-table">
                         <thead>
                             <tr>
-                                <th style={{ width: "44px" }}>
+                                <th className="checkbox-col">
                                     <input type="checkbox" className="table-checkbox" />
                                 </th>
                                 <th className="sortable-th">

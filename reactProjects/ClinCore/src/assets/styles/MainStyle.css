@@ -568,10 +568,10 @@
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(15, 23, 42, 0.06);
     border: 1px solid var(--border-light-color);
-    padding: 36px 40px;
+    padding: 28px 36px;
     font-family: sub-title-font;
     box-sizing: border-box;
-    margin-top: 40px;
+    margin-top: 30px;
     animation: authFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -654,8 +654,8 @@
 .login-body .frame .left-panel .card form .form-group .input-wrapper .form-input,
 .login-body .frame .left-panel .card form .form-group .input-wrapper .form-select {
     width: 100%;
-    height: 46px;
-    padding: 0 14px 0 44px;
+    height: 44px;
+    padding: 0 14px;
     border: 1.5px solid var(--border-color);
     border-radius: 10px;
     font-family: sub-title-font;
@@ -665,6 +665,10 @@
     outline: none;
     transition: all ease 0.2s;
     box-sizing: border-box;
+}
+
+.login-body .frame .left-panel .card form .form-group .input-wrapper .input-icon + .form-input {
+    padding-left: 44px;
 }
 
 .login-body .frame .left-panel .card form .form-group .input-wrapper .form-input.has-toggle {
@@ -832,9 +836,34 @@
     box-shadow: 0 2px 8px var(--primary-glow-color);
 }
 
+.login-body .frame .left-panel .card form > a {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+}
+
+.terms-text {
+    font-size: 12px;
+    color: var(--text-muted-color);
+    text-align: center;
+    margin-top: 14px;
+    line-height: 1.4;
+    font-family: sub-title-font;
+}
+
+.terms-text a {
+    color: var(--primary-color-dark);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.terms-text a:hover {
+    text-decoration: underline;
+}
+
 .login-body .frame .left-panel .card form .switch-auth-row {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 18px;
     font-size: 13px;
     color: var(--text-secondary-color);
     font-family: sub-title-font;
@@ -5722,6 +5751,21 @@ input.input-error {
 .payments-footer-socials a:hover {
     color: var(--text-dark-color);
 }
+
+/* Helper Utility Classes */
+.star-rating-icon {
+    color: #f59e0b;
+    margin-right: 4px;
+}
+
+th.checkbox-col {
+    width: 44px;
+}
+
+th.id-col {
+    width: 70px;
+}
+
 
 
 

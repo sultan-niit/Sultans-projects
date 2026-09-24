@@ -6,10 +6,10 @@ export default function RoomsTable({ ...props }) {
                     <table className="appointments-data-table">
                         <thead>
                             <tr>
-                                <th style={{ width: "44px" }}>
+                                <th className="checkbox-col">
                                     <input type="checkbox" className="table-checkbox" />
                                 </th>
-                                <th className="sortable-th" style={{ width: "70px" }}>
+                                <th className="sortable-th id-col">
                                     <span>S/N</span>
                                     <i className="bi bi-arrow-down-up"></i>
                                 </th>

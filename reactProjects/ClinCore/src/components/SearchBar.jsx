@@ -6,6 +6,7 @@ export default function SearchBar({ ...props }) {
                 <i className="bi bi-search"></i>
                 <input
                     type="text"
+                    id={props.id}
                     placeholder={props.placeHolder}
                 />
             </div>

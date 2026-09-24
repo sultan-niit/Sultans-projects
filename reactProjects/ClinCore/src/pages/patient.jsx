@@ -2,6 +2,7 @@ import Sidebar from "../components/Sidebar";
 import TopHeader from "../components/TopHeader";
 import FilterPill from "../components/FilterPill";
 import SearchBar from "../components/SearchBar";
+import ButtonComponents from "../components/ButtonComponents";
 import PatientsTable from "../components/PatientsTable";
 import PageFooter from "../components/PageFooter";
 
@@ -12,9 +13,6 @@ export default function Patients() {
       <div className="content-wrapper">
         <TopHeader />
         <div className="main-content">
-          {/* ============================================================ */}
-          {/* TOOLBAR SECTION: Date/Status Filters, Search & Action Pills   */}
-          {/* ============================================================ */}
           <div className="patients-toolbar">
             <div className="patients-toolbar-left">
               {/* FilterPill Component for Date Range */}
@@ -47,21 +45,16 @@ export default function Patients() {
                 <i className="bi bi-sliders"></i>
               </button>
 
-              <button type="button" className="btn-add-patient-action">
-                <i className="bi bi-plus-lg"></i>
-                <span>Add Patient</span>
-              </button>
+              <ButtonComponents
+                className="btn-add-patient-action"
+                icon="bi-plus-lg"
+                title="Add Patient"
+              />
             </div>
           </div>
 
-          {/* ============================================================ */}
-          {/* TABLE SECTION: Patients Data Table Component                  */}
-          {/* ============================================================ */}
-          <PatientsTable />
-
-          {/* ============================================================ */}
-          {/* FOOTER SECTION: Copyright & Social Links Component            */}
-          {/* ============================================================ */}
+        
+          <PatientsTable /> 
           <PageFooter
             className="patients-page-footer"
             leftClass="patients-footer-left"

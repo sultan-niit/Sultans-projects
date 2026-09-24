@@ -2,6 +2,7 @@ import Sidebar from "../components/Sidebar";
 import TopHeader from "../components/TopHeader";
 import SearchBar from "../components/SearchBar";
 import FilterPill from "../components/FilterPill";
+import ButtonComponents from "../components/ButtonComponents";
 import RoomsTable from "../components/RoomsTable";
 import PageFooter from "../components/PageFooter";
 
@@ -35,10 +36,11 @@ export default function Rooms() {
                 className="appointments-date-pill"
               />
 
-              <button type="button" className="btn-add-appointment-action">
-                <i className="bi bi-plus-lg"></i>
-                <span>Add Room</span>
-              </button>
+              <ButtonComponents
+                className="btn-add-appointment-action"
+                icon="bi-plus-lg"
+                title="Add Room"
+              />
             </div>
           </div>
 

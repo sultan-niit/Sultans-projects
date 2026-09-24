@@ -1,5 +1,6 @@
 import Sidebar from "../components/Sidebar";
 import TopHeader from "../components/TopHeader";
+import ButtonComponents from "../components/ButtonComponents";
 import DoctorsTable from "../components/DoctorsTable";
 import PageFooter from "../components/PageFooter";
 
@@ -9,7 +10,7 @@ export default function Doctors() {
       <Sidebar />
       <div className="content-wrapper">
         <TopHeader />
-        <div className="main-content" style={{ padding: "20px 24px" }}>
+        <div className="main-content">
           {/* ============================================================ */}
           {/* MAIN BODY: Doctors Toolbar, Filters & Action Buttons          */}
           {/* ============================================================ */}
@@ -50,10 +51,12 @@ export default function Doctors() {
                 </select>
               </div>
 
-              <button type="button" className="btn-add-doctor-action" id="openAddDoctorModal">
-                <i className="bi bi-plus-lg"></i>
-                <span>Add Doctor</span>
-              </button>
+              <ButtonComponents
+                id="openAddDoctorModal"
+                className="btn-add-doctor-action"
+                icon="bi-plus-lg"
+                title="Add Doctor"
+              />
             </div>
 
             {/* ============================================================ */}

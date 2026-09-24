@@ -3,6 +3,7 @@ import TopHeader from "../components/TopHeader";
 import TabFilter from "../components/TabFilter";
 import SearchBar from "../components/SearchBar";
 import FilterPill from "../components/FilterPill";
+import ButtonComponents from "../components/ButtonComponents";
 import AppointmentsTable from "../components/AppointmentsTable";
 import PageFooter from "../components/PageFooter";
 
@@ -31,9 +32,10 @@ export default function Appointments() {
                 className="appointments-date-pill"
               />
 
-              <button type="button" className="btn-add-appointment-action">
-                <span>Add Appointment</span>
-              </button>
+              <ButtonComponents
+                className="btn-add-appointment-action"
+                title="Add Appointment"
+              />
             </div>
           </div>
 
