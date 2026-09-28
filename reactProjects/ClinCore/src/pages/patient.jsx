@@ -1,12 +1,17 @@
 import Sidebar from "../components/Sidebar";
 import TopHeader from "../components/TopHeader";
-import FilterPill from "../components/FilterPill";
+import FilterDropdown from "../components/FilterDropdown";
 import SearchBar from "../components/SearchBar";
 import ButtonComponents from "../components/ButtonComponents";
 import PatientsTable from "../components/PatientsTable";
 import PageFooter from "../components/PageFooter";
+import { useModalState } from "../js/components/ModalContext";
+import { FILTER_CONFIGS } from "../js/formSchemas";
 
 export default function Patients() {
+  const { openAddDrawer } = useModalState();
+  const filters = FILTER_CONFIGS.patient;
+
   return (
     <div className="dashboard-wrapper">
       <Sidebar />
@@ -15,22 +20,25 @@ export default function Patients() {
         <div className="main-content">
           <div className="patients-toolbar">
             <div className="patients-toolbar-left">
-              {/* FilterPill Component for Date Range */}
-              <FilterPill
+              {/* FilterDropdown for Date Range */}
+              <FilterDropdown
                 icon="bi-calendar-week"
-                title="1 July - 20 July 2028"
+                label={filters.dateRange.label}
+                options={filters.dateRange.options}
               />
 
-              {/* FilterPill Component for Treatment */}
-              <FilterPill
+              {/* FilterDropdown for Treatment */}
+              <FilterDropdown
                 icon="bi-funnel"
-                title="All Treatment"
+                label={filters.treatment.label}
+                options={filters.treatment.options}
               />
 
-              {/* FilterPill Component for Status */}
-              <FilterPill
+              {/* FilterDropdown for Status */}
+              <FilterDropdown
                 icon="bi-funnel"
-                title="All Status"
+                label={filters.status.label}
+                options={filters.status.options}
               />
             </div>
 
@@ -49,6 +57,7 @@ export default function Patients() {
                 className="btn-add-patient-action"
                 icon="bi-plus-lg"
                 title="Add Patient"
+                onClick={() => openAddDrawer('patient')}
               />
             </div>
           </div>
@@ -65,3 +74,5 @@ export default function Patients() {
     </div>
   );
 }
+
+

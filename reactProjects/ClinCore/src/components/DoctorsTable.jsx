@@ -1,4 +1,22 @@
+import { useModalState } from "../js/components/ModalContext";
+
 export default function DoctorsTable({ ...props }) {
+    const { openProfileModal } = useModalState();
+
+    const handleEditDoctor = (doctorData) => {
+        openProfileModal({
+            fullName: doctorData.name,
+            email: doctorData.email || `${doctorData.name.toLowerCase().replace(/[^a-z]/g, '')}@clincore.com`,
+            position: `${doctorData.dept} - ${doctorData.spec}`,
+            phone: doctorData.phone || '+1 (555) 312-4567',
+            status: doctorData.status,
+            lastLogin: '2026-09-26 10:15 AM',
+            avatar: doctorData.initials || doctorData.name.replace('Dr. ', '').split(' ').map(n => n[0]).join(''),
+            bannerImg: '/all-images/body-images/dept-cardiology.jpg',
+            department: doctorData.dept
+        }, 'doctor');
+    };
+
     return (
         <>
             <div className="doctors-table-container">
@@ -19,7 +37,7 @@ export default function DoctorsTable({ ...props }) {
                         <tr>
                             <td><span className="doctor-id-code">WNH-GM-001</span></td>
                             <td>
-                                <div className="doctor-cell-profile">
+                                <div className="doctor-cell-profile" style={{ cursor: 'pointer' }} onClick={() => handleEditDoctor({ name: 'Dr. Petra Winsburry', dept: 'General Medicine', spec: 'Routine Check-Ups', status: 'Available' })}>
                                     <div className="doctor-cell-avatar">
                                         <img src="all-images/body-images/doctor-1.jpg" alt="Dr. Petra Winsburry" />
                                     </div>
@@ -33,7 +51,7 @@ export default function DoctorsTable({ ...props }) {
                             <td><span className="status-pill-badge available">Available</span></td>
                             <td>
                                 <div className="table-row-actions">
-                                    <button type="button" className="btn-table-action edit" title="Edit Doctor"><i className="bi bi-pencil-square"></i></button>
+                                    <button type="button" className="btn-table-action edit" title="Edit Doctor" onClick={() => handleEditDoctor({ name: 'Dr. Petra Winsburry', dept: 'General Medicine', spec: 'Routine Check-Ups', status: 'Available' })}><i className="bi bi-pencil-square"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -55,7 +73,7 @@ export default function DoctorsTable({ ...props }) {
                             <td><span className="status-pill-badge unavailable">Unavailable</span></td>
                             <td>
                                 <div className="table-row-actions">
-                                    <button type="button" className="btn-table-action edit" title="Edit Doctor"><i className="bi bi-pencil-square"></i></button>
+                                    <button type="button" className="btn-table-action edit" title="Edit Doctor" onClick={() => handleEditDoctor({ name: 'Dr. Medical Specialist', dept: 'General Care', spec: 'Specialist', status: 'Active' })}><i className="bi bi-pencil-square"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -77,7 +95,7 @@ export default function DoctorsTable({ ...props }) {
                             <td><span className="status-pill-badge available">Available</span></td>
                             <td>
                                 <div className="table-row-actions">
-                                    <button type="button" className="btn-table-action edit" title="Edit Doctor"><i className="bi bi-pencil-square"></i></button>
+                                    <button type="button" className="btn-table-action edit" title="Edit Doctor" onClick={() => handleEditDoctor({ name: 'Dr. Medical Specialist', dept: 'General Care', spec: 'Specialist', status: 'Active' })}><i className="bi bi-pencil-square"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -99,7 +117,7 @@ export default function DoctorsTable({ ...props }) {
                             <td><span className="status-pill-badge available">Available</span></td>
                             <td>
                                 <div className="table-row-actions">
-                                    <button type="button" className="btn-table-action edit" title="Edit Doctor"><i className="bi bi-pencil-square"></i></button>
+                                    <button type="button" className="btn-table-action edit" title="Edit Doctor" onClick={() => handleEditDoctor({ name: 'Dr. Medical Specialist', dept: 'General Care', spec: 'Specialist', status: 'Active' })}><i className="bi bi-pencil-square"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -121,7 +139,7 @@ export default function DoctorsTable({ ...props }) {
                             <td><span className="status-pill-badge available">Available</span></td>
                             <td>
                                 <div className="table-row-actions">
-                                    <button type="button" className="btn-table-action edit" title="Edit Doctor"><i className="bi bi-pencil-square"></i></button>
+                                    <button type="button" className="btn-table-action edit" title="Edit Doctor" onClick={() => handleEditDoctor({ name: 'Dr. Medical Specialist', dept: 'General Care', spec: 'Specialist', status: 'Active' })}><i className="bi bi-pencil-square"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -143,7 +161,7 @@ export default function DoctorsTable({ ...props }) {
                             <td><span className="status-pill-badge available">Available</span></td>
                             <td>
                                 <div className="table-row-actions">
-                                    <button type="button" className="btn-table-action edit" title="Edit Doctor"><i className="bi bi-pencil-square"></i></button>
+                                    <button type="button" className="btn-table-action edit" title="Edit Doctor" onClick={() => handleEditDoctor({ name: 'Dr. Medical Specialist', dept: 'General Care', spec: 'Specialist', status: 'Active' })}><i className="bi bi-pencil-square"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -165,7 +183,7 @@ export default function DoctorsTable({ ...props }) {
                             <td><span className="status-pill-badge available">Available</span></td>
                             <td>
                                 <div className="table-row-actions">
-                                    <button type="button" className="btn-table-action edit" title="Edit Doctor"><i className="bi bi-pencil-square"></i></button>
+                                    <button type="button" className="btn-table-action edit" title="Edit Doctor" onClick={() => handleEditDoctor({ name: 'Dr. Medical Specialist', dept: 'General Care', spec: 'Specialist', status: 'Active' })}><i className="bi bi-pencil-square"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -187,7 +205,7 @@ export default function DoctorsTable({ ...props }) {
                             <td><span className="status-pill-badge available">Available</span></td>
                             <td>
                                 <div className="table-row-actions">
-                                    <button type="button" className="btn-table-action edit" title="Edit Doctor"><i className="bi bi-pencil-square"></i></button>
+                                    <button type="button" className="btn-table-action edit" title="Edit Doctor" onClick={() => handleEditDoctor({ name: 'Dr. Medical Specialist', dept: 'General Care', spec: 'Specialist', status: 'Active' })}><i className="bi bi-pencil-square"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -209,7 +227,7 @@ export default function DoctorsTable({ ...props }) {
                             <td><span className="status-pill-badge unavailable">Unavailable</span></td>
                             <td>
                                 <div className="table-row-actions">
-                                    <button type="button" className="btn-table-action edit" title="Edit Doctor"><i className="bi bi-pencil-square"></i></button>
+                                    <button type="button" className="btn-table-action edit" title="Edit Doctor" onClick={() => handleEditDoctor({ name: 'Dr. Medical Specialist', dept: 'General Care', spec: 'Specialist', status: 'Active' })}><i className="bi bi-pencil-square"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -231,7 +249,7 @@ export default function DoctorsTable({ ...props }) {
                             <td><span className="status-pill-badge available">Available</span></td>
                             <td>
                                 <div className="table-row-actions">
-                                    <button type="button" className="btn-table-action edit" title="Edit Doctor"><i className="bi bi-pencil-square"></i></button>
+                                    <button type="button" className="btn-table-action edit" title="Edit Doctor" onClick={() => handleEditDoctor({ name: 'Dr. Medical Specialist', dept: 'General Care', spec: 'Specialist', status: 'Active' })}><i className="bi bi-pencil-square"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -253,7 +271,7 @@ export default function DoctorsTable({ ...props }) {
                             <td><span className="status-pill-badge available">Available</span></td>
                             <td>
                                 <div className="table-row-actions">
-                                    <button type="button" className="btn-table-action edit" title="Edit Doctor"><i className="bi bi-pencil-square"></i></button>
+                                    <button type="button" className="btn-table-action edit" title="Edit Doctor" onClick={() => handleEditDoctor({ name: 'Dr. Medical Specialist', dept: 'General Care', spec: 'Specialist', status: 'Active' })}><i className="bi bi-pencil-square"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -311,4 +329,6 @@ export default function DoctorsTable({ ...props }) {
         </>
     );
 }
+
+
 

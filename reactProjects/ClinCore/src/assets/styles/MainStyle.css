@@ -2899,9 +2899,9 @@ input.input-error {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 12px;
     margin-bottom: 24px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .dashboard-wrapper .content-wrapper .main-content .appointments-filter-tabs,
@@ -2913,6 +2913,7 @@ input.input-error {
     border-radius: 100px;
     padding: 4px;
     gap: 4px;
+    flex-shrink: 0;
 }
 
 .dashboard-wrapper .content-wrapper .main-content .appointments-filter-tabs .tab-filter-btn,
@@ -2954,8 +2955,10 @@ input.input-error {
 .appointments-actions-right {
     display: flex;
     align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
+    gap: 10px;
+    flex-wrap: nowrap;
+    flex-shrink: 1;
+    min-width: 0;
 }
 
 .dashboard-wrapper .content-wrapper .main-content .appointments-search-bar,
@@ -2967,7 +2970,9 @@ input.input-error {
     border-radius: 100px;
     padding: 0 16px;
     height: 42px;
-    width: 280px;
+    width: 220px;
+    min-width: 160px;
+    flex-shrink: 1;
     gap: 10px;
     transition: all ease 0.2s;
     -webkit-transition: all ease 0.2s;

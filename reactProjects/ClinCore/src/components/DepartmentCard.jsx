@@ -1,7 +1,21 @@
+import { useModalState } from "../js/components/ModalContext";
+
 export default function DepartmentCard({ ...props }) {
+    const { openEditDrawer } = useModalState();
     const isInactive = props.status === "Inactive" || props.inactive;
     const statusClass = isInactive ? "dept-status dept-status-inactive" : "dept-status dept-status-active";
     const statusText = props.status || (isInactive ? "Inactive" : "Active");
+
+    const handleSeeDetail = (e) => {
+        e.preventDefault();
+        openEditDrawer({
+            title: props.title || "General Medicine",
+            deptHead: props.deptHead || "Dr. Medical Director",
+            status: statusText,
+            staffCount: parseInt((props.staffCount || "15").replace(/[^0-9]/g, '')) || 15,
+            desc: props.desc || ""
+        }, 'department');
+    };
 
     return (
         <>
@@ -28,10 +42,19 @@ export default function DepartmentCard({ ...props }) {
                             </div>
                             <span className="staff-count">{props.staffCount || "+ 15 others"}</span>
                         </div>
-                        <a href="#" className="btn-see-detail">See Detail</a>
+                        <button 
+                            type="button" 
+                            className="btn-see-detail" 
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', font: 'inherit' }}
+                            onClick={handleSeeDetail}
+                        >
+                            See Detail
+                        </button>
                     </div>
                 </div>
             </div>
         </>
     );
 }
+
+

@@ -1,4 +1,21 @@
+import { useModalState } from "../js/components/ModalContext";
+
 export default function PatientsTable({ ...props }) {
+    const { openProfileModal } = useModalState();
+
+    const handlePatientClick = (patientName, treatment, doctor, room, status) => {
+        openProfileModal({
+            fullName: patientName,
+            email: `${patientName.toLowerCase().replace(/[^a-z]/g, '')}@gmail.com`,
+            position: `Treatment: ${treatment}`,
+            phone: '080 3123 4567',
+            status: status || 'Active',
+            lastLogin: '2026-09-26 09:30 AM',
+            avatar: patientName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase(),
+            bannerImg: '/all-images/body-images/dept-pediatrics.jpg',
+        }, 'patient');
+    };
+
     return (
         <>
             <div className="patients-main-card">
@@ -44,7 +61,7 @@ export default function PatientsTable({ ...props }) {
                             <tr>
                                 <td><span className="patient-id-txt">301</span></td>
                                 <td>
-                                    <div className="patient-profile-cell">
+                                    <div className="patient-profile-cell" style={{ cursor: 'pointer' }} onClick={() => handlePatientClick('Caren G. Simpson', 'Routine Check-Up', 'Dr. Petra Winsburry', '-', 'Active')}>
                                         <div className="patient-cell-avatar">
                                             <img src="all-images/body-images/patient-1.jpg" alt="Caren G. Simpson" />
                                         </div>
@@ -289,4 +306,6 @@ export default function PatientsTable({ ...props }) {
         </>
     );
 }
+
+
 

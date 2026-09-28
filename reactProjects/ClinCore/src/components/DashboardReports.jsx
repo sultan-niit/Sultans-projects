@@ -1,6 +1,8 @@
 export default function DashboardReports() {
+
     return (
-        <div className="details-card">
+
+<div className="details-card">
             <div className="card-header">
                 <h2>Report</h2>
                 <button type="button" className="card-menu">

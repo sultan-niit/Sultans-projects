@@ -2,11 +2,17 @@ import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import TopHeader from "../components/TopHeader";
 import SearchBar from "../components/SearchBar";
+import FilterDropdown from "../components/FilterDropdown";
 import ButtonComponents from "../components/ButtonComponents";
 import PaymentsTable from "../components/PaymentsTable";
 import PageFooter from "../components/PageFooter";
+import { useModalState } from "../js/components/ModalContext";
+import { FILTER_CONFIGS } from "../js/formSchemas";
 
 export default function Payments() {
+  const { openAddDrawer } = useModalState();
+  const paymentFilters = FILTER_CONFIGS.payment;
+
   return (
     <>
       <div className="dashboard-wrapper">
@@ -83,26 +89,27 @@ export default function Payments() {
                 </div>
 
                 <div className="payments-toolbar">
-                    <div className="payments-toolbar-left">
+                    <div className="payments-toolbar-left" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                         <SearchBar className="payments-search-bar" placeHolder="Search name, treatment, etc" />
 
-                        <div className="payment-filter-pill">
-                            <i className="bi bi-calendar-week"></i>
-                            <span>1 - 20 July 2028</span>
-                            <i className="bi bi-chevron-down"></i>
-                        </div>
+                        <FilterDropdown
+                            icon={paymentFilters.dateRange.icon}
+                            label={paymentFilters.dateRange.label}
+                            options={paymentFilters.dateRange.options}
+                        />
 
-                        <div className="payment-filter-pill">
-                            <i className="bi bi-funnel"></i>
-                            <span>Status</span>
-                            <i className="bi bi-chevron-down"></i>
-                        </div>
+                        <FilterDropdown
+                            icon={paymentFilters.status.icon}
+                            label={paymentFilters.status.label}
+                            options={paymentFilters.status.options}
+                        />
                     </div>
 
                     <ButtonComponents
                         className="btn-add-invoice-action"
                         icon="bi-plus-lg"
                         title="Add Invoice"
+                        onClick={() => openAddDrawer('payment')}
                     />
                 </div>
 
@@ -119,3 +126,5 @@ export default function Payments() {
     </>
   );
 }
+
+

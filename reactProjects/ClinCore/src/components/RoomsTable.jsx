@@ -1,4 +1,21 @@
+import { useModalState } from "../js/components/ModalContext";
+
 export default function RoomsTable({ ...props }) {
+    const { openEditDrawer } = useModalState();
+
+    const rooms = [
+        { id: 1, sn: 'RM-101', name: 'Deluxe General Ward A',       capacity: 'Single', status: 'Available',   statusClass: 'status-available',   data: { roomName: 'Deluxe General Ward A (RM-101)',         roomType: 'Single Ward',   capacity: 1, dailyRate: '120.00', status: 'Available' } },
+        { id: 2, sn: 'RM-102', name: 'Cardiology ICU Room 1',        capacity: 'Single', status: 'Occupied',    statusClass: 'status-occupied',    data: { roomName: 'Cardiology ICU Room 1 (RM-102)',         roomType: 'ICU',           capacity: 1, dailyRate: '450.00', status: 'Occupied' } },
+        { id: 3, sn: 'RM-103', name: 'Pediatrics Care Suite',        capacity: 'Double', status: 'Available',   statusClass: 'status-available',   data: { roomName: 'Pediatrics Care Suite (RM-103)',         roomType: 'Double Ward',   capacity: 2, dailyRate: '180.00', status: 'Available' } },
+        { id: 4, sn: 'RM-104', name: 'Post-Op Recovery Ward B',      capacity: 'Double', status: 'Occupied',    statusClass: 'status-occupied',    data: { roomName: 'Post-Op Recovery Ward B (RM-104)',       roomType: 'Double Ward',   capacity: 2, dailyRate: '200.00', status: 'Occupied' } },
+        { id: 5, sn: 'RM-105', name: 'Orthopedic Rehabilitation Unit', capacity: 'Single', status: 'Unavailable', statusClass: 'status-unavailable', data: { roomName: 'Orthopedic Rehabilitation Unit (RM-105)', roomType: 'Single Ward', capacity: 1, dailyRate: '160.00', status: 'Unavailable (Maintenance)' } },
+        { id: 6, sn: 'RM-106', name: 'Neurology Observation Room',   capacity: 'Single', status: 'Available',   statusClass: 'status-available',   data: { roomName: 'Neurology Observation Room (RM-106)',    roomType: 'Single Ward',   capacity: 1, dailyRate: '175.00', status: 'Available' } },
+        { id: 7, sn: 'RM-107', name: 'Maternity & Infant Suite',     capacity: 'Double', status: 'Occupied',    statusClass: 'status-occupied',    data: { roomName: 'Maternity & Infant Suite (RM-107)',      roomType: 'VIP Suite',     capacity: 2, dailyRate: '320.00', status: 'Occupied' } },
+        { id: 8, sn: 'RM-108', name: 'Emergency Isolation Room',     capacity: 'Single', status: 'Unavailable', statusClass: 'status-unavailable', data: { roomName: 'Emergency Isolation Room (RM-108)',      roomType: 'Emergency Bed', capacity: 1, dailyRate: '350.00', status: 'Unavailable (Maintenance)' } },
+        { id: 9, sn: 'RM-201', name: 'General Patient Room 201',     capacity: 'Double', status: 'Available',   statusClass: 'status-available',   data: { roomName: 'General Patient Room 201 (RM-201)',      roomType: 'Double Ward',   capacity: 2, dailyRate: '140.00', status: 'Available' } },
+        { id: 10, sn: 'RM-202', name: 'VIP Executive Recovery Suite', capacity: 'Single', status: 'Available',  statusClass: 'status-available',   data: { roomName: 'VIP Executive Recovery Suite (RM-202)', roomType: 'VIP Suite',     capacity: 1, dailyRate: '500.00', status: 'Available' } },
+    ];
+
     return (
         <>
             <div className="appointments-main-card">
@@ -29,275 +46,41 @@ export default function RoomsTable({ ...props }) {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" className="table-checkbox" />
-                                </td>
-                                <td>
-                                    <span className="room-name-txt">1</span>
-                                </td>
-                                <td>
-                                    <div className="room-cell-info">
-                                        <span className="room-name-txt">Deluxe General Ward A</span>
-                                        <span className="room-id-txt">RM-101</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span className="room-capacity-badge">Single</span>
-                                </td>
-                                <td>
-                                    <span className="appointment-status-pill status-available">Available</span>
-                                </td>
-                                <td>
-                                    <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Manage</button>
-                                        <button type="button" className="btn-action-cancel">Edit</button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <input type="checkbox" className="table-checkbox" />
-                                </td>
-                                <td>
-                                    <span className="room-name-txt">2</span>
-                                </td>
-                                <td>
-                                    <div className="room-cell-info">
-                                        <span className="room-name-txt">Cardiology ICU Room 1</span>
-                                        <span className="room-id-txt">RM-102</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span className="room-capacity-badge">Single</span>
-                                </td>
-                                <td>
-                                    <span className="appointment-status-pill status-occupied">Occupied</span>
-                                </td>
-                                <td>
-                                    <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Manage</button>
-                                        <button type="button" className="btn-action-cancel">Edit</button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <input type="checkbox" className="table-checkbox" />
-                                </td>
-                                <td>
-                                    <span className="room-name-txt">3</span>
-                                </td>
-                                <td>
-                                    <div className="room-cell-info">
-                                        <span className="room-name-txt">Pediatrics Care Suite</span>
-                                        <span className="room-id-txt">RM-103</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span className="room-capacity-badge">Double</span>
-                                </td>
-                                <td>
-                                    <span className="appointment-status-pill status-available">Available</span>
-                                </td>
-                                <td>
-                                    <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Manage</button>
-                                        <button type="button" className="btn-action-cancel">Edit</button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <input type="checkbox" className="table-checkbox" />
-                                </td>
-                                <td>
-                                    <span className="room-name-txt">4</span>
-                                </td>
-                                <td>
-                                    <div className="room-cell-info">
-                                        <span className="room-name-txt">Post-Op Recovery Ward B</span>
-                                        <span className="room-id-txt">RM-104</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span className="room-capacity-badge">Double</span>
-                                </td>
-                                <td>
-                                    <span className="appointment-status-pill status-occupied">Occupied</span>
-                                </td>
-                                <td>
-                                    <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Manage</button>
-                                        <button type="button" className="btn-action-cancel">Edit</button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <input type="checkbox" className="table-checkbox" />
-                                </td>
-                                <td>
-                                    <span className="room-name-txt">5</span>
-                                </td>
-                                <td>
-                                    <div className="room-cell-info">
-                                        <span className="room-name-txt">Orthopedic Rehabilitation Unit</span>
-                                        <span className="room-id-txt">RM-105</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span className="room-capacity-badge">Single</span>
-                                </td>
-                                <td>
-                                    <span className="appointment-status-pill status-unavailable">Unavailable</span>
-                                </td>
-                                <td>
-                                    <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Manage</button>
-                                        <button type="button" className="btn-action-cancel">Edit</button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <input type="checkbox" className="table-checkbox" />
-                                </td>
-                                <td>
-                                    <span className="room-name-txt">6</span>
-                                </td>
-                                <td>
-                                    <div className="room-cell-info">
-                                        <span className="room-name-txt">Neurology Observation Room</span>
-                                        <span className="room-id-txt">RM-106</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span className="room-capacity-badge">Single</span>
-                                </td>
-                                <td>
-                                    <span className="appointment-status-pill status-available">Available</span>
-                                </td>
-                                <td>
-                                    <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Manage</button>
-                                        <button type="button" className="btn-action-cancel">Edit</button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <input type="checkbox" className="table-checkbox" />
-                                </td>
-                                <td>
-                                    <span className="room-name-txt">7</span>
-                                </td>
-                                <td>
-                                    <div className="room-cell-info">
-                                        <span className="room-name-txt">Maternity & Infant Suite</span>
-                                        <span className="room-id-txt">RM-107</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span className="room-capacity-badge">Double</span>
-                                </td>
-                                <td>
-                                    <span className="appointment-status-pill status-occupied">Occupied</span>
-                                </td>
-                                <td>
-                                    <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Manage</button>
-                                        <button type="button" className="btn-action-cancel">Edit</button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <input type="checkbox" className="table-checkbox" />
-                                </td>
-                                <td>
-                                    <span className="room-name-txt">8</span>
-                                </td>
-                                <td>
-                                    <div className="room-cell-info">
-                                        <span className="room-name-txt">Emergency Isolation Room</span>
-                                        <span className="room-id-txt">RM-108</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span className="room-capacity-badge">Single</span>
-                                </td>
-                                <td>
-                                    <span className="appointment-status-pill status-unavailable">Unavailable</span>
-                                </td>
-                                <td>
-                                    <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Manage</button>
-                                        <button type="button" className="btn-action-cancel">Edit</button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <input type="checkbox" className="table-checkbox" />
-                                </td>
-                                <td>
-                                    <span className="room-name-txt">9</span>
-                                </td>
-                                <td>
-                                    <div className="room-cell-info">
-                                        <span className="room-name-txt">General Patient Room 201</span>
-                                        <span className="room-id-txt">RM-201</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span className="room-capacity-badge">Double</span>
-                                </td>
-                                <td>
-                                    <span className="appointment-status-pill status-available">Available</span>
-                                </td>
-                                <td>
-                                    <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Manage</button>
-                                        <button type="button" className="btn-action-cancel">Edit</button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <input type="checkbox" className="table-checkbox" />
-                                </td>
-                                <td>
-                                    <span className="room-name-txt">10</span>
-                                </td>
-                                <td>
-                                    <div className="room-cell-info">
-                                        <span className="room-name-txt">VIP Executive Recovery Suite</span>
-                                        <span className="room-id-txt">RM-202</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span className="room-capacity-badge">Single</span>
-                                </td>
-                                <td>
-                                    <span className="appointment-status-pill status-available">Available</span>
-                                </td>
-                                <td>
-                                    <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Manage</button>
-                                        <button type="button" className="btn-action-cancel">Edit</button>
-                                    </div>
-                                </td>
-                            </tr>
+                            {rooms.map((room) => (
+                                <tr key={room.id}>
+                                    <td>
+                                        <input type="checkbox" className="table-checkbox" />
+                                    </td>
+                                    <td>
+                                        <span className="room-name-txt">{room.id}</span>
+                                    </td>
+                                    <td>
+                                        <div className="room-cell-info">
+                                            <span className="room-name-txt">{room.name}</span>
+                                            <span className="room-id-txt">{room.sn}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span className="room-capacity-badge">{room.capacity}</span>
+                                    </td>
+                                    <td>
+                                        <span className={`appointment-status-pill ${room.statusClass}`}>{room.status}</span>
+                                    </td>
+                                    <td>
+                                        <div className="appointment-row-actions">
+                                            <button
+                                                type="button"
+                                                className="btn-action-reschedule"
+                                                onClick={() => openEditDrawer(room.data, 'room')}
+                                                title="Edit Room"
+                                            >
+                                                <i className="bi bi-pencil-square"></i>
+                                                Edit
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
@@ -331,3 +114,5 @@ export default function RoomsTable({ ...props }) {
         </>
     );
 }
+
+

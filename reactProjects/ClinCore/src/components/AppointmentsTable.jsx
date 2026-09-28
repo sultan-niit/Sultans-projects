@@ -1,4 +1,20 @@
+import { useModalState } from "../js/components/ModalContext";
+
 export default function AppointmentsTable({ ...props }) {
+    const { openEditDrawer } = useModalState();
+
+    const handleEditAppointment = (apptData) => {
+        openEditDrawer({
+            patientName: apptData.patientName,
+            doctor: apptData.doctor,
+            department: apptData.department || 'General Medicine',
+            treatment: apptData.treatment,
+            date: apptData.date || '2028-07-20',
+            time: apptData.time || '09:00',
+            status: apptData.status
+        }, 'appointment');
+    };
+
     return (
         <>
             <div className="appointments-main-card">
@@ -53,8 +69,8 @@ export default function AppointmentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Reschedule</button>
-                                        <button type="button" className="btn-action-cancel">Cancel</button>
+                                        <button type="button" className="btn-action-reschedule" onClick={() => handleEditAppointment({ patientName: 'Caren G. Simpson', doctor: 'Dr. Petra Winsburry', department: 'General Medicine', treatment: 'Routine Check-Up', status: 'Confirmed' })}>Reschedule</button>
+                                        <button type="button" className="btn-action-cancel" onClick={() => handleEditAppointment({ patientName: 'Caren G. Simpson', doctor: 'Dr. Petra Winsburry', department: 'General Medicine', treatment: 'Routine Check-Up', status: 'Cancelled' })}>Cancel</button>
                                     </div>
                                 </td>
                             </tr>
@@ -75,8 +91,8 @@ export default function AppointmentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Reschedule</button>
-                                        <button type="button" className="btn-action-cancel">Cancel</button>
+                                        <button type="button" className="btn-action-reschedule" onClick={() => handleEditAppointment({ patientName: 'Edgar Warrow', doctor: 'Dr. Petra Winsburry', department: 'General Medicine', treatment: 'Teeth Check-Up', status: 'Confirmed' })}>Reschedule</button>
+                                        <button type="button" className="btn-action-cancel" onClick={() => handleEditAppointment({ patientName: 'Edgar Warrow', doctor: 'Dr. Petra Winsburry', department: 'General Medicine', treatment: 'Teeth Check-Up', status: 'Cancelled' })}>Cancel</button>
                                     </div>
                                 </td>
                             </tr>
@@ -97,8 +113,8 @@ export default function AppointmentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Reschedule</button>
-                                        <button type="button" className="btn-action-cancel">Cancel</button>
+                                        <button type="button" className="btn-action-reschedule" onClick={() => handleEditAppointment({ patientName: 'Eleanor Fitz', doctor: 'Dr. Liam Henderson', department: 'Cardiology', treatment: 'Cardiology Consult', status: 'Pending' })}>Reschedule</button>
+                                        <button type="button" className="btn-action-cancel" onClick={() => handleEditAppointment({ patientName: 'Eleanor Fitz', doctor: 'Dr. Liam Henderson', department: 'Cardiology', treatment: 'Cardiology Consult', status: 'Cancelled' })}>Cancel</button>
                                     </div>
                                 </td>
                             </tr>
@@ -119,8 +135,8 @@ export default function AppointmentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Reschedule</button>
-                                        <button type="button" className="btn-action-cancel">Cancel</button>
+                                        <button type="button" className="btn-action-reschedule" onClick={() => handleEditAppointment({ patientName: 'Jonathan Hayes', doctor: 'Dr. Sophia Ramirez', department: 'Pediatrics', treatment: 'Pediatric Follow-up', status: 'Confirmed' })}>Reschedule</button>
+                                        <button type="button" className="btn-action-cancel" onClick={() => handleEditAppointment({ patientName: 'Jonathan Hayes', doctor: 'Dr. Sophia Ramirez', department: 'Pediatrics', treatment: 'Pediatric Follow-up', status: 'Cancelled' })}>Cancel</button>
                                     </div>
                                 </td>
                             </tr>
@@ -141,8 +157,8 @@ export default function AppointmentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Reschedule</button>
-                                        <button type="button" className="btn-action-cancel">Cancel</button>
+                                        <button type="button" className="btn-action-reschedule" onClick={() => handleEditAppointment({ patientName: 'Marcus Vance', doctor: 'Dr. Michael Chen', department: 'Orthopedics', treatment: 'Orthopedic Assessment', status: 'Cancelled' })}>Reschedule</button>
+                                        <button type="button" className="btn-action-cancel" onClick={() => handleEditAppointment({ patientName: 'Marcus Vance', doctor: 'Dr. Michael Chen', department: 'Orthopedics', treatment: 'Orthopedic Assessment', status: 'Cancelled' })}>Cancel</button>
                                     </div>
                                 </td>
                             </tr>
@@ -163,8 +179,8 @@ export default function AppointmentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Reschedule</button>
-                                        <button type="button" className="btn-action-cancel">Cancel</button>
+                                        <button type="button" className="btn-action-reschedule" onClick={() => handleEditAppointment({ patientName: 'Ocean Jane Lupre', doctor: 'Dr. Damian Sanchez', department: 'Pediatrics', treatment: 'Pediatric Check-Up', status: 'Confirmed' })}>Reschedule</button>
+                                        <button type="button" className="btn-action-cancel" onClick={() => handleEditAppointment({ patientName: 'Ocean Jane Lupre', doctor: 'Dr. Damian Sanchez', department: 'Pediatrics', treatment: 'Pediatric Check-Up', status: 'Cancelled' })}>Cancel</button>
                                     </div>
                                 </td>
                             </tr>
@@ -185,8 +201,8 @@ export default function AppointmentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Reschedule</button>
-                                        <button type="button" className="btn-action-cancel">Cancel</button>
+                                        <button type="button" className="btn-action-reschedule" onClick={() => handleEditAppointment({ patientName: 'Shane Riddick', doctor: 'Dr. Chloe Harrington', department: 'Dermatology', treatment: 'Skin Allergy Consult', status: 'Pending' })}>Reschedule</button>
+                                        <button type="button" className="btn-action-cancel" onClick={() => handleEditAppointment({ patientName: 'Shane Riddick', doctor: 'Dr. Chloe Harrington', department: 'Dermatology', treatment: 'Skin Allergy Consult', status: 'Cancelled' })}>Cancel</button>
                                     </div>
                                 </td>
                             </tr>
@@ -207,8 +223,8 @@ export default function AppointmentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Reschedule</button>
-                                        <button type="button" className="btn-action-cancel">Cancel</button>
+                                        <button type="button" className="btn-action-reschedule" onClick={() => handleEditAppointment({ patientName: 'Queen Lawnston', doctor: 'Dr. Petra Winsburry', department: 'General Medicine', treatment: 'Follow-Up Visit', status: 'Confirmed' })}>Reschedule</button>
+                                        <button type="button" className="btn-action-cancel" onClick={() => handleEditAppointment({ patientName: 'Queen Lawnston', doctor: 'Dr. Petra Winsburry', department: 'General Medicine', treatment: 'Follow-Up Visit', status: 'Cancelled' })}>Cancel</button>
                                     </div>
                                 </td>
                             </tr>
@@ -229,8 +245,8 @@ export default function AppointmentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Reschedule</button>
-                                        <button type="button" className="btn-action-cancel">Cancel</button>
+                                        <button type="button" className="btn-action-reschedule" onClick={() => handleEditAppointment({ patientName: 'Sarah Connor', doctor: 'Dr. Sophia Ramirez', department: 'General Care', treatment: 'Dental Surgery Follow-up', status: 'Confirmed' })}>Reschedule</button>
+                                        <button type="button" className="btn-action-cancel" onClick={() => handleEditAppointment({ patientName: 'Sarah Connor', doctor: 'Dr. Sophia Ramirez', department: 'General Care', treatment: 'Dental Surgery Follow-up', status: 'Cancelled' })}>Cancel</button>
                                     </div>
                                 </td>
                             </tr>
@@ -251,8 +267,8 @@ export default function AppointmentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="appointment-row-actions">
-                                        <button type="button" className="btn-action-reschedule">Reschedule</button>
-                                        <button type="button" className="btn-action-cancel">Cancel</button>
+                                        <button type="button" className="btn-action-reschedule" onClick={() => handleEditAppointment({ patientName: 'Lucas Miller', doctor: 'Dr. Lucas Ross', department: 'Ophthalmology', treatment: 'Eye Surgery Consult', status: 'Confirmed' })}>Reschedule</button>
+                                        <button type="button" className="btn-action-cancel" onClick={() => handleEditAppointment({ patientName: 'Lucas Miller', doctor: 'Dr. Lucas Ross', department: 'Ophthalmology', treatment: 'Eye Surgery Consult', status: 'Cancelled' })}>Cancel</button>
                                     </div>
                                 </td>
                             </tr>
@@ -289,3 +305,5 @@ export default function AppointmentsTable({ ...props }) {
         </>
     );
 }
+
+

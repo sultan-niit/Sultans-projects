@@ -1,4 +1,21 @@
+import { useModalState } from "../js/components/ModalContext";
+
 export default function TopHeader({ ...props }) {
+    const { openProfileModal } = useModalState();
+
+    const handleProfileClick = () => {
+        openProfileModal({
+            fullName: 'Sultoon Abdulraheem',
+            email: 'sultoon.abdulraheem@clincore.com',
+            position: 'Chief Medical Administrator',
+            phone: '080 3123 4567',
+            status: 'Active',
+            lastLogin: '2026-09-26 12:40 PM',
+            avatar: 'SA',
+            department: 'Medical Administration'
+        }, 'staff');
+    };
+
     return (
         <>
             <div className="top-header">
@@ -19,9 +36,8 @@ export default function TopHeader({ ...props }) {
                         <span className="notif-dot"></span>
                     </button>
 
-                    <div className="profile-div">
+                    <div className="profile-div" onClick={handleProfileClick} style={{ cursor: 'pointer' }}>
                         <div className="profile-img">
-                            {/* Profile avatar — update src path to match your actual image */}
                             <img src="/all-images/body-images/profile-avatar.jpg" alt="sultoon abdulraheem" />
                         </div>
                         <span className="profile-name">sultoon abdulraheem</span>
@@ -32,3 +48,6 @@ export default function TopHeader({ ...props }) {
         </>
     );
 }
+
+
+

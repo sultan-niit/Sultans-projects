@@ -1,12 +1,17 @@
 import Sidebar from "../components/Sidebar";
 import TopHeader from "../components/TopHeader";
 import SearchBar from "../components/SearchBar";
-import FilterPill from "../components/FilterPill";
+import FilterDropdown from "../components/FilterDropdown";
 import ButtonComponents from "../components/ButtonComponents";
 import RoomsTable from "../components/RoomsTable";
 import PageFooter from "../components/PageFooter";
+import { useModalState } from "../js/components/ModalContext";
+import { FILTER_CONFIGS } from "../js/formSchemas";
 
 export default function Rooms() {
+  const { openAddDrawer } = useModalState();
+  const roomFilters = FILTER_CONFIGS.room;
+
   return (
     <div className="dashboard-wrapper">
       <Sidebar />
@@ -29,10 +34,11 @@ export default function Rooms() {
               {/* SearchBar UI Component */}
               <SearchBar placeHolder="Search room name, ID, type..." />
 
-              {/* FilterPill Component for Capacity */}
-              <FilterPill
-                icon="bi-funnel"
-                title="All Capacity"
+              {/* FilterDropdown Component for Capacity */}
+              <FilterDropdown
+                icon={roomFilters.capacity.icon}
+                label={roomFilters.capacity.label}
+                options={roomFilters.capacity.options}
                 className="appointments-date-pill"
               />
 
@@ -40,6 +46,7 @@ export default function Rooms() {
                 className="btn-add-appointment-action"
                 icon="bi-plus-lg"
                 title="Add Room"
+                onClick={() => openAddDrawer('room')}
               />
             </div>
           </div>
@@ -58,3 +65,5 @@ export default function Rooms() {
     </div>
   );
 }
+
+

@@ -2,12 +2,17 @@ import Sidebar from "../components/Sidebar";
 import TopHeader from "../components/TopHeader";
 import TabFilter from "../components/TabFilter";
 import SearchBar from "../components/SearchBar";
-import FilterPill from "../components/FilterPill";
+import FilterDropdown from "../components/FilterDropdown";
 import ButtonComponents from "../components/ButtonComponents";
 import AppointmentsTable from "../components/AppointmentsTable";
 import PageFooter from "../components/PageFooter";
+import { useModalState } from "../js/components/ModalContext";
+import { FILTER_CONFIGS } from "../js/formSchemas";
 
 export default function Appointments() {
+  const { openAddDrawer } = useModalState();
+  const appointmentFilters = FILTER_CONFIGS.appointment;
+
   return (
     <div className="dashboard-wrapper">
       <Sidebar />
@@ -25,16 +30,19 @@ export default function Appointments() {
               {/* SearchBar UI Component */}
               <SearchBar placeHolder="Search placeholder" />
 
-              {/* FilterPill Component for Date */}
-              <FilterPill
-                icon="bi-calendar-week"
-                title="Today"
+              {/* FilterDropdown Component for Date */}
+              <FilterDropdown
+                icon={appointmentFilters.date.icon}
+                label={appointmentFilters.date.label}
+                options={appointmentFilters.date.options}
                 className="appointments-date-pill"
               />
 
               <ButtonComponents
                 className="btn-add-appointment-action"
+                icon="bi-plus-lg"
                 title="Add Appointment"
+                onClick={() => openAddDrawer('appointment')}
               />
             </div>
           </div>
@@ -53,3 +61,5 @@ export default function Appointments() {
     </div>
   );
 }
+
+

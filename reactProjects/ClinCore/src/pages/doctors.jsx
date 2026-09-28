@@ -3,8 +3,11 @@ import TopHeader from "../components/TopHeader";
 import ButtonComponents from "../components/ButtonComponents";
 import DoctorsTable from "../components/DoctorsTable";
 import PageFooter from "../components/PageFooter";
+import { useModalState } from "../js/components/ModalContext";
 
 export default function Doctors() {
+  const { openAddDrawer } = useModalState();
+
   return (
     <div className="dashboard-wrapper">
       <Sidebar />
@@ -56,6 +59,7 @@ export default function Doctors() {
                 className="btn-add-doctor-action"
                 icon="bi-plus-lg"
                 title="Add Doctor"
+                onClick={() => openAddDrawer('doctor')}
               />
             </div>
 
@@ -78,3 +82,5 @@ export default function Doctors() {
     </div>
   );
 }
+
+

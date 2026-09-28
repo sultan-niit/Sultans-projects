@@ -1,4 +1,19 @@
+import { useModalState } from "../js/components/ModalContext";
+
 export default function InventoryTable({ ...props }) {
+    const { openEditDrawer } = useModalState();
+
+    const handleEditItem = (item) => {
+        openEditDrawer({
+            itemName: item.name,
+            category: item.category,
+            quantity: item.qty,
+            reorderQty: item.reorderQty,
+            unitPrice: item.price || '25.00',
+            status: item.status
+        }, 'inventory');
+    };
+
     return (
         <>
             <div className="inventory-main-card">
@@ -63,10 +78,10 @@ export default function InventoryTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="table-row-actions-wrap">
-                                        <button type="button" className="btn-view-item-action" title="View Details">
+                                        <button type="button" className="btn-view-item-action" title="View Details" onClick={() => handleEditItem({ name: 'Surgical Masks', category: 'Personal Protective', qty: 500, reorderQty: 200, price: '12.50', status: 'In Stock' })}>
                                             <i className="bi bi-eye"></i>
                                         </button>
-                                        <button type="button" className="btn-reorder-item-action">Reorder</button>
+                                        <button type="button" className="btn-reorder-item-action" onClick={() => handleEditItem({ name: 'Surgical Masks', category: 'Personal Protective', qty: 500, reorderQty: 200, price: '12.50', status: 'In Stock' })}>Reorder</button>
                                     </div>
                                 </td>
                             </tr>
@@ -99,13 +114,13 @@ export default function InventoryTable({ ...props }) {
                                     <span className="item-metric-val">150</span>
                                 </td>
                                 <td>
-                                    <div className="table-row-actions-wrap">
-                                        <button type="button" className="btn-view-item-action" title="View Details">
-                                            <i className="bi bi-eye"></i>
-                                        </button>
-                                        <button type="button" className="btn-reorder-item-action">Reorder</button>
-                                    </div>
-                                </td>
+                                     <div className="table-row-actions-wrap">
+                                         <button type="button" className="btn-view-item-action" title="View Details" onClick={() => handleEditItem({ name: 'Gloves', category: 'Personal Protective', qty: 50, reorderQty: 150, price: '15.00', status: 'Low Stock' })}>
+                                             <i className="bi bi-eye"></i>
+                                         </button>
+                                         <button type="button" className="btn-reorder-item-action" onClick={() => handleEditItem({ name: 'Gloves', category: 'Personal Protective', qty: 50, reorderQty: 150, price: '15.00', status: 'Low Stock' })}>Reorder</button>
+                                     </div>
+                                 </td>
                             </tr>
 
                             <tr>
@@ -137,10 +152,10 @@ export default function InventoryTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="table-row-actions-wrap">
-                                        <button type="button" className="btn-view-item-action" title="View Details">
+                                        <button type="button" className="btn-view-item-action" title="View Details" onClick={() => handleEditItem({ name: 'Hand Sanitizer', category: 'Medical Supplies', qty: 200, reorderQty: 100, price: '8.00', status: 'In Stock' })}>
                                             <i className="bi bi-eye"></i>
                                         </button>
-                                        <button type="button" className="btn-reorder-item-action">Reorder</button>
+                                        <button type="button" className="btn-reorder-item-action" onClick={() => handleEditItem({ name: 'Hand Sanitizer', category: 'Medical Supplies', qty: 200, reorderQty: 100, price: '8.00', status: 'In Stock' })}>Reorder</button>
                                     </div>
                                 </td>
                             </tr>
@@ -174,10 +189,10 @@ export default function InventoryTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="table-row-actions-wrap">
-                                        <button type="button" className="btn-view-item-action" title="View Details">
+                                        <button type="button" className="btn-view-item-action" title="View Details" onClick={() => handleEditItem({ name: 'Thermometers', category: 'Medical Supplies', qty: 0, reorderQty: 300, price: '45.00', status: 'Out of Stock' })}>
                                             <i className="bi bi-eye"></i>
                                         </button>
-                                        <button type="button" className="btn-reorder-item-action">Reorder</button>
+                                        <button type="button" className="btn-reorder-item-action" onClick={() => handleEditItem({ name: 'Thermometers', category: 'Medical Supplies', qty: 0, reorderQty: 300, price: '45.00', status: 'Out of Stock' })}>Reorder</button>
                                     </div>
                                 </td>
                             </tr>
@@ -211,10 +226,10 @@ export default function InventoryTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="table-row-actions-wrap">
-                                        <button type="button" className="btn-view-item-action" title="View Details">
+                                        <button type="button" className="btn-view-item-action" title="View Details" onClick={() => handleEditItem({ name: 'Stethoscopes', category: 'Medical Supplies', qty: 30, reorderQty: 50, price: '85.00', status: 'In Stock' })}>
                                             <i className="bi bi-eye"></i>
                                         </button>
-                                        <button type="button" className="btn-reorder-item-action">Reorder</button>
+                                        <button type="button" className="btn-reorder-item-action" onClick={() => handleEditItem({ name: 'Stethoscopes', category: 'Medical Supplies', qty: 30, reorderQty: 50, price: '85.00', status: 'In Stock' })}>Reorder</button>
                                     </div>
                                 </td>
                             </tr>
@@ -249,10 +264,10 @@ export default function InventoryTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="table-row-actions-wrap">
-                                        <button type="button" className="btn-view-item-action" title="View Details">
+                                        <button type="button" className="btn-view-item-action" title="View Details" onClick={() => handleEditItem({ name: 'Blood Pressure Monitors', category: 'Medical Supplies', qty: 20, reorderQty: 100, price: '65.00', status: 'Low Stock' })}>
                                             <i className="bi bi-eye"></i>
                                         </button>
-                                        <button type="button" className="btn-reorder-item-action">Reorder</button>
+                                        <button type="button" className="btn-reorder-item-action" onClick={() => handleEditItem({ name: 'Blood Pressure Monitors', category: 'Medical Supplies', qty: 20, reorderQty: 100, price: '65.00', status: 'Low Stock' })}>Reorder</button>
                                     </div>
                                 </td>
                             </tr>
@@ -286,10 +301,10 @@ export default function InventoryTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="table-row-actions-wrap">
-                                        <button type="button" className="btn-view-item-action" title="View Details">
+                                        <button type="button" className="btn-view-item-action" title="View Details" onClick={() => handleEditItem({ name: 'Bandages', category: 'Medical Supplies', qty: 300, reorderQty: 200, price: '5.00', status: 'In Stock' })}>
                                             <i className="bi bi-eye"></i>
                                         </button>
-                                        <button type="button" className="btn-reorder-item-action">Reorder</button>
+                                        <button type="button" className="btn-reorder-item-action" onClick={() => handleEditItem({ name: 'Bandages', category: 'Medical Supplies', qty: 300, reorderQty: 200, price: '5.00', status: 'In Stock' })}>Reorder</button>
                                     </div>
                                 </td>
                             </tr>
@@ -323,10 +338,10 @@ export default function InventoryTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="table-row-actions-wrap">
-                                        <button type="button" className="btn-view-item-action" title="View Details">
+                                        <button type="button" className="btn-view-item-action" title="View Details" onClick={() => handleEditItem({ name: 'IV Fluids', category: 'Pharmaceuticals', qty: 10, reorderQty: 150, price: '22.00', status: 'Low Stock' })}>
                                             <i className="bi bi-eye"></i>
                                         </button>
-                                        <button type="button" className="btn-reorder-item-action">Reorder</button>
+                                        <button type="button" className="btn-reorder-item-action" onClick={() => handleEditItem({ name: 'IV Fluids', category: 'Pharmaceuticals', qty: 10, reorderQty: 150, price: '22.00', status: 'Low Stock' })}>Reorder</button>
                                     </div>
                                 </td>
                             </tr>
@@ -360,10 +375,10 @@ export default function InventoryTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="table-row-actions-wrap">
-                                        <button type="button" className="btn-view-item-action" title="View Details">
+                                        <button type="button" className="btn-view-item-action" title="View Details" onClick={() => handleEditItem({ name: 'Scalpel Blades', category: 'Surgical Equipment', qty: 0, reorderQty: 200, price: '30.00', status: 'Out of Stock' })}>
                                             <i className="bi bi-eye"></i>
                                         </button>
-                                        <button type="button" className="btn-reorder-item-action">Reorder</button>
+                                        <button type="button" className="btn-reorder-item-action" onClick={() => handleEditItem({ name: 'Scalpel Blades', category: 'Surgical Equipment', qty: 0, reorderQty: 200, price: '30.00', status: 'Out of Stock' })}>Reorder</button>
                                     </div>
                                 </td>
                             </tr>
@@ -397,10 +412,10 @@ export default function InventoryTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="table-row-actions-wrap">
-                                        <button type="button" className="btn-view-item-action" title="View Details">
+                                        <button type="button" className="btn-view-item-action" title="View Details" onClick={() => handleEditItem({ name: 'Syringes', category: 'Medical Supplies', qty: 400, reorderQty: 300, price: '18.00', status: 'In Stock' })}>
                                             <i className="bi bi-eye"></i>
                                         </button>
-                                        <button type="button" className="btn-reorder-item-action">Reorder</button>
+                                        <button type="button" className="btn-reorder-item-action" onClick={() => handleEditItem({ name: 'Syringes', category: 'Medical Supplies', qty: 400, reorderQty: 300, price: '18.00', status: 'In Stock' })}>Reorder</button>
                                     </div>
                                 </td>
                             </tr>
@@ -434,10 +449,10 @@ export default function InventoryTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="table-row-actions-wrap">
-                                        <button type="button" className="btn-view-item-action" title="View Details">
+                                        <button type="button" className="btn-view-item-action" title="View Details" onClick={() => handleEditItem({ name: 'Medical Gowns', category: 'Personal Protective', qty: 150, reorderQty: 100, price: '28.00', status: 'In Stock' })}>
                                             <i className="bi bi-eye"></i>
                                         </button>
-                                        <button type="button" className="btn-reorder-item-action">Reorder</button>
+                                        <button type="button" className="btn-reorder-item-action" onClick={() => handleEditItem({ name: 'Medical Gowns', category: 'Personal Protective', qty: 150, reorderQty: 100, price: '28.00', status: 'In Stock' })}>Reorder</button>
                                     </div>
                                 </td>
                             </tr>
@@ -472,10 +487,10 @@ export default function InventoryTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="table-row-actions-wrap">
-                                        <button type="button" className="btn-view-item-action" title="View Details">
+                                        <button type="button" className="btn-view-item-action" title="View Details" onClick={() => handleEditItem({ name: 'Disinfectant Wipes', category: 'Medical Supplies', qty: 25, reorderQty: 200, price: '9.00', status: 'Low Stock' })}>
                                             <i className="bi bi-eye"></i>
                                         </button>
-                                        <button type="button" className="btn-reorder-item-action">Reorder</button>
+                                        <button type="button" className="btn-reorder-item-action" onClick={() => handleEditItem({ name: 'Disinfectant Wipes', category: 'Medical Supplies', qty: 25, reorderQty: 200, price: '9.00', status: 'Low Stock' })}>Reorder</button>
                                     </div>
                                 </td>
                             </tr>
@@ -512,3 +527,5 @@ export default function InventoryTable({ ...props }) {
         </>
     );
 }
+
+

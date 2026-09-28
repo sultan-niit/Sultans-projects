@@ -1,4 +1,19 @@
+import { useModalState } from "../js/components/ModalContext";
+
 export default function PaymentsTable({ ...props }) {
+    const { openEditDrawer } = useModalState();
+
+    const handleEditInvoice = (inv) => {
+        openEditDrawer({
+            patientName: inv.patientName,
+            treatment: inv.treatment,
+            amount: inv.amount,
+            paymentMethod: inv.paymentMethod,
+            date: inv.date || '2028-07-01',
+            status: inv.status
+        }, 'payment');
+    };
+
     return (
         <>
             <div className="payments-main-card">
@@ -71,7 +86,7 @@ export default function PaymentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="payment-row-actions">
-                                        <button type="button" className="btn-invoice-action" title="View Invoice">
+                                        <button type="button" className="btn-invoice-action" title="View Invoice" onClick={() => handleEditInvoice({ patientName: 'John Doe', treatment: 'Routine Check-Up', amount: '100.00', paymentMethod: 'Credit Card', status: 'Paid' })}>
                                             <i className="bi bi-eye"></i>
                                             <span>View</span>
                                         </button>
@@ -112,7 +127,7 @@ export default function PaymentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="payment-row-actions">
-                                        <button type="button" className="btn-invoice-action" title="View Invoice">
+                                        <button type="button" className="btn-invoice-action" title="View Invoice" onClick={() => handleEditInvoice({ patientName: 'Mary Johnson', treatment: 'Heart Surgery', amount: '5000.00', paymentMethod: 'Bank Transfer', status: 'Pending' })}>
                                             <i className="bi bi-eye"></i>
                                             <span>View</span>
                                         </button>
@@ -153,7 +168,7 @@ export default function PaymentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="payment-row-actions">
-                                        <button type="button" className="btn-invoice-action" title="View Invoice">
+                                        <button type="button" className="btn-invoice-action" title="View Invoice" onClick={() => handleEditInvoice({ patientName: 'Robert Brown', treatment: 'Flu Symptoms', amount: '120.00', paymentMethod: 'Credit Card', status: 'Paid' })}>
                                             <i className="bi bi-eye"></i>
                                             <span>View</span>
                                         </button>
@@ -194,7 +209,7 @@ export default function PaymentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="payment-row-actions">
-                                        <button type="button" className="btn-invoice-action" title="View Invoice">
+                                        <button type="button" className="btn-invoice-action" title="View Invoice" onClick={() => handleEditInvoice({ patientName: 'Susan Lee', treatment: 'Skin Treatment', amount: '200.00', paymentMethod: 'Cash', status: 'Paid' })}>
                                             <i className="bi bi-eye"></i>
                                             <span>View</span>
                                         </button>
@@ -235,7 +250,7 @@ export default function PaymentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="payment-row-actions">
-                                        <button type="button" className="btn-invoice-action" title="View Invoice">
+                                        <button type="button" className="btn-invoice-action" title="View Invoice" onClick={() => handleEditInvoice({ patientName: 'James Wilson', treatment: 'Arthritis Management', amount: '140.00', paymentMethod: 'Credit Card', status: 'Pending' })}>
                                             <i className="bi bi-eye"></i>
                                             <span>View</span>
                                         </button>
@@ -276,7 +291,7 @@ export default function PaymentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="payment-row-actions">
-                                        <button type="button" className="btn-invoice-action" title="View Invoice">
+                                        <button type="button" className="btn-invoice-action" title="View Invoice" onClick={() => handleEditInvoice({ patientName: 'Caren G. Simpson', treatment: 'Routine Check-Up', amount: '100.00', paymentMethod: 'Cash', status: 'Paid' })}>
                                             <i className="bi bi-eye"></i>
                                             <span>View</span>
                                         </button>
@@ -317,7 +332,7 @@ export default function PaymentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="payment-row-actions">
-                                        <button type="button" className="btn-invoice-action" title="View Invoice">
+                                        <button type="button" className="btn-invoice-action" title="View Invoice" onClick={() => handleEditInvoice({ patientName: 'Patricia Clark', treatment: 'Hypertension Management', amount: '150.00', paymentMethod: 'Bank Transfer', status: 'Pending' })}>
                                             <i className="bi bi-eye"></i>
                                             <span>View</span>
                                         </button>
@@ -358,7 +373,7 @@ export default function PaymentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="payment-row-actions">
-                                        <button type="button" className="btn-invoice-action" title="View Invoice">
+                                        <button type="button" className="btn-invoice-action" title="View Invoice" onClick={() => handleEditInvoice({ patientName: 'Kevin White', treatment: 'Respiratory Infection', amount: '180.00', paymentMethod: 'Credit Card', status: 'Paid' })}>
                                             <i className="bi bi-eye"></i>
                                             <span>View</span>
                                         </button>
@@ -399,7 +414,7 @@ export default function PaymentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="payment-row-actions">
-                                        <button type="button" className="btn-invoice-action" title="View Invoice">
+                                        <button type="button" className="btn-invoice-action" title="View Invoice" onClick={() => handleEditInvoice({ patientName: 'Jennifer Adams', treatment: 'Preventive Care', amount: '130.00', paymentMethod: 'Cash', status: 'Paid' })}>
                                             <i className="bi bi-eye"></i>
                                             <span>View</span>
                                         </button>
@@ -440,7 +455,7 @@ export default function PaymentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="payment-row-actions">
-                                        <button type="button" className="btn-invoice-action" title="View Invoice">
+                                        <button type="button" className="btn-invoice-action" title="View Invoice" onClick={() => handleEditInvoice({ patientName: 'Barbara Harris', treatment: 'Medication Review', amount: '110.00', paymentMethod: 'Credit Card', status: 'Pending' })}>
                                             <i className="bi bi-eye"></i>
                                             <span>View</span>
                                         </button>
@@ -481,7 +496,7 @@ export default function PaymentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="payment-row-actions">
-                                        <button type="button" className="btn-invoice-action" title="View Invoice">
+                                        <button type="button" className="btn-invoice-action" title="View Invoice" onClick={() => handleEditInvoice({ patientName: 'Michael Thompson', treatment: 'Routine Check-Up', amount: '100.00', paymentMethod: 'Credit Card', status: 'Paid' })}>
                                             <i className="bi bi-eye"></i>
                                             <span>View</span>
                                         </button>
@@ -522,7 +537,7 @@ export default function PaymentsTable({ ...props }) {
                                 </td>
                                 <td>
                                     <div className="payment-row-actions">
-                                        <button type="button" className="btn-invoice-action" title="View Invoice">
+                                        <button type="button" className="btn-invoice-action" title="View Invoice" onClick={() => handleEditInvoice({ patientName: 'Rachel Green', treatment: 'Asthma Management', amount: '160.00', paymentMethod: 'Cash', status: 'Pending' })}>
                                             <i className="bi bi-eye"></i>
                                             <span>View</span>
                                         </button>
@@ -560,3 +575,5 @@ export default function PaymentsTable({ ...props }) {
         </>
     );
 }
+
+
