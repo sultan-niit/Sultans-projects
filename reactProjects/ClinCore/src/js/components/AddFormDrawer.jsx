@@ -3,32 +3,43 @@ import { useModalState } from '../components/ModalContext';
 import { ENTITY_SCHEMAS } from '../formSchemas';
 
 export default function AddFormDrawer() {
-  const { 
-    isDrawerOpen, 
+  const {
+    isDrawerOpen,
     isDrawerEditMode,
-    drawerSchemaType, 
+    drawerSchemaType,
     drawerFormData,
-    closeAddDrawer, 
-    submitDrawerForm 
+    closeAddDrawer,
+    submitDrawerForm
   } = useModalState();
-  
+
   const schema = ENTITY_SCHEMAS[drawerSchemaType] || ENTITY_SCHEMAS.staff;
   const [formData, setFormData] = useState({});
   const [imagePreview, setImagePreview] = useState(null);
 
   // Use edit-specific sections when in edit mode, fallback to regular sections
-  const activeSections = isDrawerEditMode && schema.editSections 
-    ? schema.editSections 
+  const activeSections = isDrawerEditMode && schema.editSections
+    ? schema.editSections
     : schema.sections;
 
   // Dynamic title/subtitle based on mode
-  const drawerTitle = isDrawerEditMode 
-    ? (schema.editTitle || `Edit ${schema.entityName || 'Record'}`) 
+  const drawerTitle = isDrawerEditMode
+    ? (schema.editTitle || `Edit ${schema.entityName || 'Record'}`)
     : schema.title;
-  const drawerSubtitle = isDrawerEditMode 
-    ? (schema.editSubtitle || schema.subtitle) 
+  const drawerSubtitle = isDrawerEditMode
+    ? (schema.editSubtitle || schema.subtitle)
     : schema.subtitle;
   const drawerIcon = isDrawerEditMode ? 'bi-pencil-square' : schema.icon;
+
+  // Empty defaults for add mode
+  const buildInitialData = () => {
+    const initialData = {};
+    activeSections.forEach(sec => {
+      sec.fields.forEach(field => {
+        initialData[field.name] = field.type === 'select' ? field.options[0] : '';
+      });
+    });
+    return initialData;
+  };
 
   // Reset/load form inputs when schema changes or drawer opens
   useEffect(() => {
@@ -37,17 +48,16 @@ export default function AddFormDrawer() {
         // Pre-fill with existing data for edit mode
         setFormData({ ...drawerFormData });
       } else {
-        // Empty defaults for add mode
-        const initialData = {};
-        activeSections.forEach(sec => {
-          sec.fields.forEach(field => {
-            initialData[field.name] = field.type === 'select' ? field.options[0] : '';
-          });
-        });
-        setFormData(initialData);
+        setFormData(buildInitialData());
       }
+      setImagePreview(null);
     }
   }, [isDrawerOpen, drawerSchemaType, isDrawerEditMode]);
+
+  const handleClearAll = () => {
+    setFormData(buildInitialData());
+    setImagePreview(null);
+  };
 
   if (!isDrawerOpen) return null;
 
@@ -73,8 +83,8 @@ export default function AddFormDrawer() {
 
   return (
     <>
-      <div 
-        className="clincore-backdrop active" 
+      <div
+        className="clincore-backdrop active"
         aria-hidden="true"
       />
 
@@ -86,6 +96,15 @@ export default function AddFormDrawer() {
             <h2 className="add-drawer-title-text">{drawerTitle}</h2>
           </div>
 
+          <button
+            type="button"
+            className="add-drawer-close-pill"
+            title="Close"
+            onClick={closeAddDrawer}
+          >
+            <i className="bi bi-x-lg"></i>
+            <span>Close</span>
+          </button>
         </div>
 
         {/* Subtitle Description */}
@@ -105,8 +124,8 @@ export default function AddFormDrawer() {
 
                 <div className="drawer-fields-grid">
                   {section.fields.map((field) => (
-                    <div 
-                      key={field.name} 
+                    <div
+                      key={field.name}
                       className={`form-field-group ${field.colSpan === 2 ? 'col-span-2' : 'col-span-1'}`}
                     >
                       <label htmlFor={`drawer_${field.name}`} className="form-field-label">
@@ -183,15 +202,16 @@ export default function AddFormDrawer() {
 
           {/* Bottom Action Footer */}
           <div className="add-drawer-footer">
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="btn-drawer-cancel"
-              onClick={closeAddDrawer}
+              onClick={handleClearAll}
             >
-              Cancel
+              <i className="bi bi-trash3"></i>
+              <span>Clear All</span>
             </button>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="btn-drawer-submit"
             >
               <i className="bi bi-check-circle"></i>

@@ -85,8 +85,8 @@ export default function ProfileEditModal() {
   return (
     <>
       {/* Blurry Backdrop Overlay - Click disabled so background scroll & click are blocked */}
-      <div 
-        className="clincore-backdrop active" 
+      <div
+        className="clincore-backdrop active"
         aria-hidden="true"
       />
 
@@ -259,15 +259,16 @@ export default function ProfileEditModal() {
 
         {/* Modal Footer Controls */}
         <div className="profile-modal-footer">
-          <button 
-            type="button" 
+          <button
+            type="button"
             className="btn-profile-close-red"
             onClick={closeProfileModal}
           >
-            Close Window
+            <i className="bi bi-x-lg"></i>
+            <span>Close</span>
           </button>
-          <button 
-            type="button" 
+          <button
+            type="button"
             className="btn-profile-save-footer"
             onClick={handleSave}
           >

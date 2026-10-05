@@ -38,6 +38,11 @@ export default function Sidebar({ ...props }) {
                         <span>Patients</span>
                     </NavLink>
 
+                    <NavLink to="/patient-portal" className="nav-link">
+                        <i className="bi bi-person-badge"></i>
+                        <span>Patient Portal</span>
+                    </NavLink>
+
                     <NavLink to="/doctors" className="nav-link">
                         <i className="bi bi-heart-pulse"></i>
                         <span>Doctors</span>

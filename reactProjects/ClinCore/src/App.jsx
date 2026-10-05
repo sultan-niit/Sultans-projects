@@ -12,6 +12,7 @@ import Departments from "./pages/department";
 import Payments from "./pages/payment";
 import Inventory from "./pages/inventory";
 import Messages from "./pages/messages";
+import PatientPortal from "./pages/patientPortal";
 import "./index.css";
 import "./assets/styles/MainStyle.css";
 
@@ -70,6 +71,14 @@ export const router = createBrowserRouter([
   {
     path: "/patient",
     element: <Patients />
+  },
+  {
+    path: "/patient-portal",
+    element: <PatientPortal />
+  },
+  {
+    path: "/patient-dashboard",
+    element: <PatientPortal />
   },
   
   {
