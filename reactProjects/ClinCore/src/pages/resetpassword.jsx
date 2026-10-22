@@ -1,17 +1,73 @@
-﻿import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../api/axios";
 import InputField from "../components/InputField";
 import ButtonComponents from "../components/ButtonComponents";
 import AuthHeroPanel from "../components/AuthHeroPanel";
 
+const API_URL = import.meta.env.VITE_RESET_PASSWORD_API_URL || "";
+
 export default function ResetPassword() {
+  const navigate = useNavigate();
+  const saved = JSON.parse(sessionStorage.getItem("forgotPasswordSession") || "{}");
+  const session = saved.data || saved;
+
+  const [form, setForm] = useState({
+    resetotp: `${session.resetotp || ""}`,
+    password: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setError("");
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    if (loading) return;
+
+    const {resetotp, password, confirmPassword } = form;
+
+    if (!resetotp.trim()) return setError("RESET OTP IS REQUIRED, Kindly fill in the reset OTP to continue.");
+    if (password.length < 8) return setError("Password must be at least 8 characters.");
+    if (password !== confirmPassword) return setError("Passwords do not match.");
+
+    try {
+      setLoading(true);
+
+      const data = new FormData();
+      data.append("staffId", session.staffId);
+      data.append("resetOtp", resetotp.trim());
+      data.append("password", password);
+      data.append("confirmPassword", confirmPassword);
+
+      const res = await api.post(API_URL, data);
+
+      if (res.data?.success) {
+        sessionStorage.removeItem("forgotPasswordSession");
+        setSuccess(res.data.message || "Password reset successfully! Redirecting to login...");
+        setTimeout(() => {
+          navigate("/", { replace: true });
+        }, 1500);
+      } else {
+        setError(res.data?.message || "Unable to reset password.");
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || "Unable to reset password.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="login-body">
+    <div className="login-body reset-password-page">
       <div className="alert-overlay" id="alert"></div>
 
       <div className="frame">
-        {/* ============================================================ */}
-        {/* LEFT SIDE: Set New Password Form (Edited with UI Components) */}
-        {/* ============================================================ */}
         <div className="left-panel">
           <Link to="/" className="logo">
             <div className="logo-icon">
@@ -29,53 +85,56 @@ export default function ResetPassword() {
             </div>
 
             <div className="alert-success">
-              Hi <span className="alert-highlight">Sultan</span>, an OTP has been sent to your <span
-                className="alert-highlight">email address</span> to reset your password.
+            {session.staffId || session.staffId} <br />
+              An OTP has been sent to <span className="alert-highlight">{session.emailAddress}</span> to reset your password.
+              <br />
             </div>
 
-            <form onSubmit={(e) => e.preventDefault()} noValidate>
-              {/* InputField component for OTP code */}
+            <form onSubmit={handleResetPassword} noValidate>
               <InputField
                 title="Verification Code (OTP)"
+                name="resetotp"
                 inputType="text"
-                placeHolder="ENTER OTP"
+                placeHolder="OTP"
+                value={form.resetotp}
+                onChange={handleChange}
               />
 
-              {/* InputField component for New Password */}
               <InputField
                 title="New Password"
+                name="password"
                 inputType="password"
                 placeHolder="Min. 8 chars"
+                value={form.password}
+                onChange={handleChange}
               />
 
-              {/* InputField component for Confirm Password */}
               <InputField
                 title="Confirm Password"
+                name="confirmPassword"
                 inputType="password"
                 placeHolder="Min. 8 chars"
+                value={form.confirmPassword}
+                onChange={handleChange}
               />
 
-              {/* ButtonComponents for Updating Password */}
-              <Link to="/">
-                <ButtonComponents
-                  inputType="button"
-                  buttonTitle="Update Password"
-                />
-              </Link>
+              {error && <p className="api-error-message" style={{ color: "#b91c1c", margin: "8px 0" }}>{error}</p>}
+              {success && <p className="alert-success">{success}</p>}
+
+              <ButtonComponents
+                inputType="submit"
+                buttonTitle={loading ? "Updating Password..." : "Update Password"}
+                disabled={loading}
+              />
 
               <p className="switch-auth-row">
                 Remembered your password?
-                <Link to="/" className="switch-auth-link">
-                  Login
-                </Link>
+                <Link to="/" className="switch-auth-link">Login</Link>
               </p>
             </form>
           </div>
         </div>
 
-        {/* ============================================================ */}
-        {/* RIGHT SIDE: Auth Hero Illustration & Stats (AuthHeroPanel)   */}
-        {/* ============================================================ */}
         <AuthHeroPanel />
       </div>
     </div>

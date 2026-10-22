@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "./pages/home";
-import SignUp from "./pages/signup";
+import SignIn from "./pages/signin";
 import ForgotPassword from "./pages/forgotpassword";
 import ResetPassword from "./pages/resetpassword";
 import Dashboard from "./pages/dashboard";
@@ -12,34 +12,49 @@ import Departments from "./pages/department";
 import Payments from "./pages/payment";
 import Inventory from "./pages/inventory";
 import Messages from "./pages/messages";
-import PatientPortal from "./pages/patientPortal";
 import "./index.css";
 import "./assets/styles/MainStyle.css";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />
+    element: <SignIn />
   },
   {
     path: "/signin",
-    element: <Home />
+    element: <SignIn />
+  },
+  {
+    path: "/sign-in",
+    element: <SignIn />
+  },
+  {
+    path: "/sign_in",
+    element: <SignIn />
   },
   {
     path: "/login",
-    element: <Home />
+    element: <SignIn />
   },
   {
-    path: "/signup",
-    element: <SignUp />
+    path: "/home",
+    element: <Home />
   },
   {
     path: "/forgot-password",
     element: <ForgotPassword />
   },
+  {
+    path: "/forgot_password",
+    element: <ForgotPassword />
+  },
   
   {
     path: "/reset-password",
+    element: <ResetPassword />
+  },
+  {
+    path: "/reset_password",
     element: <ResetPassword />
   },
 
@@ -72,15 +87,6 @@ export const router = createBrowserRouter([
     path: "/patient",
     element: <Patients />
   },
-  {
-    path: "/patient-portal",
-    element: <PatientPortal />
-  },
-  {
-    path: "/patient-dashboard",
-    element: <PatientPortal />
-  },
-  
   {
     path: "/doctors",
     element: <Doctors />
@@ -119,5 +125,4 @@ export const router = createBrowserRouter([
     element: <Navigate to="/dashboard" replace />
   }
 ]);
-
 

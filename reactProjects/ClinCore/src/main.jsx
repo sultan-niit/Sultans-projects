@@ -6,14 +6,17 @@ import './assets/styles/MainStyle.css'
 import { RouterProvider } from 'react-router-dom'
 import { router } from './App.jsx'
 import { ModalProvider, AddFormDrawer, ProfileEditModal, ToastNotification } from './js/index.js'
+import { AuthProvider } from './context/AuthContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ModalProvider>
-      <RouterProvider router={router} />
-      <AddFormDrawer />
-      <ProfileEditModal />
-      <ToastNotification />
-    </ModalProvider>
+    <AuthProvider>
+      <ModalProvider>
+        <RouterProvider router={router} />
+        <AddFormDrawer />
+        <ProfileEditModal />
+        <ToastNotification />
+      </ModalProvider>
+    </AuthProvider>
   </StrictMode>,
 )

@@ -575,6 +575,77 @@
     animation: authFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.reset-password-page .frame .left-panel {
+    justify-content: flex-start;
+    align-items: center;
+    padding: 32px 48px 40px;
+    overflow-y: auto;
+}
+
+.reset-password-page .frame .left-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.reset-password-page .frame .left-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.reset-password-page .frame .left-panel::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 6px;
+}
+
+.reset-password-page .frame .left-panel::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8;
+}
+
+.reset-password-page .frame .left-panel .logo {
+    position: static;
+    margin-bottom: 20px;
+    align-self: flex-start;
+}
+
+.reset-password-page .frame .left-panel .card {
+    margin-top: 0;
+    margin-bottom: 30px;
+    padding: 24px 32px;
+}
+
+.reset-password-page .frame .left-panel .card .card-header {
+    margin-bottom: 16px;
+}
+
+.reset-password-page .frame .left-panel .card form .form-group {
+    margin-bottom: 12px;
+}
+
+.reset-password-page .alert-success {
+    background-color: var(--status-success-bg-color);
+    border: 1px solid var(--status-success-border-color);
+    color: var(--status-success-text-color);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.reset-password-page .otp-code-tag {
+    display: inline-block;
+    background: var(--primary-color-dark);
+    color: var(--white-color);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 2px;
+    padding: 2px 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.reset-password-page .alert-highlight {
+    font-weight: 600;
+    color: var(--primary-color-dark);
+}
 
 
 .login-body .frame .left-panel .card.hidden {
@@ -6868,7 +6939,6 @@ th.id-col {
         transform: translateX(0);
     }
 }
-
 
 
 

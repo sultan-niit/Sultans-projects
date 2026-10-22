@@ -1,6 +1,15 @@
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-export default function Sidebar({ ...props }) {
+export default function Sidebar() {
+    const { logout } = useAuth() || {};
+
+    const handleLogout = () => {
+        if (logout) logout();
+        localStorage.removeItem("user");
+        localStorage.removeItem("accessToken");
+    };
+
     return (
         <>
             <div className="side-panel">
@@ -38,11 +47,6 @@ export default function Sidebar({ ...props }) {
                         <span>Patients</span>
                     </NavLink>
 
-                    <NavLink to="/patient-portal" className="nav-link">
-                        <i className="bi bi-person-badge"></i>
-                        <span>Patient Portal</span>
-                    </NavLink>
-
                     <NavLink to="/doctors" className="nav-link">
                         <i className="bi bi-heart-pulse"></i>
                         <span>Doctors</span>
@@ -72,7 +76,7 @@ export default function Sidebar({ ...props }) {
 
                 {/* Bottom Logout Section */}
                 <div className="bottom-div">
-                    <NavLink to="/" className="nav-link logout-link">
+                    <NavLink to="/" className="nav-link logout-link" onClick={handleLogout}>
                         <i className="bi bi-box-arrow-right"></i>
                         <span>Logout</span>
                     </NavLink>
@@ -81,4 +85,3 @@ export default function Sidebar({ ...props }) {
         </>
     );
 }
-
