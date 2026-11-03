@@ -9,6 +9,9 @@ export default function ButtonComponents({ ...props }) {
             onClick={props.onClick || props.action}
             disabled={props.disabled || props.btnAction}
         >
+            {props.btnAction && (
+                <span className="button-loading-spinner" role="status" aria-label="Loading"></span>
+            )}
             {props.icon && <i className={`bi ${props.icon}`}></i>}
             {props.buttonText || props.buttonTitle || props.title || props.children}
         </button>

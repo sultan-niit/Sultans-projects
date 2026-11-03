@@ -1,311 +1,539 @@
+import React, { useState, useMemo, useEffect } from "react";
 import { useModalState } from "../js/components/ModalContext";
 
-export default function PatientsTable({ ...props }) {
-    const { openProfileModal } = useModalState();
+export default function PatientsTable({
+  patients = [],
+  totalCount = 0,
+  searchTerm = "",
+  isLoading = false,
+  isOffline = false,
+  onRetry,
+  onAddPatient,
+  onDeletePatient,
+  onClearFilters,
+}) {
+  const { openProfileModal, openEditDrawer } = useModalState();
 
-    const handlePatientClick = (patientName, treatment, doctor, room, status) => {
-        openProfileModal({
-            fullName: patientName,
-            email: `${patientName.toLowerCase().replace(/[^a-z]/g, '')}@gmail.com`,
-            position: `Treatment: ${treatment}`,
-            phone: '080 3123 4567',
-            status: status || 'Active',
-            lastLogin: '2026-09-26 09:30 AM',
-            avatar: patientName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase(),
-            bannerImg: '/all-images/body-images/dept-pediatrics.jpg',
-        }, 'patient');
-    };
+  // Sorting state
+  const [sortField, setSortField] = useState("patientId");
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(12);
+
+  const handlePatientClick = (patient) => {
+    openProfileModal(
+      {
+        fullName: patient.name || patient.fullName || "Patient Record",
+        email: patient.email || `${(patient.name || "patient").toLowerCase().replace(/[^a-z]/g, "")}@gmail.com`,
+        position: `Treatment: ${patient.treatment || "Routine Check-Up"}`,
+        phone: patient.phone || "080 3123 4567",
+        status: patient.status || "Active",
+        lastLogin: `Checked in on ${patient.checkIn || "Recent"}`,
+        avatar:
+          patient.avatar ||
+          (patient.name || "PT")
+            .split(" ")
+            .filter(Boolean)
+            .map((n) => n[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase() ||
+          "PT",
+        bannerImg: "/all-images/body-images/dept-pediatrics.jpg",
+        department: "General Medicine",
+        ...patient,
+      },
+      "patient"
+    );
+  };
+
+  const getInitials = (name = "") => {
+    if (!name) return "PT";
+    const clean = name.replace(/^(Mr\.|Mrs\.|Ms\.|Dr\.)\s*/i, "").trim();
+    const parts = clean.split(" ").filter(Boolean);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return clean.slice(0, 2).toUpperCase() || "PT";
+  };
+
+  // Sort patients dynamically
+  const sortedPatients = useMemo(() => {
+    if (!sortField) return patients;
+    return [...patients].sort((a, b) => {
+      let valA = a[sortField] ?? "";
+      let valB = b[sortField] ?? "";
+      if (typeof valA === "string") valA = valA.toLowerCase();
+      if (typeof valB === "string") valB = valB.toLowerCase();
+      if (valA < valB) return sortOrder === "asc" ? -1 : 1;
+      if (valA > valB) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+  }, [patients, sortField, sortOrder]);
+
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+  };
+
+  const totalFiltered = sortedPatients.length;
+  const totalPages = Math.max(1, Math.ceil(totalFiltered / pageSize));
+
+  // Reset to first page if page exceeds totalPages (e.g. after search filter)
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(1);
+    }
+  }, [totalPages, currentPage]);
+
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = Math.min(startIndex + pageSize, totalFiltered);
+  const paginatedPatients = sortedPatients.slice(startIndex, endIndex);
+
+  // 0. LOADING STATE: Pure rolling circle spinner
+  if (isLoading) {
+    return (
+      <div className="doctors-loading-card" id="patientsLoadingAnimation">
+        <div className="rolling-circle-spinner" role="status" aria-label="Loading patients"></div>
+      </div>
+    );
+  }
+
+  // 1. NO INTERNET / OFFLINE STATE
+  if (isOffline) {
+    return (
+      <div className="doctors-offline-card" id="patientsOfflineState">
+        <div className="offline-circle-indicator">
+          <div className="offline-circle-ring"></div>
+          <div className="offline-circle-badge">
+            <i className="bi bi-wifi-off"></i>
+          </div>
+        </div>
+        <div className="offline-content-group">
+          <h4 className="offline-title">No Internet Connection</h4>
+          <p className="offline-subtitle">
+            Unable to fetch patient records from the ClinCore server. Please check your network connection and try again.
+          </p>
+          {onRetry && (
+            <button
+              type="button"
+              className="btn-offline-retry"
+              onClick={onRetry}
+            >
+              <i className="bi bi-arrow-clockwise"></i>
+              <span>Retry Connection</span>
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // 2. EMPTY STATE: When NO patients exist or none match search/filters
+  if (totalCount === 0 || patients.length === 0) {
+    if (totalCount > 0 && patients.length === 0) {
+      return (
+        <div className="doctors-empty-prompt-card" style={{ padding: "64px 24px", textAlign: "center" }}>
+          <div className="empty-prompt-illustration">
+            <div className="empty-prompt-icon-ring outer" style={{ width: "64px", height: "64px", margin: "0 auto 16px", borderRadius: "50%", background: "#F1F5F9", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <i className="bi bi-search" style={{ fontSize: "24px", color: "#64748B" }}></i>
+            </div>
+          </div>
+          <div className="empty-prompt-content">
+            <h3 className="empty-prompt-title" style={{ fontSize: "18px", fontWeight: "700", marginBottom: "8px" }}>No Matching Patients Found</h3>
+            <p className="empty-prompt-description" style={{ color: "#64748B", fontSize: "13.5px", maxWidth: "420px", margin: "0 auto 20px" }}>
+              No patient records matched your active search query or filter criteria. Try adjusting your search keywords or resetting filters.
+            </p>
+            {onClearFilters && (
+              <button
+                type="button"
+                className="btn-offline-retry"
+                onClick={onClearFilters}
+              >
+                <i className="bi bi-arrow-counterclockwise"></i>
+                <span>Reset Filters</span>
+              </button>
+            )}
+          </div>
+        </div>
+      );
+    }
 
     return (
-        <>
-            <div className="patients-main-card">
-                <div className="patients-table-wrap">
-                    <table className="patients-data-table">
-                        <thead>
-                            <tr>
-                                <th className="sortable-th">
-                                    <span>Patient ID</span>
-                                    <i className="bi bi-arrow-down-up"></i>
-                                </th>
-                                <th className="sortable-th">
-                                    <span>Patient Name</span>
-                                    <i className="bi bi-arrow-down-up"></i>
-                                </th>
-                                <th className="sortable-th">
-                                    <span>Age</span>
-                                    <i className="bi bi-arrow-down-up"></i>
-                                </th>
-                                <th className="sortable-th">
-                                    <span>Check In</span>
-                                    <i className="bi bi-arrow-down-up"></i>
-                                </th>
-                                <th className="sortable-th">
-                                    <span>Treatment</span>
-                                    <i className="bi bi-arrow-down-up"></i>
-                                </th>
-                                <th className="sortable-th">
-                                    <span>Doctor Assigned</span>
-                                    <i className="bi bi-arrow-down-up"></i>
-                                </th>
-                                <th className="sortable-th">
-                                    <span>Room</span>
-                                    <i className="bi bi-arrow-down-up"></i>
-                                </th>
-                                <th className="sortable-th">
-                                    <span>Status</span>
-                                    <i className="bi bi-arrow-down-up"></i>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><span className="patient-id-txt">301</span></td>
-                                <td>
-                                    <div className="patient-profile-cell" style={{ cursor: 'pointer' }} onClick={() => handlePatientClick('Caren G. Simpson', 'Routine Check-Up', 'Dr. Petra Winsburry', '-', 'Active')}>
-                                        <div className="patient-cell-avatar">
-                                            <img src="all-images/body-images/patient-1.jpg" alt="Caren G. Simpson" />
-                                        </div>
-                                        <span className="patient-name-txt">Caren G. Simpson</span>
-                                    </div>
-                                </td>
-                                <td>35</td>
-                                <td>20 July 2028</td>
-                                <td>Routine Check-Up</td>
-                                <td>Dr. Petra Winsburry</td>
-                                <td>-</td>
-                                <td><span className="patient-status-badge status-active">Active</span></td>
-                            </tr>
-
-                            <tr>
-                                <td><span className="patient-id-txt">302</span></td>
-                                <td>
-                                    <div className="patient-profile-cell">
-                                        <div className="patient-cell-avatar">
-                                            <img src="all-images/body-images/patient-2.jpg" alt="Edgar Warrow" />
-                                        </div>
-                                        <span className="patient-name-txt">Edgar Warrow</span>
-                                    </div>
-                                </td>
-                                <td>45</td>
-                                <td>20 July 2028</td>
-                                <td>Cardiac Consultation</td>
-                                <td>Dr. Olivia Martinez</td>
-                                <td>-</td>
-                                <td><span className="patient-status-badge status-active">Active</span></td>
-                            </tr>
-
-                            <tr>
-                                <td><span className="patient-id-txt">303</span></td>
-                                <td>
-                                    <div className="patient-profile-cell">
-                                        <div className="patient-cell-avatar">
-                                            <img src="all-images/body-images/patient-3.jpg" alt="Ocean Jane Lupre" />
-                                        </div>
-                                        <span className="patient-name-txt">Ocean Jane Lupre</span>
-                                    </div>
-                                </td>
-                                <td>10</td>
-                                <td>20 July 2028</td>
-                                <td>Pediatric Check-Up</td>
-                                <td>Dr. Damian Sanchez</td>
-                                <td>Double - 303</td>
-                                <td><span className="patient-status-badge status-new">New Patient</span></td>
-                            </tr>
-
-                            <tr>
-                                <td><span className="patient-id-txt">304</span></td>
-                                <td>
-                                    <div className="patient-profile-cell">
-                                        <div className="patient-cell-avatar">
-                                            <img src="all-images/body-images/patient-4.jpg" alt="Shane Riddick" />
-                                        </div>
-                                        <span className="patient-name-txt">Shane Riddick</span>
-                                    </div>
-                                </td>
-                                <td>50</td>
-                                <td>20 July 2028</td>
-                                <td>Skin Allergy</td>
-                                <td>Dr. Chloe Harrington</td>
-                                <td>Single - 304</td>
-                                <td><span className="patient-status-badge status-inactive">Inactive</span></td>
-                            </tr>
-
-                            <tr>
-                                <td><span className="patient-id-txt">305</span></td>
-                                <td>
-                                    <div className="patient-profile-cell">
-                                        <div className="patient-cell-avatar">
-                                            <img src="all-images/body-images/patient-5.jpg" alt="Queen Lawnston" />
-                                        </div>
-                                        <span className="patient-name-txt">Queen Lawnston</span>
-                                    </div>
-                                </td>
-                                <td>60</td>
-                                <td>20 July 2028</td>
-                                <td>Follow-Up Visit</td>
-                                <td>Dr. Petra Winsburry</td>
-                                <td>Single - 305</td>
-                                <td><span className="patient-status-badge status-active">Active</span></td>
-                            </tr>
-
-                            <tr>
-                                <td><span className="patient-id-txt">306</span></td>
-                                <td>
-                                    <div className="patient-profile-cell">
-                                        <div className="patient-cell-avatar">
-                                            <img src="all-images/body-images/doctor-1.jpg" alt="Eleanor Fitz" />
-                                        </div>
-                                        <span className="patient-name-txt">Eleanor Fitz</span>
-                                    </div>
-                                </td>
-                                <td>28</td>
-                                <td>21 July 2028</td>
-                                <td>Neurology Consult</td>
-                                <td>Dr. Nathan Drake</td>
-                                <td>-</td>
-                                <td><span className="patient-status-badge status-active">Active</span></td>
-                            </tr>
-
-                            <tr>
-                                <td><span className="patient-id-txt">307</span></td>
-                                <td>
-                                    <div className="patient-profile-cell">
-                                        <div className="patient-cell-avatar">
-                                            <img src="all-images/body-images/doctor-2.jpg" alt="Jonathan Hayes" />
-                                        </div>
-                                        <span className="patient-name-txt">Jonathan Hayes</span>
-                                    </div>
-                                </td>
-                                <td>42</td>
-                                <td>21 July 2028</td>
-                                <td>Orthopedic Surgery</td>
-                                <td>Dr. Michael Chen</td>
-                                <td>Single - 307</td>
-                                <td><span className="patient-status-badge status-active">Active</span></td>
-                            </tr>
-
-                            <tr>
-                                <td><span className="patient-id-txt">308</span></td>
-                                <td>
-                                    <div className="patient-profile-cell">
-                                        <div className="patient-cell-avatar">
-                                            <img src="all-images/body-images/doctor-3.jpg" alt="Marcus Vance" />
-                                        </div>
-                                        <span className="patient-name-txt">Marcus Vance</span>
-                                    </div>
-                                </td>
-                                <td>55</td>
-                                <td>21 July 2028</td>
-                                <td>Internal Medicine</td>
-                                <td>Dr. Julian Vance</td>
-                                <td>Double - 308</td>
-                                <td><span className="patient-status-badge status-inactive">Inactive</span></td>
-                            </tr>
-
-                            <tr>
-                                <td><span className="patient-id-txt">309</span></td>
-                                <td>
-                                    <div className="patient-profile-cell">
-                                        <div className="patient-cell-avatar">
-                                            <img src="all-images/body-images/doctor-4.jpg" alt="Sarah Connor" />
-                                        </div>
-                                        <span className="patient-name-txt">Sarah Connor</span>
-                                    </div>
-                                </td>
-                                <td>31</td>
-                                <td>22 July 2028</td>
-                                <td>Dental Surgery</td>
-                                <td>Dr. Sophia Ramirez</td>
-                                <td>-</td>
-                                <td><span className="patient-status-badge status-new">New Patient</span></td>
-                            </tr>
-
-                            <tr>
-                                <td><span className="patient-id-txt">310</span></td>
-                                <td>
-                                    <div className="patient-profile-cell">
-                                        <div className="patient-cell-avatar">
-                                            <img src="all-images/body-images/doctor-5.jpg" alt="Liam Henderson" />
-                                        </div>
-                                        <span className="patient-name-txt">Liam Henderson</span>
-                                    </div>
-                                </td>
-                                <td>39</td>
-                                <td>22 July 2028</td>
-                                <td>Cardiology Consult</td>
-                                <td>Dr. Olivia Martinez</td>
-                                <td>Single - 310</td>
-                                <td><span className="patient-status-badge status-active">Active</span></td>
-                            </tr>
-
-                            <tr>
-                                <td><span className="patient-id-txt">311</span></td>
-                                <td>
-                                    <div className="patient-profile-cell">
-                                        <div className="patient-cell-avatar">
-                                            <img src="all-images/body-images/patient-1.jpg" alt="Sophia Anderson" />
-                                        </div>
-                                        <span className="patient-name-txt">Sophia Anderson</span>
-                                    </div>
-                                </td>
-                                <td>24</td>
-                                <td>22 July 2028</td>
-                                <td>General Check-Up</td>
-                                <td>Dr. Petra Winsburry</td>
-                                <td>-</td>
-                                <td><span className="patient-status-badge status-active">Active</span></td>
-                            </tr>
-
-                            <tr>
-                                <td><span className="patient-id-txt">312</span></td>
-                                <td>
-                                    <div className="patient-profile-cell">
-                                        <div className="patient-cell-avatar">
-                                            <img src="all-images/body-images/patient-2.jpg" alt="Lucas Miller" />
-                                        </div>
-                                        <span className="patient-name-txt">Lucas Miller</span>
-                                    </div>
-                                </td>
-                                <td>68</td>
-                                <td>23 July 2028</td>
-                                <td>Eye Surgery Consult</td>
-                                <td>Dr. Lucas Ross</td>
-                                <td>Single - 312</td>
-                                <td><span className="patient-status-badge status-active">Active</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div className="patients-pagination-row">
-                    <div className="patients-pagination-info">
-                        <span>Showing</span>
-                        <select className="patients-page-select" defaultValue="12">
-                            <option value="12">12</option>
-                            <option value="24">24</option>
-                            <option value="48">48</option>
-                        </select>
-                        <span>out of 286</span>
-                    </div>
-
-                    <div className="patients-pagination-controls">
-                        <button type="button" className="btn-patients-step" title="Previous Page">
-                            <i className="bi bi-chevron-left"></i>
-                        </button>
-                        <button type="button" className="btn-patients-step active">1</button>
-                        <button type="button" className="btn-patients-step">2</button>
-                        <button type="button" className="btn-patients-step">3</button>
-                        <span className="page-step-ellipsis">...</span>
-                        <button type="button" className="btn-patients-step">16</button>
-                        <button type="button" className="btn-patients-step" title="Next Page">
-                            <i className="bi bi-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </>
+      <div className="doctors-empty-prompt-card" id="emptyPatientsPrompt" style={{ padding: "64px 24px", textAlign: "center" }}>
+        <div className="empty-prompt-illustration">
+          <div className="empty-prompt-icon-ring outer" style={{ width: "64px", height: "64px", margin: "0 auto 16px", borderRadius: "50%", background: "rgba(13, 92, 86, 0.08)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <i className="bi bi-person-add" style={{ fontSize: "24px", color: "var(--primary-color-dark, #0d5c56)" }}></i>
+          </div>
+        </div>
+        <div className="empty-prompt-content">
+          <h3 className="empty-prompt-title" style={{ fontSize: "18px", fontWeight: "700", marginBottom: "8px" }}>No Patient Records Registered</h3>
+          <p className="empty-prompt-description" style={{ color: "#64748B", fontSize: "13.5px", maxWidth: "420px", margin: "0 auto 20px" }}>
+            There are currently no patients registered in the ClinCore system. Get started by admitting or adding your first patient.
+          </p>
+          {onAddPatient && (
+            <button
+              type="button"
+              className="btn-offline-retry"
+              onClick={onAddPatient}
+            >
+              <i className="bi bi-plus-lg"></i>
+              <span>Add New Patient</span>
+            </button>
+          )}
+        </div>
+      </div>
     );
+  }
+
+  return (
+    <div className="patients-main-card">
+      <div className="patients-table-wrap">
+        <table className="patients-data-table">
+          <thead>
+            <tr>
+              <th
+                className="sortable-th"
+                onClick={() => handleSort("patientId")}
+                style={{ cursor: "pointer", userSelect: "none" }}
+                title="Sort by Patient ID"
+              >
+                <span>Patient ID</span>
+                <i
+                  className={`bi ${
+                    sortField === "patientId"
+                      ? sortOrder === "asc"
+                        ? "bi-arrow-up"
+                        : "bi-arrow-down"
+                      : "bi-arrow-down-up"
+                  }`}
+                  style={{ marginLeft: "6px", fontSize: "11px" }}
+                ></i>
+              </th>
+              <th
+                className="sortable-th"
+                onClick={() => handleSort("name")}
+                style={{ cursor: "pointer", userSelect: "none" }}
+                title="Sort by Patient Name"
+              >
+                <span>Patient Name</span>
+                <i
+                  className={`bi ${
+                    sortField === "name"
+                      ? sortOrder === "asc"
+                        ? "bi-arrow-up"
+                        : "bi-arrow-down"
+                      : "bi-arrow-down-up"
+                  }`}
+                  style={{ marginLeft: "6px", fontSize: "11px" }}
+                ></i>
+              </th>
+              <th
+                className="sortable-th"
+                onClick={() => handleSort("age")}
+                style={{ cursor: "pointer", userSelect: "none" }}
+                title="Sort by Age"
+              >
+                <span>Age</span>
+                <i
+                  className={`bi ${
+                    sortField === "age"
+                      ? sortOrder === "asc"
+                        ? "bi-arrow-up"
+                        : "bi-arrow-down"
+                      : "bi-arrow-down-up"
+                  }`}
+                  style={{ marginLeft: "6px", fontSize: "11px" }}
+                ></i>
+              </th>
+              <th
+                className="sortable-th"
+                onClick={() => handleSort("checkIn")}
+                style={{ cursor: "pointer", userSelect: "none" }}
+                title="Sort by Check In Date"
+              >
+                <span>Check In</span>
+                <i
+                  className={`bi ${
+                    sortField === "checkIn"
+                      ? sortOrder === "asc"
+                        ? "bi-arrow-up"
+                        : "bi-arrow-down"
+                      : "bi-arrow-down-up"
+                  }`}
+                  style={{ marginLeft: "6px", fontSize: "11px" }}
+                ></i>
+              </th>
+              <th
+                className="sortable-th"
+                onClick={() => handleSort("treatment")}
+                style={{ cursor: "pointer", userSelect: "none" }}
+                title="Sort by Treatment"
+              >
+                <span>Treatment</span>
+                <i
+                  className={`bi ${
+                    sortField === "treatment"
+                      ? sortOrder === "asc"
+                        ? "bi-arrow-up"
+                        : "bi-arrow-down"
+                      : "bi-arrow-down-up"
+                  }`}
+                  style={{ marginLeft: "6px", fontSize: "11px" }}
+                ></i>
+              </th>
+              <th
+                className="sortable-th"
+                onClick={() => handleSort("doctor")}
+                style={{ cursor: "pointer", userSelect: "none" }}
+                title="Sort by Doctor Assigned"
+              >
+                <span>Doctor Assigned</span>
+                <i
+                  className={`bi ${
+                    sortField === "doctor"
+                      ? sortOrder === "asc"
+                        ? "bi-arrow-up"
+                        : "bi-arrow-down"
+                      : "bi-arrow-down-up"
+                  }`}
+                  style={{ marginLeft: "6px", fontSize: "11px" }}
+                ></i>
+              </th>
+              <th
+                className="sortable-th"
+                onClick={() => handleSort("room")}
+                style={{ cursor: "pointer", userSelect: "none" }}
+                title="Sort by Room"
+              >
+                <span>Room</span>
+                <i
+                  className={`bi ${
+                    sortField === "room"
+                      ? sortOrder === "asc"
+                        ? "bi-arrow-up"
+                        : "bi-arrow-down"
+                      : "bi-arrow-down-up"
+                  }`}
+                  style={{ marginLeft: "6px", fontSize: "11px" }}
+                ></i>
+              </th>
+              <th
+                className="sortable-th"
+                onClick={() => handleSort("status")}
+                style={{ cursor: "pointer", userSelect: "none" }}
+                title="Sort by Status"
+              >
+                <span>Status</span>
+                <i
+                  className={`bi ${
+                    sortField === "status"
+                      ? sortOrder === "asc"
+                        ? "bi-arrow-up"
+                        : "bi-arrow-down"
+                      : "bi-arrow-down-up"
+                  }`}
+                  style={{ marginLeft: "6px", fontSize: "11px" }}
+                ></i>
+              </th>
+              <th className="sortable-th text-center" style={{ textAlign: "center" }}>
+                <span>Action</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginatedPatients.map((patient, index) => {
+              const statusClass =
+                patient.status === "New Patient"
+                  ? "status-new"
+                  : patient.status === "Inactive" || patient.status === "Discharged"
+                  ? "status-inactive"
+                  : "status-active";
+
+              const patientName = patient.name || patient.fullName || "Patient";
+              const initials = getInitials(patientName);
+
+              return (
+                <tr key={patient.patientId || `patient-${index}`}>
+                  <td>
+                    <span className="patient-id-cell">
+                      <i className="bi bi-person-badge" aria-hidden="true"></i>
+                      <span className="patient-id-txt">{patient.patientId || "-"}</span>
+                    </span>
+                  </td>
+                  <td>
+                    <div
+                      className="patient-profile-cell"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handlePatientClick(patient)}
+                      title="Click to view patient profile"
+                    >
+                      <div className="patient-cell-avatar">
+                        {patient.avatar && !patient.avatar.includes("PT") ? (
+                          <img
+                            src={patient.avatar}
+                            alt={patientName}
+                            onError={(e) => {
+                              e.target.style.display = "none";
+                              if (e.target.nextSibling) {
+                                e.target.nextSibling.style.display = "flex";
+                              }
+                            }}
+                          />
+                        ) : null}
+                        <div
+                          style={{
+                            display: patient.avatar && !patient.avatar.includes("PT") ? "none" : "flex",
+                            width: "100%",
+                            height: "100%",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            background: "var(--primary-color-dark, #0d5c56)",
+                            color: "#FFFFFF",
+                            fontSize: "12px",
+                            fontWeight: "700",
+                          }}
+                        >
+                          {initials}
+                        </div>
+                      </div>
+                      <span className="patient-name-txt">{patientName}</span>
+                    </div>
+                  </td>
+                  <td>{patient.age || "-"}</td>
+                  <td>{patient.checkIn || "20 July 2028"}</td>
+                  <td>{patient.treatment || "Routine Check-Up"}</td>
+                  <td>{patient.doctor || "Dr. Petra Winsburry"}</td>
+                  <td>{patient.room || "-"}</td>
+                  <td>
+                    <span className={`patient-status-badge ${statusClass}`}>
+                      {patient.status || "Active"}
+                    </span>
+                  </td>
+                  <td className="text-center" style={{ textAlign: "center" }}>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                      <button
+                        type="button"
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: "var(--text-muted-color, #64748b)",
+                          cursor: "pointer",
+                          padding: "4px 6px",
+                          borderRadius: "4px",
+                          fontSize: "14px",
+                          transition: "color 0.15s",
+                        }}
+                        aria-label="Edit Patient Profile"
+                        title="Edit Patient Profile"
+                        onClick={() => openEditDrawer(patient, "patient")}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "var(--primary-color-dark, #0d5c56)")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted-color, #64748b)")}
+                      >
+                        <i className="bi bi-pencil-square"></i>
+                      </button>
+                      <button
+                        type="button"
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: "#EF4444",
+                          cursor: "pointer",
+                          padding: "4px 6px",
+                          borderRadius: "4px",
+                          fontSize: "14px",
+                          transition: "color 0.15s",
+                        }}
+                        aria-label="Delete Patient Profile"
+                        title="Delete Patient Profile"
+                        onClick={() => onDeletePatient && onDeletePatient(patient.patientId)}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "#B91C1C")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "#EF4444")}
+                      >
+                        <i className="bi bi-trash3"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination controls */}
+      <div className="patients-pagination-row">
+        <div className="patients-pagination-info">
+          <span>Showing</span>
+          <select
+            className="patients-page-select"
+            value={pageSize}
+            onChange={(e) => {
+              setPageSize(Number(e.target.value));
+              setCurrentPage(1);
+            }}
+          >
+            <option value="10">10</option>
+            <option value="12">12</option>
+            <option value="24">24</option>
+            <option value="48">48</option>
+          </select>
+          <span>out of {totalFiltered}</span>
+        </div>
+
+        <div className="patients-pagination-controls">
+          <button
+            type="button"
+            className="btn-patients-step"
+            title="Previous Page"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            style={{ opacity: currentPage === 1 ? 0.4 : 1, cursor: currentPage === 1 ? "not-allowed" : "pointer" }}
+          >
+            <i className="bi bi-chevron-left"></i>
+          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1)
+            .filter((page) => {
+              if (totalPages <= 5) return true;
+              return page === 1 || page === totalPages || Math.abs(page - currentPage) <= 1;
+            })
+            .map((page, i, arr) => {
+              const prev = arr[i - 1];
+              return (
+                <React.Fragment key={page}>
+                  {prev && page - prev > 1 && (
+                    <span className="page-step-ellipsis">...</span>
+                  )}
+                  <button
+                    type="button"
+                    className={`btn-patients-step ${currentPage === page ? "active" : ""}`}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    {page}
+                  </button>
+                </React.Fragment>
+              );
+            })}
+
+          <button
+            type="button"
+            className="btn-patients-step"
+            title="Next Page"
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            style={{ opacity: currentPage === totalPages ? 0.4 : 1, cursor: currentPage === totalPages ? "not-allowed" : "pointer" }}
+          >
+            <i className="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
-
-
-

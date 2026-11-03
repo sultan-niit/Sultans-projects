@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ENTITY_SCHEMAS } from '../formSchemas';
+import { createDoctorProfile, updateStoredDoctor, formatDoctorName } from '../../api/doctor';
+import { createPatientProfile, updateStoredPatient, normalizePatientRecord } from '../../api/patient';
 
 const ModalContext = createContext(null);
 
@@ -9,6 +11,8 @@ export function ModalProvider({ children }) {
   const [isDrawerEditMode, setIsDrawerEditMode] = useState(false);
   const [drawerSchemaType, setDrawerSchemaType] = useState('staff');
   const [drawerFormData, setDrawerFormData] = useState({});
+  const [drawerOptions, setDrawerOptions] = useState({});
+  const [isDrawerSubmitting, setIsDrawerSubmitting] = useState(false);
 
   // Profile Modal state (Image 2 - Centered Modal)
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -43,10 +47,11 @@ export function ModalProvider({ children }) {
   };
 
   // Open Add Drawer (Image 1)
-  const openAddDrawer = (schemaType = 'staff') => {
+  const openAddDrawer = (schemaType = 'staff', options = {}) => {
     setDrawerSchemaType(schemaType);
     setDrawerFormData({});
     setIsDrawerEditMode(false);
+    setDrawerOptions(typeof options === 'function' ? { onSuccess: options } : (options || {}));
     setIsDrawerOpen(true);
   };
 
@@ -55,12 +60,14 @@ export function ModalProvider({ children }) {
     setDrawerSchemaType(schemaType);
     setDrawerFormData(data);
     setIsDrawerEditMode(true);
+    setDrawerOptions({});
     setIsDrawerOpen(true);
   };
 
   const closeAddDrawer = () => {
     setIsDrawerOpen(false);
     setIsDrawerEditMode(false);
+    setDrawerOptions({});
   };
 
   // Open Profile Modal (Image 2)
@@ -93,13 +100,66 @@ export function ModalProvider({ children }) {
     setIsEditMode(prev => !prev);
   };
 
-  const submitDrawerForm = (formData) => {
-    console.log('Submitted Drawer Form:', formData);
-    const entityName = ENTITY_SCHEMAS[drawerSchemaType]?.entityName || 'Record';
-    const actionText = isDrawerEditMode ? 'updated' : 'created';
-    showToast(`${entityName} successfully ${actionText}!`);
-    closeAddDrawer();
+  const submitDrawerForm = async (formData) => {
+    try {
+      setIsDrawerSubmitting(true);
+      let createdRecord = formData;
+
+      // Handle Doctor Creation API & Doctor Edit
+      if (drawerSchemaType === 'doctor') {
+        if (!isDrawerEditMode) {
+          const result = await createDoctorProfile(formData);
+          createdRecord = result.data || formData;
+          showToast(result.message || 'Doctor profile created successfully!');
+        } else {
+          // Build the merged updated record (keep all existing fields, merge with form edits)
+          const updatedRecord = {
+            ...formData,
+            name: formatDoctorName([formData.firstName, formData.lastName].filter(Boolean).join(" ").trim() || formData.name || formData.fullName || formData.doctor_name || ''),
+            fullName: formatDoctorName([formData.firstName, formData.lastName].filter(Boolean).join(" ").trim() || formData.name || formData.fullName || formData.doctor_name || ''),
+            doctor_name: formatDoctorName([formData.firstName, formData.lastName].filter(Boolean).join(" ").trim() || formData.name || formData.fullName || formData.doctor_name || ''),
+            // Normalize status
+            status: formData.status || 'Available',
+            statusId: (formData.status === 'Unavailable' || formData.status === 'Inactive') ? 'U' : 'A',
+          };
+          // Save to localStorage
+          updateStoredDoctor(updatedRecord);
+          createdRecord = updatedRecord;
+          showToast('Doctor profile updated successfully!');
+        }
+        window.dispatchEvent(new CustomEvent('clincore:doctor-changed', { detail: { record: createdRecord, isEdit: isDrawerEditMode } }));
+      } else if (drawerSchemaType === 'patient') {
+        // Handle Patient Creation API & Patient Edit
+        if (!isDrawerEditMode) {
+          const result = await createPatientProfile(formData);
+          createdRecord = result.data || formData;
+          showToast(result.message || 'Patient profile created successfully!');
+        } else {
+          const updatedRecord = normalizePatientRecord(formData);
+          updateStoredPatient(updatedRecord);
+          createdRecord = updatedRecord;
+          showToast('Patient profile updated successfully!');
+        }
+        window.dispatchEvent(new CustomEvent('clincore:patient-changed', { detail: { record: createdRecord, isEdit: isDrawerEditMode } }));
+      } else {
+        const entityName = ENTITY_SCHEMAS[drawerSchemaType]?.entityName || 'Record';
+        const actionText = isDrawerEditMode ? 'updated' : 'created';
+        showToast(`${entityName} successfully ${actionText}!`);
+      }
+
+      if (drawerOptions?.onSuccess) {
+        drawerOptions.onSuccess(createdRecord);
+      }
+
+      closeAddDrawer();
+    } catch (err) {
+      console.error('Error submitting drawer form:', err);
+      showToast(err.message || 'Error saving record', 'error');
+    } finally {
+      setIsDrawerSubmitting(false);
+    }
   };
+
 
   const submitProfileForm = (updatedData) => {
     console.log('Saved Profile Edits:', updatedData);
@@ -115,6 +175,7 @@ export function ModalProvider({ children }) {
         isDrawerEditMode,
         drawerSchemaType,
         drawerFormData,
+        isDrawerSubmitting,
         openAddDrawer,
         openEditDrawer,
         closeAddDrawer,

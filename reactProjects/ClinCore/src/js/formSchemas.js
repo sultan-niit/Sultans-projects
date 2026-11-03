@@ -92,10 +92,10 @@ export const ENTITY_SCHEMAS = {
         title: 'Doctor Basic Info',
         icon: 'bi-person',
         fields: [
-          { name: 'title', label: 'Title', type: 'select', required: true, options: ['Dr.', 'Prof. Dr.'], colSpan: 2 },
-          { name: 'fullName', label: 'Full Name', type: 'text', placeholder: 'e.g. Dr. Petra Winsburry', required: true, colSpan: 2 },
-          { name: 'email', label: 'Email Address', type: 'email', placeholder: 'doctor@clincore.com', required: true, colSpan: 1 },
-          { name: 'phone', label: 'Phone Number', type: 'tel', placeholder: '+1 (555) 019-2834', required: true, colSpan: 1 },
+          { name: 'firstName', label: 'First Name', type: 'text', placeholder: 'Enter first name (e.g. Adamu)', required: true, colSpan: 1 },
+          { name: 'lastName', label: 'Last Name', type: 'text', placeholder: 'Enter last name (e.g. Ibrahim)', required: true, colSpan: 1 },
+          { name: 'email', label: 'Email Address', type: 'email', placeholder: 'e.g. adamu@gmail.com', required: true, colSpan: 1 },
+          { name: 'phone', label: 'Phone Number', type: 'tel', placeholder: 'e.g. 1234567890', required: true, colSpan: 1 },
         ]
       },
       {
@@ -103,9 +103,9 @@ export const ENTITY_SCHEMAS = {
         title: 'Medical Specialization',
         icon: 'bi-heart-pulse',
         fields: [
-          { name: 'department', label: 'Department', type: 'select', required: true, options: ['General Medicine', 'Cardiology', 'Pediatrics', 'Dermatology', 'Internal Medicine', 'Orthopedics', 'Neurology'], colSpan: 1 },
-          { name: 'specialist', label: 'Specialist Focus', type: 'select', required: true, options: ['Routine Check-Ups', 'Heart Specialist', 'Child Health', 'Skin Specialist', 'Internal Health', 'Bone Specialist', 'Brain Specialist'], colSpan: 1 },
-          { name: 'status', label: 'Availability Status', type: 'select', required: true, options: ['Available', 'On Duty'], colSpan: 1 },
+          { name: 'department', label: 'Department', type: 'select', required: true, options: ['Cardiology', 'General Medicine', 'Pediatrics', 'Dermatology', 'Internal Medicine', 'Orthopedics', 'Neurology'], colSpan: 1 },
+          { name: 'specialist', label: 'Specialist Focus / Role', type: 'select', required: true, options: ['heart specialist', 'Routine Check-Ups', 'Child Health', 'Skin Specialist', 'Internal Health', 'Bone Specialist', 'Brain Specialist'], colSpan: 1 },
+          { name: 'status', label: 'Availability Status', type: 'select', required: true, options: ['Available', 'Unavailable', 'On Duty'], colSpan: 1 },
           { name: 'maxPatients', label: 'Daily Patient Capacity', type: 'number', placeholder: '20', required: false, colSpan: 1 },
         ]
       }
@@ -116,10 +116,10 @@ export const ENTITY_SCHEMAS = {
         title: 'Doctor Basic Info',
         icon: 'bi-person',
         fields: [
-          { name: 'title', label: 'Title', type: 'select', required: true, options: ['Dr.', 'Prof. Dr.'], colSpan: 2 },
-          { name: 'fullName', label: 'Full Name', type: 'text', placeholder: 'e.g. Dr. Petra Winsburry', required: true, colSpan: 2 },
-          { name: 'email', label: 'Email Address', type: 'email', placeholder: 'doctor@clincore.com', required: true, colSpan: 1 },
-          { name: 'phone', label: 'Phone Number', type: 'tel', placeholder: '+1 (555) 019-2834', required: true, colSpan: 1 },
+          { name: 'firstName', label: 'First Name', type: 'text', placeholder: 'Enter first name (e.g. Adamu)', required: true, colSpan: 1 },
+          { name: 'lastName', label: 'Last Name', type: 'text', placeholder: 'Enter last name (e.g. Ibrahim)', required: true, colSpan: 1 },
+          { name: 'email', label: 'Email Address', type: 'email', placeholder: 'e.g. adamu@gmail.com', required: true, colSpan: 1 },
+          { name: 'phone', label: 'Phone Number', type: 'tel', placeholder: 'e.g. 1234567890', required: true, colSpan: 1 },
         ]
       },
       {
@@ -127,8 +127,8 @@ export const ENTITY_SCHEMAS = {
         title: 'Medical Specialization',
         icon: 'bi-heart-pulse',
         fields: [
-          { name: 'department', label: 'Department', type: 'select', required: true, options: ['General Medicine', 'Cardiology', 'Pediatrics', 'Dermatology', 'Internal Medicine', 'Orthopedics', 'Neurology'], colSpan: 1 },
-          { name: 'specialist', label: 'Specialist Focus', type: 'select', required: true, options: ['Routine Check-Ups', 'Heart Specialist', 'Child Health', 'Skin Specialist', 'Internal Health', 'Bone Specialist', 'Brain Specialist'], colSpan: 1 },
+          { name: 'department', label: 'Department', type: 'select', required: true, options: ['Cardiology', 'General Medicine', 'Pediatrics', 'Dermatology', 'Internal Medicine', 'Orthopedics', 'Neurology'], colSpan: 1 },
+          { name: 'specialist', label: 'Specialist Focus / Role', type: 'select', required: true, options: ['heart specialist', 'Routine Check-Ups', 'Child Health', 'Skin Specialist', 'Internal Health', 'Bone Specialist', 'Brain Specialist'], colSpan: 1 },
           { name: 'status', label: 'Availability Status', type: 'select', required: true, options: ['Available', 'Unavailable', 'On Duty', 'On Leave', 'Suspended'], colSpan: 1 },
           { name: 'maxPatients', label: 'Daily Patient Capacity', type: 'number', placeholder: '20', required: false, colSpan: 1 },
         ]
@@ -151,14 +151,15 @@ export const ENTITY_SCHEMAS = {
     sections: [
       {
         id: 'patient_personal',
-        title: 'Patient Personal Info',
+        title: 'Patient Basic Info',
         icon: 'bi-person',
         fields: [
           { name: 'fullName', label: 'Full Name', type: 'text', placeholder: 'e.g. Caren G. Simpson', required: true, colSpan: 2 },
           { name: 'age', label: 'Age', type: 'number', placeholder: '35', required: true, colSpan: 1 },
           { name: 'gender', label: 'Gender', type: 'select', required: true, options: ['Male', 'Female', 'Other'], colSpan: 1 },
-          { name: 'email', label: 'Email Address', type: 'email', placeholder: 'patient@gmail.com', required: false, colSpan: 2 },
-          { name: 'phone', label: 'Contact Phone', type: 'tel', placeholder: '080 3123 4567', required: true, colSpan: 2 },
+          { name: 'email', label: 'Email Address', type: 'email', placeholder: 'patient@gmail.com', required: false, colSpan: 1 },
+          { name: 'phone', label: 'Contact Phone', type: 'tel', placeholder: '080 3123 4567', required: true, colSpan: 1 },
+          { name: 'password', label: 'Password', type: 'password', placeholder: 'Create a password', autoComplete: 'new-password', required: true, colSpan: 1 },
         ]
       },
       {
@@ -176,14 +177,14 @@ export const ENTITY_SCHEMAS = {
     editSections: [
       {
         id: 'patient_personal',
-        title: 'Patient Personal Info',
+        title: 'Patient Basic Info',
         icon: 'bi-person',
         fields: [
           { name: 'fullName', label: 'Full Name', type: 'text', placeholder: 'e.g. Caren G. Simpson', required: true, colSpan: 2 },
           { name: 'age', label: 'Age', type: 'number', placeholder: '35', required: true, colSpan: 1 },
           { name: 'gender', label: 'Gender', type: 'select', required: true, options: ['Male', 'Female', 'Other'], colSpan: 1 },
-          { name: 'email', label: 'Email Address', type: 'email', placeholder: 'patient@gmail.com', required: false, colSpan: 2 },
-          { name: 'phone', label: 'Contact Phone', type: 'tel', placeholder: '080 3123 4567', required: true, colSpan: 2 },
+          { name: 'email', label: 'Email Address', type: 'email', placeholder: 'patient@gmail.com', required: false, colSpan: 1 },
+          { name: 'phone', label: 'Contact Phone', type: 'tel', placeholder: '080 3123 4567', required: true, colSpan: 1 },
         ]
       },
       {

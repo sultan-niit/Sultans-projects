@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
     if (responseData?.success) {
       const staff = responseData.data || {};
-      const fullName = `${staff.firstName || ""} ${staff.lastName || ""}`.trim() || staff.emailAddress || "User";
+      const fullName = staff.name || `${staff.firstName || ""} ${staff.lastName || ""}`.trim() || staff.emailAddress || "User";
 
       const userData = {
         ...staff,

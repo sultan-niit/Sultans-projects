@@ -554,3 +554,124 @@ export default function Sidebar() {
   );
 }
 ```
+
+---
+
+## 10. ClinCore Entity CRUD & API Service Architecture Standard
+
+This pattern establishes the official standard for creating module-specific entity services (e.g. Doctors, Patients, Staff, Appointments) in ClinCore.
+
+### Core Principles
+1. **Direct Axios Integration (`src/api/axios.js`)**: All endpoints use the shared Axios instance with boundary-safe `FormData` payloads.
+2. **Dual-Tier Data Resilience**:
+   - Primary: Remote PHP backend APIs (`create`, `fetch-each`, `fetch-all`, `search`, `delete`).
+   - Fallback: Local Storage cache (`clincore_<entity>s`) ensuring immediate offline responsiveness and zero data loss on network drops.
+3. **Strict Entity Normalization**:
+   - Every service defines a `normalize<Entity>Record(record, fallbackIndex)` function ensuring consistent IDs, full names, initials, status codes (`A`/`U` to `Available`/`Unavailable`), and fallback avatars.
+4. **Global Cross-Component Synchronization**:
+   - Any mutation (create, edit, delete) broadcasts `clincore:<entity>-changed` with `{ detail: { record, isEdit } }` for zero-reload reactive updates across tables, drawers, and stat cards.
+5. **Network Connectivity & Offline Error Propagation**:
+   - Services check `!navigator.onLine` and catch `ERR_NETWORK` errors, attaching `isNetworkError = true` so the consumer component renders the standard offline retry card.
+6. **Unified Dual UI State Pattern**:
+   - **Loading State**: Pure, minimalist rolling circle spinner (`.rolling-circle-spinner`).
+   - **Offline State**: Centered alert card (`.doctors-offline-card`) featuring an offline icon (`bi bi-wifi-off`), explanation, and a "Retry Connection" action button.
+
+### Architectural Template (`src/api/<entity>.js`)
+
+```javascript
+import api from "./axios";
+
+// 1. ENDPOINTS CONFIGURATION
+export const CREATE_ENTITY_API_URL =
+  import.meta.env.VITE_CREATE_<ENTITY>_API_URL || "https://clincore.niitwebdev.com.ng/...";
+export const FETCH_EACH_ENTITY_API_URL =
+  import.meta.env.VITE_FETCH_EACH_<ENTITY>_API_URL || "https://clincore.niitwebdev.com.ng/...";
+export const FETCH_ALL_ENTITIES_API_URL =
+  import.meta.env.VITE_FETCH_ALL_<ENTITY>S_API_URL || "https://clincore.niitwebdev.com.ng/...";
+export const DELETE_ENTITY_API_URL =
+  import.meta.env.VITE_DELETE_<ENTITY>_API_URL || "https://clincore.niitwebdev.com.ng/...";
+export const SEARCH_ENTITY_API_URL =
+  import.meta.env.VITE_SEARCH_<ENTITY>_API_URL || "https://clincore.niitwebdev.com.ng/...";
+
+// 2. NORMALIZATION & INITIALS
+export function getEntityInitials(name = "") {
+  const parts = name.trim().split(" ").filter(Boolean);
+  return parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : name.slice(0, 2).toUpperCase() || "NA";
+}
+
+export function normalizeEntityRecord(raw = {}, fallbackIndex = 1) {
+  return {
+    id: raw.id || raw.entityId || `ENT-${String(fallbackIndex).padStart(3, "0")}`,
+    name: raw.name || raw.fullName || "Unnamed Entity",
+    email: raw.email || raw.emailAddress || "",
+    phone: raw.phone || raw.phoneNumber || "",
+    status: raw.status || "Active",
+    createdAt: raw.createdAt || new Date().toISOString(),
+  };
+}
+
+// 3. LOCAL CACHE MANAGEMENT & NOTIFICATION
+const LOCAL_STORAGE_KEY = "clincore_<entity>s";
+
+function notifyEntityChange(record = null, isEdit = false) {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(
+      new CustomEvent("clincore:<entity>-changed", {
+        detail: { record, isEdit },
+      })
+    );
+  }
+}
+
+export function getStoredEntities() {
+  try {
+    const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveStoredEntities(list) {
+  try {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(Array.isArray(list) ? list : []));
+  } catch (err) {
+    console.error("Storage error:", err);
+  }
+}
+
+// 4. API OPERATIONS WITH NETWORK ERROR PROPAGATION
+export async function fetchAllEntities() {
+  if (typeof navigator !== "undefined" && !navigator.onLine) {
+    const err = new Error("No internet connection");
+    err.isNetworkError = true;
+    throw err;
+  }
+
+  try {
+    let res;
+    try {
+      res = await api.get(FETCH_ALL_ENTITIES_API_URL);
+    } catch (err) {
+      if (!navigator.onLine || err.code === "ERR_NETWORK" || err.message?.toLowerCase().includes("network")) {
+        throw err;
+      }
+      res = await api.post(FETCH_ALL_ENTITIES_API_URL);
+    }
+
+    const items = res?.data?.data || res?.data || [];
+    if (Array.isArray(items) && items.length > 0) {
+      const normalized = items.map((item, idx) => normalizeEntityRecord(item, idx + 1));
+      saveStoredEntities(normalized);
+      return normalized;
+    }
+    return [];
+  } catch (err) {
+    if (!navigator.onLine || err.code === "ERR_NETWORK" || err.isNetworkError) {
+      throw err;
+    }
+    return null;
+  }
+}
+```
+

@@ -1,12 +1,192 @@
+import React, { useState, useEffect, useMemo } from "react";
 import Sidebar from "../components/Sidebar";
 import TopHeader from "../components/TopHeader";
 import ButtonComponents from "../components/ButtonComponents";
 import DoctorsTable from "../components/DoctorsTable";
 import PageFooter from "../components/PageFooter";
 import { useModalState } from "../js/components/ModalContext";
+import {
+  getStoredDoctors,
+  removeStoredDoctor,
+  deleteDoctorProfile,
+  fetchAllDoctors,
+  syncAllDoctorsWithApi,
+} from "../api/doctor";
 
 export default function Doctors() {
-  const { openAddDrawer } = useModalState();
+  const { openAddDrawer, showToast } = useModalState();
+  const [doctors, setDoctors] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isOffline, setIsOffline] = useState(
+    typeof navigator !== "undefined" ? !navigator.onLine : false
+  );
+
+  // Search & Filter state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [departmentFilter, setDepartmentFilter] = useState("");
+  const [specialistFilter, setSpecialistFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+
+  const fetchDoctorsData = async (showLoadingSpinner = true) => {
+    if (typeof navigator !== "undefined" && !navigator.onLine) {
+      setIsOffline(true);
+      setIsLoading(false);
+      return;
+    }
+
+    if (showLoadingSpinner) {
+      setIsLoading(true);
+    }
+
+    try {
+      const fetched = await fetchAllDoctors();
+      if (fetched && fetched.length > 0) {
+        setDoctors(fetched);
+        setIsOffline(false);
+      } else {
+        setDoctors(getStoredDoctors());
+        setIsOffline(false);
+      }
+    } catch (err) {
+      console.warn("Error fetching all doctors on tab click:", err?.message || err);
+      const isNetErr =
+        (typeof navigator !== "undefined" && !navigator.onLine) ||
+        err?.code === "ERR_NETWORK" ||
+        err?.message?.toLowerCase().includes("network error") ||
+        err?.isNetworkError;
+
+      if (isNetErr) {
+        setIsOffline(true);
+      } else {
+        setDoctors(getStoredDoctors());
+      }
+    } finally {
+      if (showLoadingSpinner) {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 400);
+      } else {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  // Fetch all doctors from API on initial tab mount
+  useEffect(() => {
+    fetchDoctorsData(true);
+
+    const handleOnline = () => {
+      setIsOffline(false);
+      fetchDoctorsData(true);
+    };
+    const handleOffline = () => {
+      setIsOffline(true);
+    };
+
+    const refreshDoctors = async (e) => {
+      // If an edit happened, update the specific record in state directly for instant feedback
+      if (e?.detail?.isEdit && e?.detail?.record) {
+        const updated = e.detail.record;
+        setDoctors(prev =>
+          prev.map(d =>
+            ((d.doctorId && d.doctorId === updated.doctorId) ||
+             (d.doctor_id && d.doctor_id === updated.doctorId) ||
+             (d.doctorId && d.doctorId === updated.doctor_id))
+              ? { ...d, ...updated }
+              : d
+          )
+        );
+        return;
+      }
+      // Otherwise (new add or delete), re-fetch from API for fresh list
+      try {
+        const fetched = await fetchAllDoctors();
+        if (fetched && fetched.length > 0) {
+          setDoctors(fetched);
+          setIsOffline(false);
+        } else {
+          setDoctors(getStoredDoctors());
+        }
+      } catch {
+        setDoctors(getStoredDoctors());
+      }
+    };
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+    window.addEventListener("clincore:doctor-changed", refreshDoctors);
+    window.addEventListener("storage", () => setDoctors(getStoredDoctors()));
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("clincore:doctor-changed", refreshDoctors);
+      window.removeEventListener("storage", () => setDoctors(getStoredDoctors()));
+    };
+
+  }, []);
+
+  // Filtered doctors list based on search and selected dropdowns
+  const filteredDoctors = useMemo(() => {
+    return doctors.filter((doc) => {
+      // Search term matching
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim();
+        const nameMatch = (doc.name || doc.fullName || doc.doctor_name || doc.doctorName || "").toLowerCase().includes(query);
+        const idMatch = (doc.doctorId || doc.doctor_id || "").toLowerCase().includes(query);
+        const emailMatch = (doc.emailAddress || doc.email || doc.email_address || "").toLowerCase().includes(query);
+        const specMatch = (doc.specialist || "").toLowerCase().includes(query);
+        const deptMatch = (doc.department || doc.departmentName || "").toLowerCase().includes(query);
+
+        if (!nameMatch && !idMatch && !emailMatch && !specMatch && !deptMatch) {
+          return false;
+        }
+      }
+
+      // Department filter
+      if (departmentFilter && (doc.department || doc.departmentName || "").toLowerCase() !== departmentFilter.toLowerCase()) {
+        return false;
+      }
+
+      // Specialist filter
+      if (
+        specialistFilter &&
+        (doc.specialist || "").toLowerCase() !== specialistFilter.toLowerCase()
+      ) {
+        return false;
+      }
+
+      // Status filter
+      if (statusFilter) {
+        const isAvail =
+          doc.status === "Available" || doc.status === "Active" || doc.statusId === "A" || doc.status_id === "A";
+        if (statusFilter === "Available" && !isAvail) return false;
+        if (statusFilter === "Unavailable" && isAvail) return false;
+      }
+
+      return true;
+    });
+  }, [doctors, searchQuery, departmentFilter, specialistFilter, statusFilter]);
+
+  const handleDeleteDoctor = async (doctorId) => {
+    if (window.confirm("Are you sure you want to delete this doctor profile?")) {
+      const res = await deleteDoctorProfile(doctorId);
+      if (res?.doctors) {
+        setDoctors(res.doctors);
+      } else {
+        const updated = removeStoredDoctor(doctorId);
+        setDoctors(updated);
+      }
+      showToast("Doctor profile deleted successfully.");
+    }
+  };
+
+  const handleClearFilters = () => {
+    setSearchQuery("");
+    setDepartmentFilter("");
+    setSpecialistFilter("");
+    setStatusFilter("");
+  };
 
   return (
     <div className="dashboard-wrapper">
@@ -22,13 +202,39 @@ export default function Doctors() {
               <div className="doctors-filters-group">
                 <div className="table-search-pill">
                   <i className="bi bi-search"></i>
-                  <input type="text" id="doctorSearchInput" placeholder="Search name, ID, age, etc" />
+                  <input
+                    type="text"
+                    id="doctorSearchInput"
+                    placeholder="Search name, ID, specialist, etc"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      style={{
+                        background: "none",
+                        border: "none",
+                        color: "var(--text-muted-color)",
+                        cursor: "pointer",
+                        padding: "0 4px",
+                      }}
+                      onClick={() => setSearchQuery("")}
+                    >
+                      <i className="bi bi-x-circle-fill"></i>
+                    </button>
+                  )}
                 </div>
 
-                <select id="departmentFilter" className="filter-dropdown-btn" defaultValue="">
+                <select
+                  id="departmentFilter"
+                  className="filter-dropdown-btn"
+                  value={departmentFilter}
+                  onChange={(e) => setDepartmentFilter(e.target.value)}
+                >
                   <option value="">Department</option>
-                  <option value="General Medicine">General Medicine</option>
                   <option value="Cardiology">Cardiology</option>
+                  <option value="General Medicine">General Medicine</option>
                   <option value="Pediatrics">Pediatrics</option>
                   <option value="Dermatology">Dermatology</option>
                   <option value="Internal Medicine">Internal Medicine</option>
@@ -36,10 +242,15 @@ export default function Doctors() {
                   <option value="Neurology">Neurology</option>
                 </select>
 
-                <select id="specialistFilter" className="filter-dropdown-btn" defaultValue="">
+                <select
+                  id="specialistFilter"
+                  className="filter-dropdown-btn"
+                  value={specialistFilter}
+                  onChange={(e) => setSpecialistFilter(e.target.value)}
+                >
                   <option value="">Specialist</option>
+                  <option value="heart specialist">Heart Specialist</option>
                   <option value="Routine Check-Ups">Routine Check-Ups</option>
-                  <option value="Heart Specialist">Heart Specialist</option>
                   <option value="Child Health">Child Health</option>
                   <option value="Skin Specialist">Skin Specialist</option>
                   <option value="Internal Health">Internal Health</option>
@@ -47,26 +258,56 @@ export default function Doctors() {
                   <option value="Brain Specialist">Brain Specialist</option>
                 </select>
 
-                <select id="statusFilter" className="filter-dropdown-btn" defaultValue="">
+                <select
+                  id="statusFilter"
+                  className="filter-dropdown-btn"
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                >
                   <option value="">Status</option>
                   <option value="Available">Available</option>
                   <option value="Unavailable">Unavailable</option>
                 </select>
+
+                {(departmentFilter || specialistFilter || statusFilter || searchQuery) && (
+                  <button
+                    type="button"
+                    className="btn-clear-filters-pill"
+                    onClick={handleClearFilters}
+                    title="Clear all active filters"
+                  >
+                    <i className="bi bi-arrow-counterclockwise"></i>
+                    <span>Reset</span>
+                  </button>
+                )}
               </div>
 
-              <ButtonComponents
-                id="openAddDoctorModal"
-                className="btn-add-doctor-action"
-                icon="bi-plus-lg"
-                title="Add Doctor"
-                onClick={() => openAddDrawer('doctor')}
-              />
+              {/* Toolbar Actions: Add Doctor Action */}
+              <div className="doctors-toolbar-actions">
+                <ButtonComponents
+                  id="openAddDoctorModal"
+                  className="btn-add-doctor-action"
+                  icon="bi-plus-lg"
+                  title="Add Doctor"
+                  onClick={() => openAddDrawer("doctor")}
+                />
+              </div>
             </div>
 
             {/* ============================================================ */}
-            {/* TABLE SECTION: Doctors Data Table Component                  */}
+            {/* TABLE SECTION: Doctors Data Table / Empty State Component     */}
             {/* ============================================================ */}
-            <DoctorsTable />
+            <DoctorsTable
+              doctors={filteredDoctors}
+              totalCount={doctors.length}
+              searchTerm={searchQuery}
+              isLoading={isLoading}
+              isOffline={isOffline}
+              onRetry={() => fetchDoctorsData(true)}
+              onAddDoctor={() => openAddDrawer("doctor")}
+              onDeleteDoctor={handleDeleteDoctor}
+              onClearFilters={handleClearFilters}
+            />
           </div>
 
           {/* ============================================================ */}
@@ -82,5 +323,3 @@ export default function Doctors() {
     </div>
   );
 }
-
-

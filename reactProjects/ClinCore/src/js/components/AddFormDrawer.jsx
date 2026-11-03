@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useModalState } from '../components/ModalContext';
 import { ENTITY_SCHEMAS } from '../formSchemas';
+import { fetchDoctorMetadata } from '../../api/doctor';
 
 export default function AddFormDrawer() {
   const {
@@ -8,6 +9,7 @@ export default function AddFormDrawer() {
     isDrawerEditMode,
     drawerSchemaType,
     drawerFormData,
+    isDrawerSubmitting,
     closeAddDrawer,
     submitDrawerForm
   } = useModalState();
@@ -15,6 +17,7 @@ export default function AddFormDrawer() {
   const schema = ENTITY_SCHEMAS[drawerSchemaType] || ENTITY_SCHEMAS.staff;
   const [formData, setFormData] = useState({});
   const [imagePreview, setImagePreview] = useState(null);
+  const [backendOptions, setBackendOptions] = useState({});
 
   // Use edit-specific sections when in edit mode, fallback to regular sections
   const activeSections = isDrawerEditMode && schema.editSections
@@ -31,11 +34,21 @@ export default function AddFormDrawer() {
   const drawerIcon = isDrawerEditMode ? 'bi-pencil-square' : schema.icon;
 
   // Empty defaults for add mode
-  const buildInitialData = () => {
+  const buildInitialData = (currentBackend = backendOptions) => {
     const initialData = {};
     activeSections.forEach(sec => {
       sec.fields.forEach(field => {
-        initialData[field.name] = field.type === 'select' ? field.options[0] : '';
+        if (field.type === 'select') {
+          const opts = (currentBackend && currentBackend[field.name] && currentBackend[field.name].length > 0)
+            ? currentBackend[field.name]
+            : (field.options || []);
+          const first = opts[0];
+          initialData[field.name] = (typeof first === 'object' && first !== null)
+            ? (first.name || first.value || first.roleName || first.statusName || first.departmentName || '')
+            : (first || '');
+        } else {
+          initialData[field.name] = '';
+        }
       });
     });
     return initialData;
@@ -44,9 +57,52 @@ export default function AddFormDrawer() {
   // Reset/load form inputs when schema changes or drawer opens
   useEffect(() => {
     if (isDrawerOpen) {
+      if (drawerSchemaType === 'doctor') {
+        fetchDoctorMetadata().then((meta) => {
+          const overrides = {};
+          if (meta.departments?.length) overrides.department = meta.departments;
+          if (meta.roles?.length) overrides.specialist = meta.roles;
+          if (meta.statuses?.length) overrides.status = meta.statuses;
+          if (Object.keys(overrides).length > 0) {
+            setBackendOptions(overrides);
+            setFormData(prev => {
+              const updated = { ...prev };
+              Object.keys(overrides).forEach(k => {
+                const list = overrides[k];
+                if (list && list.length > 0) {
+                  const first = list[0];
+                  const firstVal = typeof first === 'object' && first !== null
+                    ? (first.name || first.value || first.roleName || first.statusName || first.departmentName || '')
+                    : first;
+                  if (!updated[k]) {
+                    updated[k] = firstVal;
+                  }
+                }
+              });
+              return updated;
+            });
+          }
+        });
+      } else {
+        setBackendOptions({});
+      }
+
       if (isDrawerEditMode && drawerFormData && Object.keys(drawerFormData).length > 0) {
         // Pre-fill with existing data for edit mode
-        setFormData({ ...drawerFormData });
+        const initial = { ...drawerFormData };
+        const rawDoctorName = initial.doctor_name || initial.name || initial.fullName || "";
+        if (!initial.firstName && rawDoctorName) {
+          const parts = rawDoctorName.replace(/^(dr\.|dr\b|prof\.|prof\b|mr\.|mr\b|mrs\.|mrs\b|ms\.|ms\b)\s*/i, "").trim().split(/\s+/);
+          initial.firstName = parts[0] || "";
+          initial.lastName = parts.slice(1).join(" ") || "";
+        }
+        if (!initial.email && (initial.emailAddress || initial.email_address)) {
+          initial.email = initial.emailAddress || initial.email_address;
+        }
+        if (!initial.phone && (initial.phoneNumber || initial.phone_number)) {
+          initial.phone = initial.phoneNumber || initial.phone_number;
+        }
+        setFormData(initial);
       } else {
         setFormData(buildInitialData());
       }
@@ -78,7 +134,52 @@ export default function AddFormDrawer() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    submitDrawerForm(formData);
+    const concatenatedName = [formData.firstName, formData.lastName].filter(Boolean).join(" ").trim();
+    const payload = {
+      ...formData,
+      name: concatenatedName || formData.name || formData.fullName || "",
+      fullName: concatenatedName || formData.name || formData.fullName || "",
+    };
+    submitDrawerForm(payload);
+  };
+
+  const renderSelectField = (field) => {
+    const selectOpts = (backendOptions && backendOptions[field.name] && backendOptions[field.name].length > 0)
+      ? backendOptions[field.name]
+      : (field.options || []);
+    const firstOpt = selectOpts[0];
+    const defaultFallback = typeof firstOpt === 'object' && firstOpt !== null
+      ? (firstOpt.name || firstOpt.value || firstOpt.roleName || firstOpt.statusName || firstOpt.departmentName || '')
+      : (firstOpt || '');
+    const currentValue = formData[field.name] !== undefined && formData[field.name] !== ''
+      ? formData[field.name]
+      : defaultFallback;
+
+    return (
+      <div className="select-wrapper">
+        <select
+          id={`drawer_${field.name}`}
+          name={field.name}
+          value={currentValue}
+          onChange={handleChange}
+          required={field.required}
+          className="clincore-input-select"
+        >
+          {selectOpts.map((opt, i) => {
+            const optVal = typeof opt === 'object' && opt !== null
+              ? (opt.name || opt.roleName || opt.statusName || opt.departmentName || opt.id || opt.value || '')
+              : opt;
+            const optLabel = typeof opt === 'object' && opt !== null
+              ? (opt.name || opt.label || opt.roleName || opt.statusName || opt.departmentName || optVal)
+              : opt;
+            return (
+              <option key={i} value={optVal}>{optLabel}</option>
+            );
+          })}
+        </select>
+        <i className="bi bi-chevron-down select-arrow-icon"></i>
+      </div>
+    );
   };
 
   return (
@@ -133,21 +234,7 @@ export default function AddFormDrawer() {
                       </label>
 
                       {field.type === 'select' ? (
-                        <div className="select-wrapper">
-                          <select
-                            id={`drawer_${field.name}`}
-                            name={field.name}
-                            value={formData[field.name] || field.options[0]}
-                            onChange={handleChange}
-                            required={field.required}
-                            className="clincore-input-select"
-                          >
-                            {field.options.map((opt, i) => (
-                              <option key={i} value={opt}>{opt}</option>
-                            ))}
-                          </select>
-                          <i className="bi bi-chevron-down select-arrow-icon"></i>
-                        </div>
+                        renderSelectField(field)
                       ) : field.type === 'textarea' ? (
                         <textarea
                           id={`drawer_${field.name}`}
@@ -190,6 +277,7 @@ export default function AddFormDrawer() {
                           onChange={handleChange}
                           placeholder={field.placeholder}
                           required={field.required}
+                          autoComplete={field.autoComplete}
                           className="clincore-input-text"
                         />
                       )}
@@ -213,9 +301,19 @@ export default function AddFormDrawer() {
             <button
               type="submit"
               className="btn-drawer-submit"
+              disabled={isDrawerSubmitting}
             >
-              <i className="bi bi-check-circle"></i>
-              <span>{isDrawerEditMode ? 'Update & Save' : 'Save & Submit'}</span>
+              {isDrawerSubmitting ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" style={{ width: '1rem', height: '1rem', borderWidth: '2px', display: 'inline-block', verticalAlign: 'middle', marginRight: '6px' }}></span>
+                  <span>Saving...</span>
+                </>
+              ) : (
+                <>
+                  <i className="bi bi-check-circle"></i>
+                  <span>{isDrawerEditMode ? 'Update & Save' : 'Save & Submit'}</span>
+                </>
+              )}
             </button>
           </div>
         </form>
@@ -223,5 +321,4 @@ export default function AddFormDrawer() {
     </>
   );
 }
-
 

@@ -7,7 +7,9 @@ import AuthHeroPanel from "../components/AuthHeroPanel";
 import api from "../api/axios";
 import successImage from "../assets/success.jpeg";
 
-const FORGOT_PASSWORD_API_URL = import.meta.env.VITE_FORGOT_PASSWORD_API_URL || "";
+const FORGOT_PASSWORD_API_URL =
+  import.meta.env.VITE_FORGOT_PASSWORD_API_URL ||
+  "https://clincore.niitwebdev.com.ng/clincore-api/admin/auth/forgot-password.php";
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
@@ -72,7 +74,14 @@ export default function ForgotPassword() {
       const responseData = response.data;
 
       if (responseData?.success === true) {
-        sessionStorage.setItem("forgotPasswordSession", JSON.stringify(responseData));
+        const sessionPayload = {
+          ...responseData,
+          data: {
+            emailAddress: formData.emailAddress.trim(),
+            ...(responseData.data || {}),
+          },
+        };
+        sessionStorage.setItem("forgotPasswordSession", JSON.stringify(sessionPayload));
         navigate('/reset-password');
       } else {
         setApiError(
