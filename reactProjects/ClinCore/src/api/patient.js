@@ -6,19 +6,19 @@ export const CREATE_PATIENT_API_URL =
 
 export const FETCH_EACH_PATIENT_API_URL =
   import.meta.env.VITE_FETCH_EACH_PATIENT_API_URL ||
-  "https://clincore.niitwebdev.com.ng/clincore-api/patient/patient-sign-up/patient-fetch-each.php";
+  "https://clincore.niitwebdev.com.ng/clincore-api/admin/patient/patient-fetch-each.php";
 
 export const FETCH_ALL_PATIENTS_API_URL =
   import.meta.env.VITE_FETCH_ALL_PATIENTS_API_URL ||
-  "https://clincore.niitwebdev.com.ng/clincore-api/patient/patient-sign-up/patient-fetch-all.php";
+  "https://clincore.niitwebdev.com.ng/clincore-api/admin/patient/fetch-all-patient.php";
 
 export const SEARCH_PATIENT_API_URL =
   import.meta.env.VITE_SEARCH_PATIENT_API_URL ||
-  "https://clincore.niitwebdev.com.ng/clincore-api/patient/patient-sign-up/patient-search.php";
+  "https://clincore.niitwebdev.com.ng/clincore-api/admin/patient/patient-search.php";
 
 export const DELETE_PATIENT_API_URL =
   import.meta.env.VITE_DELETE_PATIENT_API_URL ||
-  "https://clincore.niitwebdev.com.ng/clincore-api/patient/patient-sign-up/patient-delete.php";
+  "https://clincore.niitwebdev.com.ng/clincore-api/admin/patient/delete-patient.php";
 
 const STORAGE_KEY = "clincore_patients";
 
@@ -38,7 +38,7 @@ function createPatientFormData(values) {
   requestData.append("emailAddress", String(emailAddress).trim());
   requestData.append("password", String(password));
   requestData.append("phone", String(phone).trim());
-  requestData.append("address", String(address).trim());
+  requestData.append("homeAddress", String(address).trim());
   requestData.append("treatment", String(values.treatment || "").trim());
   requestData.append("doctorId", String(doctorId).trim());
   requestData.append("doctor_id", String(doctorId).trim());
@@ -53,6 +53,7 @@ function createPatientFormData(values) {
 function extractPatientList(responseData) {
   if (Array.isArray(responseData)) return responseData;
   if (Array.isArray(responseData?.data)) return responseData.data;
+  if (Array.isArray(responseData?.date)) return responseData.date;
   if (Array.isArray(responseData?.patients)) return responseData.patients;
   return [];
 }
@@ -76,6 +77,8 @@ export function getPatientInitials(name = "") {
 }
 
 export function normalizePatientRecord(record = {}) {
+  const patientData = { ...record };
+  delete patientData.password;
   const patientId = String(
     record.patientId ||
       record.patientID ||
@@ -90,13 +93,17 @@ export function normalizePatientRecord(record = {}) {
     record.name ||
     [record.firstName, record.lastName].filter(Boolean).join(" ")
   || "Patient").trim();
-  const email = (record.emailAddress || record.email || "").trim();
+  const email = (record.emailAddress || record.email_address || record.email || "").trim();
   const phone = (record.phoneNumber || record.phone || "").trim();
+  const statusId = record.statusId || record.status_id || "";
   const status =
-    record.status || record.statusName || (record.statusId === "A" ? "Active" : "");
+    record.status ||
+    record.statusName ||
+    (statusId === "A" ? "Active" : statusId === "U" ? "Inactive" : "");
+  const createdAt = record.createdAt || record.created_at || "";
 
   return {
-    ...record,
+    ...patientData,
     patientId,
     id: patientId,
     name,
@@ -107,30 +114,40 @@ export function normalizePatientRecord(record = {}) {
     emailAddress: email,
     phone,
     phoneNumber: phone,
+    address: record.address || record.home_address || "",
     age: record.age === "" || record.age == null ? "" : Number(record.age),
     gender: record.gender || "",
     checkIn:
       record.checkIn ||
-      (record.createdAt
-        ? new Date(record.createdAt).toLocaleDateString("en-GB", {
+      (createdAt
+        ? new Date(createdAt).toLocaleDateString("en-GB", {
             day: "numeric",
             month: "long",
             year: "numeric",
           })
         : ""),
     treatment: record.treatment || record.position || record.role || record.department || "",
-    doctor: record.doctor || record.doctorAssigned || "",
-    doctorAssigned: record.doctorAssigned || record.doctor || "",
-    room: record.room || "",
+    doctor: record.doctor || record.doctorAssigned || record.doctor_id || "",
+    doctorName:
+      record.doctorName ||
+      record.doctor_name ||
+      record.doctorAssignedName ||
+      record.doctor_assigned_name ||
+      "",
+    doctorId: record.doctorId || record.doctor_id || "",
+    doctorAssigned: record.doctorAssigned || record.doctor || record.doctor_id || "",
+    room: record.room || record.room_id || "",
+    roomName: record.roomName || record.room_name || "",
+    roomId: record.roomId || record.room_id || "",
     status: status === "Unavailable" ? "Inactive" : status,
-    statusId: record.statusId || (status === "Active" ? "A" : ""),
+    statusId: statusId || (status === "Active" ? "A" : ""),
     avatar:
       record.avatar ||
       record.profileImage ||
       record.profile_image ||
       record.photo ||
       null,
-    createdAt: record.createdAt || "",
+    createdAt,
   };
 }
 
@@ -224,12 +241,12 @@ export async function createPatientProfile(values = {}) {
 
   const returnedRecord = responseData?.data || responseData || {};
   const name = (
+    values.patientName ||
+    values.fullName ||
+    values.name ||
     returnedRecord.fullName ||
     returnedRecord.patientName ||
     returnedRecord.patient_name ||
-    values.patientName ||
-    values.name ||
-    values.fullName ||
     [values.firstName, values.lastName].filter(Boolean).join(" ") ||
     (phone ? `Patient ${phone}` : "Patient")
   ).trim();
@@ -246,6 +263,8 @@ export async function createPatientProfile(values = {}) {
   const record = normalizePatientRecord({
     ...patientValues,
     ...returnedRecord,
+    patientName: name,
+    fullName: name,
     patientId,
     name,
     phone,
@@ -292,13 +311,25 @@ export async function fetchAllPatients() {
   try {
     const response = await api.post(FETCH_ALL_PATIENTS_API_URL);
 
+    const storedNames = new Map(
+      getStoredPatients().map((patient) => [
+        String(patient.patientId),
+        patient.fullName || patient.name,
+      ])
+    );
     const list = extractPatientList(response?.data);
     const formattedList = list
       .filter((patient) =>
         patient.patientId || patient.patientID || patient.patient_id || patient.id
       )
       .map((patient) => normalizePatientRecord(patient))
-      .filter((patient) => patient.patientId && !/^staff/i.test(patient.patientId));
+      .filter((patient) => patient.patientId && !/^staff/i.test(patient.patientId))
+      .map((patient) => {
+        const storedName = storedNames.get(patient.patientId);
+        return storedName
+          ? { ...patient, name: storedName, fullName: storedName }
+          : patient;
+      });
     saveStoredPatients(formattedList);
     return formattedList;
   } catch (err) {

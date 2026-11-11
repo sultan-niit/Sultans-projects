@@ -7,6 +7,52 @@ import PageFooter from "../components/PageFooter";
 import { useModalState } from "../js/components/ModalContext";
 import { FILTER_CONFIGS } from "../js/formSchemas";
 import { getStoredPatients, removeStoredPatient, deletePatientProfile, fetchAllPatients } from "../api/patient";
+import { fetchAllDoctors, getStoredDoctors } from "../api/doctor";
+import { fetchAllRooms, getStoredRooms } from "../api/room";
+
+async function addAssignmentNames(patients) {
+  const [doctorsResult, roomsResult] = await Promise.allSettled([
+    fetchAllDoctors(),
+    fetchAllRooms(),
+  ]);
+  const doctors = doctorsResult.status === "fulfilled" &&
+    Array.isArray(doctorsResult.value) &&
+    doctorsResult.value.length > 0
+    ? doctorsResult.value
+    : getStoredDoctors();
+  const rooms = roomsResult.status === "fulfilled" &&
+    Array.isArray(roomsResult.value) &&
+    roomsResult.value.length > 0
+    ? roomsResult.value
+    : getStoredRooms();
+  const doctorNames = new Map(
+    doctors.map((doctor) => [
+      String(doctor.doctorId || doctor.doctor_id || doctor.id).toLowerCase(),
+      doctor.name || doctor.fullName || doctor.doctor_name,
+    ])
+  );
+  const roomNames = new Map(
+    rooms.map((room) => [
+      String(room.roomId || room.room_id || room.id).toLowerCase(),
+      room.roomName || room.room_name || room.name,
+    ])
+  );
+
+  return patients.map((patient) => ({
+    ...patient,
+    doctorName:
+      patient.doctorName ||
+      patient.doctor_name ||
+      doctorNames.get(String(patient.doctorId || patient.doctor_id || "").toLowerCase()) ||
+      patient.doctor,
+    roomName:
+      patient.roomName ||
+      patient.room_name ||
+      roomNames.get(String(patient.roomId || patient.room_id || "").toLowerCase()) ||
+      patient.room,
+  }));
+}
+
 export default function Patients() {
   const {
     openAddDrawer,
@@ -29,12 +75,12 @@ export default function Patients() {
       setIsLoading(true);
     }
     try {
-      const fetched = await fetchAllPatients();
+      const fetched = await addAssignmentNames(await fetchAllPatients());
       if (fetched && fetched.length > 0) {
         setPatients(fetched);
         setIsOffline(false);
       } else {
-        setPatients(getStoredPatients());
+        setPatients(await addAssignmentNames(getStoredPatients()));
         setIsOffline(false);
       }
     } catch (err) {
@@ -43,7 +89,7 @@ export default function Patients() {
       if (isNetErr) {
         setIsOffline(true);
       } else {
-        setPatients(getStoredPatients());
+        setPatients(await addAssignmentNames(getStoredPatients()));
       }
     } finally {
       if (showLoadingSpinner) {
@@ -75,15 +121,15 @@ export default function Patients() {
         return;
       }
       try {
-        const fetched = await fetchAllPatients();
+        const fetched = await addAssignmentNames(await fetchAllPatients());
         if (fetched && fetched.length > 0) {
           setPatients(fetched);
           setIsOffline(false);
         } else {
-          setPatients(getStoredPatients());
+          setPatients(await addAssignmentNames(getStoredPatients()));
         }
       } catch {
-        setPatients(getStoredPatients());
+        setPatients(await addAssignmentNames(getStoredPatients()));
       }
     };
     window.addEventListener("online", handleOnline);

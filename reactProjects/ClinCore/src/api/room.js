@@ -267,6 +267,8 @@ export async function fetchAllRooms() {
       list = resData;
     } else if (resData && Array.isArray(resData.data)) {
       list = resData.data;
+    } else if (resData && Array.isArray(resData.date)) {
+      list = resData.date;
     } else if (resData && Array.isArray(resData.rooms)) {
       list = resData.rooms;
     } else if (resData && Array.isArray(resData.result)) {

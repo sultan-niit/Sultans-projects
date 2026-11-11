@@ -38,6 +38,7 @@ function getDrawerRecord(schemaType, record) {
     fill('fullName', initial.name, initial.patientName, initial.patient_name);
     fill('email', initial.emailAddress, initial.email_address);
     fill('phone', initial.phoneNumber, initial.phone_number);
+    fill('homeAddress', initial.address, initial.home_address);
     fill('doctorId', initial.doctorId, initial.doctor_id);
     fill('roomId', initial.roomId, initial.room_id);
   } else if (schemaType === 'room') {

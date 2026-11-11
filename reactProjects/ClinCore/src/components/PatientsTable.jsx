@@ -240,24 +240,6 @@ export default function PatientsTable({
               </th>
               <th
                 className="sortable-th"
-                onClick={() => handleSort("age")}
-                style={{ cursor: "pointer", userSelect: "none" }}
-                title="Sort by Age"
-              >
-                <span>Age</span>
-                <i
-                  className={`bi ${
-                    sortField === "age"
-                      ? sortOrder === "asc"
-                        ? "bi-arrow-up"
-                        : "bi-arrow-down"
-                      : "bi-arrow-down-up"
-                  }`}
-                  style={{ marginLeft: "6px", fontSize: "11px" }}
-                ></i>
-              </th>
-              <th
-                className="sortable-th"
                 onClick={() => handleSort("checkIn")}
                 style={{ cursor: "pointer", userSelect: "none" }}
                 title="Sort by Check In Date"
@@ -423,11 +405,10 @@ export default function PatientsTable({
                       <span className="patient-name-txt">{patientName}</span>
                     </div>
                   </td>
-                  <td>{patient.age || "-"}</td>
                   <td>{patient.checkIn || "20 July 2028"}</td>
                   <td>{patient.treatment || "Routine Check-Up"}</td>
-                  <td>{patient.doctor || "Dr. Petra Winsburry"}</td>
-                  <td>{patient.room || "-"}</td>
+                  <td>{patient.doctorName || patient.doctor || "-"}</td>
+                  <td>{patient.roomName || patient.room || "-"}</td>
                   <td>
                     <span className={`patient-status-badge ${statusClass}`}>
                       {patient.status || "Active"}
