@@ -26,7 +26,6 @@ function createPatientFormData(values) {
   const requestData = new FormData();
   const patientName = values.patientName || values.fullName || values.name || "";
   const emailAddress = values.emailAddress || values.email || "";
-  const password = values.password || "";
   const phone = values.phone || values.phoneNumber || "";
   const address = values.address || values.homeAddress || "";
   const doctorId = values.doctorId || values.doctor_id || values.doctor || "";
@@ -36,7 +35,6 @@ function createPatientFormData(values) {
 
   requestData.append("patientName", String(patientName).trim());
   requestData.append("emailAddress", String(emailAddress).trim());
-  requestData.append("password", String(password));
   requestData.append("phone", String(phone).trim());
   requestData.append("homeAddress", String(address).trim());
   requestData.append("treatment", String(values.treatment || "").trim());
