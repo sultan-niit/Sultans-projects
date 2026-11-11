@@ -2,7 +2,7 @@ import api from "./axios";
 
 export const CREATE_PATIENT_API_URL =
   import.meta.env.VITE_CREATE_PATIENT_API_URL ||
-  "https://clincore.niitwebdev.com.ng/clincore-api/patient/patient-sign-up/patient-create.php";
+  "https://clincore.niitwebdev.com.ng/clincore-api/admin/patient/create-patient.php";
 
 export const FETCH_EACH_PATIENT_API_URL =
   import.meta.env.VITE_FETCH_EACH_PATIENT_API_URL ||
