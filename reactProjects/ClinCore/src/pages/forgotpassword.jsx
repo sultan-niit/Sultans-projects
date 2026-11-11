@@ -3,109 +3,84 @@ import { useState } from "react";
 import InputField from "../components/InputField";
 import ButtonComponents from "../components/ButtonComponents";
 import AuthHeroPanel from "../components/AuthHeroPanel";
-
 import api from "../api/axios";
 import successImage from "../assets/success.jpeg";
-
-const FORGOT_PASSWORD_API_URL =
-  import.meta.env.VITE_FORGOT_PASSWORD_API_URL ||
-  "https://clincore.niitwebdev.com.ng/clincore-api/admin/auth/forgot-password.php";
-
+const FORGOT_PASSWORD_API_URL = import.meta.env.VITE_FORGOT_PASSWORD_API_URL || "https://clincore.niitwebdev.com.ng/clincore-api/admin/auth/forgot-password.php";
 export default function ForgotPassword() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState("");
-
   const [formData, setFormData] = useState({
-    emailAddress: "",
+    emailAddress: ""
   });
-
   const [error, setError] = useState({
-    emailAddress: "",
+    emailAddress: ""
   });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
+  const handleChange = e => {
+    const {
+      name,
+      value
+    } = e.target;
+    setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
-
-    setError((prev) => ({
+    setError(prev => ({
       ...prev,
-      [name]: "",
+      [name]: ""
     }));
-
     setApiError("");
   };
-
   const validateForm = () => {
     const newErrors = {
-      emailAddress: "",
+      emailAddress: ""
     };
-
     if (!formData.emailAddress.trim()) {
       newErrors.emailAddress = "Email address is required.";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.emailAddress.trim())) {
       newErrors.emailAddress = "Enter a valid email address.";
     }
-
     setError(newErrors);
-
-    return !Object.values(newErrors).some((msg) => msg !== "");
+    return !Object.values(newErrors).some(msg => msg !== "");
   };
-
-  const handleForgotPassword = async (event) => {
+  const handleForgotPassword = async event => {
     event.preventDefault();
     if (loading) return;
     setApiError("");
     if (!validateForm()) {
       return;
     }
-
     try {
       setLoading(true);
-
       const requestData = new FormData();
       requestData.append("emailAddress", formData.emailAddress.trim());
-
       const response = await api.post(FORGOT_PASSWORD_API_URL, requestData);
       const responseData = response.data;
-
       if (responseData?.success === true) {
         const sessionPayload = {
           ...responseData,
           data: {
             emailAddress: formData.emailAddress.trim(),
-            ...(responseData.data || {}),
-          },
+            ...(responseData.data || {})
+          }
         };
         sessionStorage.setItem("forgotPasswordSession", JSON.stringify(sessionPayload));
         navigate('/reset-password');
       } else {
-        setApiError(
-          responseData?.message
-        );
+        setApiError(responseData?.message);
       }
     } catch (err) {
-      setApiError(
-        err.response?.data?.message ||
-        err.message ||
-        "Unable to send reset OTP. Please try again."
-      );
+      setApiError(err.response?.data?.message || err.message || "Unable to send reset OTP. Please try again.");
     } finally {
       setLoading(false);
     }
   };
-
-  return (
-    <div className="login-body">
+  return <div className="login-body">
 
       <div className="frame">
-        {/* ============================================================ */}
-        {/* LEFT SIDE: Reset Password Form (Tradeflow Forgot Password)   */}
-        {/* ============================================================ */}
+        
+        
+        
         <div className="left-panel">
           <Link to="/" className="logo">
             <div className="logo-icon">
@@ -135,47 +110,24 @@ export default function ForgotPassword() {
             </div>
 
             <form onSubmit={handleForgotPassword} noValidate>
-              {/* InputField component for Registered Email */}
-              <InputField
-                title="Email Address"
-                id="emailAddress"
-                name="emailAddress"
-                inputType="email"
-                placeHolder="Enter your email"
-                value={formData.emailAddress}
-                onChange={handleChange}
-                error={error.emailAddress}
-                autoComplete="email"
-              />
+              
+              <InputField title="Email Address" id="emailAddress" name="emailAddress" inputType="email" placeHolder="Enter your email" value={formData.emailAddress} onChange={handleChange} error={error.emailAddress} autoComplete="email" />
 
-              {/* API Error Notification */}
-              {apiError && (
-                <div
-                  className="api-error-message"
-                  role="alert"
-                  style={{
-                    padding: "10px 14px",
-                    backgroundColor: "#fef2f2",
-                    color: "#b91c1c",
-                    border: "1px solid #fecaca",
-                    borderRadius: "8px",
-                    fontSize: "0.875rem",
-                    marginBottom: "16px",
-                  }}
-                >
+              
+              {apiError && <div className="api-error-message" role="alert" style={{
+              padding: "10px 14px",
+              backgroundColor: "#fef2f2",
+              color: "#b91c1c",
+              border: "1px solid #fecaca",
+              borderRadius: "8px",
+              fontSize: "0.875rem",
+              marginBottom: "16px"
+            }}>
                   {apiError}
-                </div>
-              )}
+                </div>}
 
-              {/* ButtonComponents for Sending OTP */}
-              <ButtonComponents
-                inputType="submit"
-                buttonType="submit"
-                buttonTitle={loading ? "Sending OTP..." : "Proceed"}
-                buttonText={loading ? "Sending OTP..." : "Proceed"}
-                disabled={loading}
-                btnAction={loading}
-              />
+              
+              <ButtonComponents inputType="submit" buttonType="submit" buttonTitle={loading ? "Sending OTP..." : "Proceed"} buttonText={loading ? "Sending OTP..." : "Proceed"} disabled={loading} btnAction={loading} />
 
               <p className="switch-auth-row">
                 Remember password?
@@ -185,11 +137,10 @@ export default function ForgotPassword() {
           </div>
         </div>
 
-        {/* ============================================================ */}
-        {/* RIGHT SIDE: Auth Hero Illustration & Stats (AuthHeroPanel)   */}
-        {/* ============================================================ */}
+        
+        
+        
         <AuthHeroPanel />
       </div>
-    </div>
-  );
+    </div>;
 }

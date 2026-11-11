@@ -1,18 +1,61 @@
 import api from "./axios";
 
-const API_ROOT = "https://clincore.niitwebdev.com.ng/clincore-api/admin/staff";
 export const CREATE_PATIENT_API_URL =
-  import.meta.env.VITE_CREATE_PATIENT_API_URL || `${API_ROOT}/create-staff.php`;
+  import.meta.env.VITE_CREATE_PATIENT_API_URL ||
+  "https://clincore.niitwebdev.com.ng/clincore-api/patient/patient-sign-up/patient-create.php";
+
 export const FETCH_EACH_PATIENT_API_URL =
-  import.meta.env.VITE_FETCH_EACH_PATIENT_API_URL || `${API_ROOT}/fetch-each-staff.php`;
-export const DELETE_PATIENT_API_URL =
-  import.meta.env.VITE_DELETE_PATIENT_API_URL || `${API_ROOT}/delete-staff.php`;
-export const SEARCH_PATIENT_API_URL =
-  import.meta.env.VITE_SEARCH_PATIENT_API_URL || `${API_ROOT}/search-staff.php`;
+  import.meta.env.VITE_FETCH_EACH_PATIENT_API_URL ||
+  "https://clincore.niitwebdev.com.ng/clincore-api/patient/patient-sign-up/patient-fetch-each.php";
+
 export const FETCH_ALL_PATIENTS_API_URL =
-  import.meta.env.VITE_FETCH_ALL_PATIENTS_API_URL || `${API_ROOT}/fetch-all-staff.php`;
+  import.meta.env.VITE_FETCH_ALL_PATIENTS_API_URL ||
+  "https://clincore.niitwebdev.com.ng/clincore-api/patient/patient-sign-up/patient-fetch-all.php";
+
+export const SEARCH_PATIENT_API_URL =
+  import.meta.env.VITE_SEARCH_PATIENT_API_URL ||
+  "https://clincore.niitwebdev.com.ng/clincore-api/patient/patient-sign-up/patient-search.php";
+
+export const DELETE_PATIENT_API_URL =
+  import.meta.env.VITE_DELETE_PATIENT_API_URL ||
+  "https://clincore.niitwebdev.com.ng/clincore-api/patient/patient-sign-up/patient-delete.php";
 
 const STORAGE_KEY = "clincore_patients";
+
+function createPatientFormData(values) {
+  const requestData = new FormData();
+  const patientName = values.patientName || values.fullName || values.name || "";
+  const emailAddress = values.emailAddress || values.email || "";
+  const password = values.password || "";
+  const phone = values.phone || values.phoneNumber || "";
+  const address = values.address || values.homeAddress || "";
+  const doctorId = values.doctorId || values.doctor_id || values.doctor || "";
+  const roomId = values.roomId || values.room_id || values.room || "";
+  const rawStatus = String(values.statusId || values.status_id || values.status || "A").toLowerCase();
+  const statusId = ["u", "inactive", "unavailable", "discharged"].includes(rawStatus) ? "U" : "A";
+
+  requestData.append("patientName", String(patientName).trim());
+  requestData.append("emailAddress", String(emailAddress).trim());
+  requestData.append("password", String(password));
+  requestData.append("phone", String(phone).trim());
+  requestData.append("address", String(address).trim());
+  requestData.append("treatment", String(values.treatment || "").trim());
+  requestData.append("doctorId", String(doctorId).trim());
+  requestData.append("doctor_id", String(doctorId).trim());
+  requestData.append("roomId", String(roomId).trim());
+  requestData.append("room_id", String(roomId).trim());
+  requestData.append("statusId", statusId);
+  requestData.append("status_id", statusId);
+
+  return requestData;
+}
+
+function extractPatientList(responseData) {
+  if (Array.isArray(responseData)) return responseData;
+  if (Array.isArray(responseData?.data)) return responseData.data;
+  if (Array.isArray(responseData?.patients)) return responseData.patients;
+  return [];
+}
 
 function notifyChange(record, isEdit = false) {
   if (typeof window === "undefined") return;
@@ -21,23 +64,12 @@ function notifyChange(record, isEdit = false) {
   );
 }
 
-function isNetworkError(error) {
-  return (
-    (typeof navigator !== "undefined" && !navigator.onLine) ||
-    error.code === "ERR_NETWORK" ||
-    error.message?.toLowerCase().includes("network error") ||
-    error.isNetworkError
-  );
-}
-
-function formData(fields) {
-  const data = new FormData();
-  Object.entries(fields).forEach(([key, value]) => data.append(key, value ?? ""));
-  return data;
-}
-
 export function getPatientInitials(name = "") {
-  const parts = name.replace(/^(Mr\.|Mrs\.|Ms\.|Dr\.)\s*/i, "").trim().split(/\s+/).filter(Boolean);
+  const parts = String(name || "")
+    .replace(/^(Mr\.|Mrs\.|Ms\.|Dr\.)\s*/i, "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
   return parts.length > 1
     ? `${parts[0][0]}${parts[1][0]}`.toUpperCase()
     : parts[0]?.slice(0, 2).toUpperCase() || "PT";
@@ -49,20 +81,15 @@ export function normalizePatientRecord(record = {}) {
       record.patientID ||
       record.patient_id ||
       record.id ||
-      record.staffId ||
-      record.staffID ||
-      record.staff_id ||
       ""
   );
   const name = (
     record.fullName ||
     record.patientName ||
     record.patient_name ||
-    record.staffName ||
-    record.staff_name ||
     record.name ||
     [record.firstName, record.lastName].filter(Boolean).join(" ")
-  ).trim();
+  || "Patient").trim();
   const email = (record.emailAddress || record.email || "").trim();
   const phone = (record.phoneNumber || record.phone || "").trim();
   const status =
@@ -72,7 +99,6 @@ export function normalizePatientRecord(record = {}) {
     ...record,
     patientId,
     id: patientId,
-    staffId: record.staffId || patientId,
     name,
     fullName: name,
     firstName: record.firstName || name.split(/\s+/)[0] || "",
@@ -111,7 +137,20 @@ export function normalizePatientRecord(record = {}) {
 export function getStoredPatients() {
   try {
     const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    return Array.isArray(records) ? records : [];
+    if (!Array.isArray(records)) return [];
+
+    const patients = records.filter((record) => {
+      const patientId = String(
+        record.patientId || record.patientID || record.patient_id || record.id || ""
+      );
+      return patientId && !/^staff/i.test(patientId);
+    });
+
+    if (patients.length !== records.length) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(patients));
+    }
+
+    return patients;
   } catch (error) {
     console.error("Unable to read saved patients:", error);
     return [];
@@ -129,7 +168,7 @@ export function saveStoredPatients(records) {
 export function addStoredPatient(patient) {
   const existing = getStoredPatients();
   const record = normalizePatientRecord(patient);
-  const records = [record, ...existing.filter((item) => item.patientId !== record.patientId)];
+  const records = [record, ...existing.filter((item) => String(item.patientId) !== String(record.patientId))];
   saveStoredPatients(records);
   notifyChange(record);
   return records;
@@ -146,10 +185,10 @@ export function removeStoredPatient(patientId) {
 
 export function updateStoredPatient(patient) {
   const records = getStoredPatients();
-  const current = records.find((item) => item.patientId === String(patient.patientId)) || {};
+  const current = records.find((item) => String(item.patientId) === String(patient.patientId)) || {};
   const record = normalizePatientRecord({ ...current, ...patient });
   const updated = current.patientId
-    ? records.map((item) => (item.patientId === record.patientId ? record : item))
+    ? records.map((item) => (String(item.patientId) === String(record.patientId) ? record : item))
     : [record, ...records];
   saveStoredPatients(updated);
   notifyChange(record, true);
@@ -157,118 +196,121 @@ export function updateStoredPatient(patient) {
 }
 
 export async function createPatientProfile(values = {}) {
-  const { password = "", ...patientValues } = values;
-  const name = (values.fullName || values.name || [values.firstName, values.lastName].filter(Boolean).join(" ")).trim();
-  const emailAddress = (values.emailAddress || values.email || "").trim();
   const phone = (values.phone || values.phoneNumber || "").trim();
-  const payload = formData({
-    name,
-    emailAddress,
-    phone,
-    password,
-    position: values.position || values.treatment || "",
-    department: values.department || "General Medicine",
-    status: values.status || "Active",
-  });
 
   let response;
   try {
-    ({ data: response } = await api.post(CREATE_PATIENT_API_URL, payload));
+    response = await api.post(CREATE_PATIENT_API_URL, createPatientFormData(values));
   } catch (error) {
-    throw new Error(
-      error.response?.data?.message || error.message || "Unable to create patient.",
-      { cause: error }
-    );
-  }
-  if (response?.success === false) {
-    throw new Error(response.message || "Unable to create patient.");
+    const responseData = error.response?.data;
+    const serverMessage =
+      responseData?.message ||
+      responseData?.error ||
+      (typeof responseData === "string" && !responseData.trim().startsWith("<")
+        ? responseData.trim()
+        : "");
+    const message =
+      serverMessage ||
+      (error.response?.status
+        ? `Patient API request failed with HTTP ${error.response.status}.`
+        : error.message || "Unable to create patient.");
+    throw new Error(message, { cause: error });
   }
 
-  const patientId =
-    response?.data?.patientId || response?.data?.id || response?.data?.staffId ||
-    response?.patientId || response?.id || response?.staffId || String(Date.now());
-  const record = normalizePatientRecord(
-    {
-      ...patientValues,
-      patientId,
-      name,
-      email: emailAddress,
-      emailAddress,
-      phone,
-      phoneNumber: phone,
-      createdAt: new Date().toISOString(),
-    }
+  const responseData = response?.data;
+  if (responseData?.success === false) {
+    throw new Error(responseData.message || "Unable to create patient.");
+  }
+
+  const returnedRecord = responseData?.data || responseData || {};
+  const name = (
+    returnedRecord.fullName ||
+    returnedRecord.patientName ||
+    returnedRecord.patient_name ||
+    values.patientName ||
+    values.name ||
+    values.fullName ||
+    [values.firstName, values.lastName].filter(Boolean).join(" ") ||
+    (phone ? `Patient ${phone}` : "Patient")
+  ).trim();
+  const patientValues = { ...values };
+  delete patientValues.password;
+  const patientId = String(
+    returnedRecord.patientId ||
+      returnedRecord.patientID ||
+      returnedRecord.patient_id ||
+      responseData?.patientId ||
+      responseData?.patient_id ||
+      `LOCAL-PAT-${Date.now()}`
   );
+  const record = normalizePatientRecord({
+    ...patientValues,
+    ...returnedRecord,
+    patientId,
+    name,
+    phone,
+    phoneNumber: phone,
+    createdAt: new Date().toISOString(),
+  });
+
   addStoredPatient(record);
+
   return {
     success: true,
     apiSuccess: true,
-    message: response?.message || "Patient created successfully.",
+    message: responseData?.message || "Patient created successfully.",
     data: record,
   };
 }
 
 export async function fetchEachPatient(patientId) {
   if (!patientId) return null;
-  try {
-    const { data } = await api.post(
-      FETCH_EACH_PATIENT_API_URL,
-      formData({ staffId: patientId })
-    );
-    if (data?.success === false || (!data?.data && !data?.staffId && !data?.patientId)) return null;
-    return updateStoredPatient({ ...(data.data || data), patientId });
-  } catch (error) {
-    console.warn("Unable to fetch patient:", error.message);
-    return null;
-  }
-}
 
-function extractPatients(data) {
-  if (Array.isArray(data)) return data;
-  for (const key of [
-    "data",
-    "patients",
-    "patientData",
-    "patientList",
-    "staff",
-    "staffData",
-    "staffList",
-    "records",
-    "date",
-  ]) {
-    if (Array.isArray(data?.[key])) return data[key];
-  }
-  if (data && typeof data === "object") {
-    const list = Object.values(data).find(Array.isArray);
-    if (list) return list;
-  }
-  return null;
+  const requestData = new FormData();
+  requestData.append("patientId", String(patientId));
+  requestData.append("patient_id", String(patientId));
+  const response = await api.post(FETCH_EACH_PATIENT_API_URL, requestData);
+  const responseData = response?.data;
+
+  if (responseData?.success === false) return null;
+
+  const patient = responseData?.data || responseData;
+  if (!patient || typeof patient !== "object" || Array.isArray(patient)) return null;
+
+  const record = normalizePatientRecord({ ...patient, patientId });
+  updateStoredPatient(record);
+  return record;
 }
 
 export async function fetchAllPatients() {
   if (typeof navigator !== "undefined" && !navigator.onLine) {
-    const error = new Error("No internet connection");
-    error.isNetworkError = true;
-    throw error;
+    const offlineErr = new Error("No internet connection");
+    offlineErr.isNetworkError = true;
+    throw offlineErr;
   }
 
   try {
-    let response;
-    try {
-      response = await api.get(FETCH_ALL_PATIENTS_API_URL);
-    } catch (error) {
-      if (isNetworkError(error)) throw error;
-      response = await api.post(FETCH_ALL_PATIENTS_API_URL);
-    }
+    const response = await api.post(FETCH_ALL_PATIENTS_API_URL);
 
-    const patients = extractPatients(response.data);
-    if (!patients) return getStoredPatients();
-    const records = patients.map(normalizePatientRecord);
-    saveStoredPatients(records);
-    return records;
-  } catch (error) {
-    if (isNetworkError(error)) throw error;
-    console.warn("Unable to fetch patients:", error.message);
+    const list = extractPatientList(response?.data);
+    const formattedList = list
+      .filter((patient) =>
+        patient.patientId || patient.patientID || patient.patient_id || patient.id
+      )
+      .map((patient) => normalizePatientRecord(patient))
+      .filter((patient) => patient.patientId && !/^staff/i.test(patient.patientId));
+    saveStoredPatients(formattedList);
+    return formattedList;
+  } catch (err) {
+    console.warn("fetchAllPatients API warning:", err.message);
+    if (
+      (typeof navigator !== "undefined" && !navigator.onLine) ||
+      err.code === "ERR_NETWORK" ||
+      err.message?.toLowerCase().includes("network error") ||
+      err.isNetworkError
+    ) {
+      throw err;
+    }
     return getStoredPatients();
   }
 }
@@ -277,24 +319,36 @@ export const syncAllPatientsWithApi = fetchAllPatients;
 
 export async function deletePatientProfile(patientId) {
   if (!patientId) return { success: false, patients: getStoredPatients() };
-  try {
-    const { data } = await api.post(DELETE_PATIENT_API_URL, formData({ staffId: patientId }));
-    if (data?.success === false) throw new Error(data.message || "Unable to delete patient.");
-  } catch (error) {
-    console.warn("Unable to delete patient from server:", error.message);
+
+  const requestData = new FormData();
+  requestData.append("patientId", String(patientId));
+  requestData.append("patient_id", String(patientId));
+  const response = await api.post(DELETE_PATIENT_API_URL, requestData);
+  if (response?.data?.success === false) {
+    throw new Error(response.data.message || "Unable to delete patient.");
   }
-  return { success: true, patients: removeStoredPatient(patientId) };
+
+  const updated = removeStoredPatient(patientId);
+  return { success: true, patients: updated };
 }
 
 export async function searchPatientProfile(searchContent) {
-  if (!searchContent) return null;
-  try {
-    const { data } = await api.post(SEARCH_PATIENT_API_URL, formData({ searchContent }));
-    return data;
-  } catch (error) {
-    console.warn("Unable to search patients:", error.message);
-    return null;
-  }
+  if (!searchContent) return [];
+  const query = String(searchContent).trim();
+  if (!query) return [];
+
+  const requestData = new FormData();
+  requestData.append("searchContent", query);
+  const response = await api.post(SEARCH_PATIENT_API_URL, requestData);
+  const responseData = response?.data;
+  if (responseData?.success === false) return [];
+
+  return extractPatientList(responseData)
+    .filter((patient) =>
+      patient.patientId || patient.patientID || patient.patient_id || patient.id
+    )
+    .map((patient) => normalizePatientRecord(patient))
+    .filter((patient) => patient.patientId && !/^staff/i.test(patient.patientId));
 }
 
 export default {
@@ -302,6 +356,11 @@ export default {
   fetchEachPatient,
   fetchAllPatients,
   syncAllPatientsWithApi,
+  CREATE_PATIENT_API_URL,
+  FETCH_EACH_PATIENT_API_URL,
+  FETCH_ALL_PATIENTS_API_URL,
+  SEARCH_PATIENT_API_URL,
+  DELETE_PATIENT_API_URL,
   deletePatientProfile,
   searchPatientProfile,
   getStoredPatients,

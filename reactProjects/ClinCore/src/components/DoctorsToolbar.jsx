@@ -1,18 +1,9 @@
 import SearchBar from "./SearchBar";
 import FilterSelect from "./FilterSelect";
 import ButtonComponents from "./ButtonComponents";
+import { DEPARTMENT_NAMES } from "../js/sessionData";
 
 export default function DoctorsToolbar() {
-    const departmentOptions = [
-        "General Medicine",
-        "Cardiology",
-        "Pediatrics",
-        "Dermatology",
-        "Internal Medicine",
-        "Orthopedics",
-        "Neurology"
-    ];
-
     const specialistOptions = [
         "Routine Check-Ups",
         "Heart Specialist",
@@ -23,10 +14,7 @@ export default function DoctorsToolbar() {
         "Brain Specialist"
     ];
 
-    const statusOptions = [
-        "Available",
-        "Unavailable"
-    ];
+    const statusOptions = ["Available", "Unavailable"];
 
     return (
         <div className="doctors-toolbar">
@@ -40,7 +28,7 @@ export default function DoctorsToolbar() {
                 <FilterSelect
                     id="departmentFilter"
                     label="Department"
-                    options={departmentOptions}
+                    options={DEPARTMENT_NAMES}
                 />
 
                 <FilterSelect

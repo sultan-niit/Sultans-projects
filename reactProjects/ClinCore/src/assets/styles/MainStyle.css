@@ -2717,6 +2717,17 @@ input.input-error {
     font-family: sub-title-font;
 }
 
+.filter-reset-icon {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .btn-clear-filters-pill:hover {
     background-color: #FEE2E2;
     border-color: #FCA5A5;
@@ -4125,10 +4136,18 @@ input.input-error {
     gap: 7px;
 }
 
-.patient-id-cell > i {
+.patient-id-cell > .patient-id-icon {
+    width: 15px;
+    height: 15px;
     color: var(--primary-color-dark, #0d5c56);
-    font-size: 14px;
     flex-shrink: 0;
+}
+
+.patients-data-table thead th i.bi-arrow-up,
+.patients-data-table thead th i.bi-arrow-down {
+    background-color: transparent;
+    -webkit-mask-image: none;
+    mask-image: none;
 }
 
 .patient-id-txt {
@@ -7296,18 +7315,6 @@ th.id-col {
     align-items: center;
     justify-content: center;
     box-shadow: 0 8px 24px var(--primary-glow-color, rgba(95, 233, 216, 0.28));
-    animation: promptPulse 3s ease-in-out infinite;
-}
-
-@keyframes promptPulse {
-    0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 8px 24px var(--primary-glow-color, rgba(95, 233, 216, 0.28));
-    }
-    50% {
-        transform: scale(1.04);
-        box-shadow: 0 12px 30px rgba(95, 233, 216, 0.45);
-    }
 }
 
 .empty-prompt-icon-ring.inner {
@@ -7394,6 +7401,10 @@ th.id-col {
 
 .btn-create-doctor-prompt i {
     font-size: 15px;
+    color: var(--primary-color, #5fe9d8);
+}
+
+.btn-create-doctor-prompt .filter-reset-icon {
     color: var(--primary-color, #5fe9d8);
 }
 
@@ -7805,11 +7816,6 @@ th.id-col {
     font-family: monospace, sans-serif;
 }
 
-.patient-id-cell > i {
-    color: var(--primary-color-dark, #0d5c56);
-    font-size: 14px;
-}
-
 /* ---- Patient Status Badges ---- */
 .patient-status-badge {
     display: inline-flex;
@@ -7940,6 +7946,53 @@ th.id-col {
     border: 1px solid var(--border-light-color);
     border-radius: 16px;
     animation: fadeInLoading 0.25s ease-out;
+}
+
+.doctors-empty-icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 18px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: #e6faf7;
+    color: #0d5c56;
+    font-size: 22px;
+}
+
+.appointments-main-card > .appointments-empty-state {
+    width: 100%;
+    min-height: 360px;
+    padding: 48px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.appointments-main-card > .appointments-empty-state .appointments-empty-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 18px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    background: #e6faf7;
+    color: #0d5c56;
+    font-size: 26px;
+}
+
+.appointments-main-card > .appointments-empty-state h2 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 20px;
+}
+
+.appointments-main-card > .appointments-empty-state p {
+    margin: 8px 0 0;
+    color: #64748b;
+    font-size: 14px;
 }
 
 /* ---- Patients Footer ---- */

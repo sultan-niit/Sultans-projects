@@ -6,6 +6,27 @@
  * - ADD mode uses `title`, `subtitle`, and `sections`
  * - EDIT mode uses `editTitle`, `editSubtitle`, and `editSections` (falls back to sections)
  */
+import { DEPARTMENT_NAMES } from "./sessionData";
+
+const DEMO_DOCTOR_NAMES = [
+  "Dr. Petra Winsburry",
+  "Dr. Liam Henderson",
+  "Dr. Sophia Ramirez",
+  "Dr. Michael Chen",
+  "Dr. Damian Sanchez",
+  "Dr. Chloe Harrington",
+  "Dr. Lucas Ross",
+];
+const APPOINTMENT_DEPARTMENTS = [...DEPARTMENT_NAMES, "General Care", "Ophthalmology"];
+const DOCTOR_ROLES = [
+  "Routine Check-Ups",
+  "Heart Specialist",
+  "Child Health",
+  "Skin Specialist",
+  "Internal Health",
+  "Bone Specialist",
+  "Brain Specialist",
+];
 
 export const ENTITY_SCHEMAS = {
   staff: {
@@ -40,7 +61,7 @@ export const ENTITY_SCHEMAS = {
         icon: 'bi-building',
         fields: [
           { name: 'position', label: 'Position / Role', type: 'select', required: true, options: ['Tutor - Web Development', 'Senior Medical Specialist', 'Clinical Director', 'Head Nurse', 'Administrative Officer'], colSpan: 1 },
-          { name: 'department', label: 'Department', type: 'select', required: true, options: ['General Medicine', 'Cardiology', 'Pediatrics', 'Dermatology', 'Internal Medicine', 'Orthopedics', 'Neurology'], colSpan: 1 },
+          { name: 'department', label: 'Department', type: 'select', required: true, options: DEPARTMENT_NAMES, colSpan: 1 },
           { name: 'status', label: 'Employment Status', type: 'select', required: true, options: ['Active', 'On Leave', 'Inactive'], colSpan: 1 },
           { name: 'startDate', label: 'Joining Date', type: 'date', required: false, colSpan: 1 },
         ]
@@ -66,7 +87,7 @@ export const ENTITY_SCHEMAS = {
         icon: 'bi-building',
         fields: [
           { name: 'position', label: 'Position / Role', type: 'select', required: true, options: ['Tutor - Web Development', 'Senior Medical Specialist', 'Clinical Director', 'Head Nurse', 'Administrative Officer'], colSpan: 1 },
-          { name: 'department', label: 'Department', type: 'select', required: true, options: ['General Medicine', 'Cardiology', 'Pediatrics', 'Dermatology', 'Internal Medicine', 'Orthopedics', 'Neurology'], colSpan: 1 },
+          { name: 'department', label: 'Department', type: 'select', required: true, options: DEPARTMENT_NAMES, colSpan: 1 },
           { name: 'status', label: 'Employment Status', type: 'select', required: true, options: ['Active', 'On Leave', 'Inactive', 'Suspended', 'Terminated'], colSpan: 1 },
           { name: 'startDate', label: 'Joining Date', type: 'date', required: false, colSpan: 1 },
         ]
@@ -103,10 +124,9 @@ export const ENTITY_SCHEMAS = {
         title: 'Medical Specialization',
         icon: 'bi-heart-pulse',
         fields: [
-          { name: 'department', label: 'Department', type: 'select', required: true, options: ['Cardiology', 'General Medicine', 'Pediatrics', 'Dermatology', 'Internal Medicine', 'Orthopedics', 'Neurology'], colSpan: 1 },
-          { name: 'specialist', label: 'Specialist Focus / Role', type: 'select', required: true, options: ['heart specialist', 'Routine Check-Ups', 'Child Health', 'Skin Specialist', 'Internal Health', 'Bone Specialist', 'Brain Specialist'], colSpan: 1 },
-          { name: 'status', label: 'Availability Status', type: 'select', required: true, options: ['Available', 'Unavailable', 'On Duty'], colSpan: 1 },
-          { name: 'maxPatients', label: 'Daily Patient Capacity', type: 'number', placeholder: '20', required: false, colSpan: 1 },
+          { name: 'department', label: 'Department', type: 'select', required: true, options: DEPARTMENT_NAMES, colSpan: 1 },
+          { name: 'specialist', label: 'Specialist Focus / Role', type: 'select', required: true, options: DOCTOR_ROLES, colSpan: 1 },
+          { name: 'status', label: 'Status', type: 'select', required: true, options: ['Available', 'Unavailable'], colSpan: 2 },
         ]
       }
     ],
@@ -127,10 +147,9 @@ export const ENTITY_SCHEMAS = {
         title: 'Medical Specialization',
         icon: 'bi-heart-pulse',
         fields: [
-          { name: 'department', label: 'Department', type: 'select', required: true, options: ['Cardiology', 'General Medicine', 'Pediatrics', 'Dermatology', 'Internal Medicine', 'Orthopedics', 'Neurology'], colSpan: 1 },
-          { name: 'specialist', label: 'Specialist Focus / Role', type: 'select', required: true, options: ['heart specialist', 'Routine Check-Ups', 'Child Health', 'Skin Specialist', 'Internal Health', 'Bone Specialist', 'Brain Specialist'], colSpan: 1 },
-          { name: 'status', label: 'Availability Status', type: 'select', required: true, options: ['Available', 'Unavailable', 'On Duty', 'On Leave', 'Suspended'], colSpan: 1 },
-          { name: 'maxPatients', label: 'Daily Patient Capacity', type: 'number', placeholder: '20', required: false, colSpan: 1 },
+          { name: 'department', label: 'Department', type: 'select', required: true, options: DEPARTMENT_NAMES, colSpan: 1 },
+          { name: 'specialist', label: 'Specialist Focus / Role', type: 'select', required: true, options: DOCTOR_ROLES, colSpan: 1 },
+          { name: 'status', label: 'Status', type: 'select', required: true, options: ['Available', 'Unavailable'], colSpan: 2 },
         ]
       }
     ]
@@ -154,12 +173,11 @@ export const ENTITY_SCHEMAS = {
         title: 'Patient Basic Info',
         icon: 'bi-person',
         fields: [
-          { name: 'fullName', label: 'Full Name', type: 'text', placeholder: 'e.g. Caren G. Simpson', required: true, colSpan: 2 },
-          { name: 'age', label: 'Age', type: 'number', placeholder: '35', required: true, colSpan: 1 },
-          { name: 'gender', label: 'Gender', type: 'select', required: true, options: ['Male', 'Female', 'Other'], colSpan: 1 },
-          { name: 'email', label: 'Email Address', type: 'email', placeholder: 'patient@gmail.com', required: false, colSpan: 1 },
-          { name: 'phone', label: 'Contact Phone', type: 'tel', placeholder: '080 3123 4567', required: true, colSpan: 1 },
-          { name: 'password', label: 'Password', type: 'password', placeholder: 'Create a password', autoComplete: 'new-password', required: true, colSpan: 1 },
+          { name: 'patientName', label: 'Patient Name', type: 'text', placeholder: 'Enter patient full name', required: true, colSpan: 2 },
+          { name: 'emailAddress', label: 'Email Address', type: 'email', placeholder: 'Enter patient email address', required: true, colSpan: 1 },
+          { name: 'password', label: 'Password', type: 'password', placeholder: 'Create a patient password', required: true, colSpan: 1 },
+          { name: 'phone', label: 'Contact Phone', type: 'tel', placeholder: 'e.g. 09022222222', required: true, colSpan: 1 },
+          { name: 'address', label: 'Address', type: 'text', placeholder: 'Enter patient address', required: true, colSpan: 1 },
         ]
       },
       {
@@ -167,10 +185,10 @@ export const ENTITY_SCHEMAS = {
         title: 'Admission & Doctor Assignment',
         icon: 'bi-hospital-bed',
         fields: [
-          { name: 'treatment', label: 'Treatment Required', type: 'text', placeholder: 'e.g. Routine Check-Up', required: true, colSpan: 1 },
-          { name: 'doctor', label: 'Doctor Assigned', type: 'select', required: true, options: ['Dr. Petra Winsburry', 'Dr. Olivia Martinez', 'Dr. Damian Sanchez', 'Dr. Chloe Harrington', 'Dr. Julian Vance'], colSpan: 1 },
-          { name: 'room', label: 'Room Assignment', type: 'select', required: false, options: ['None (Outpatient)', 'Single - 304', 'Double - 303', 'ICU - 101', 'VIP Suite - 501'], colSpan: 1 },
-          { name: 'status', label: 'Patient Status', type: 'select', required: true, options: ['New Patient', 'Active'], colSpan: 1 },
+          { name: 'treatment', label: 'Treatment Required', type: 'text', placeholder: 'e.g. Cancer', required: true, colSpan: 1 },
+          { name: 'doctorId', label: 'Doctor Assigned', type: 'select', placeholder: 'Select a doctor', required: true, options: [], optionValueKey: 'doctorId', optionLabelKey: 'name', colSpan: 1 },
+          { name: 'roomId', label: 'Room Assignment', type: 'select', placeholder: 'Select a room', required: true, options: [], optionValueKey: 'roomId', optionLabelKey: 'roomName', colSpan: 1 },
+          { name: 'statusId', label: 'Patient Status', type: 'select', required: true, options: [{ value: 'A', label: 'Active' }, { value: 'U', label: 'Inactive' }], optionValueKey: 'value', optionLabelKey: 'label', colSpan: 1 },
         ]
       }
     ],
@@ -180,11 +198,9 @@ export const ENTITY_SCHEMAS = {
         title: 'Patient Basic Info',
         icon: 'bi-person',
         fields: [
-          { name: 'fullName', label: 'Full Name', type: 'text', placeholder: 'e.g. Caren G. Simpson', required: true, colSpan: 2 },
-          { name: 'age', label: 'Age', type: 'number', placeholder: '35', required: true, colSpan: 1 },
-          { name: 'gender', label: 'Gender', type: 'select', required: true, options: ['Male', 'Female', 'Other'], colSpan: 1 },
-          { name: 'email', label: 'Email Address', type: 'email', placeholder: 'patient@gmail.com', required: false, colSpan: 1 },
-          { name: 'phone', label: 'Contact Phone', type: 'tel', placeholder: '080 3123 4567', required: true, colSpan: 1 },
+          { name: 'fullName', label: 'Full Name', type: 'text', placeholder: 'Enter patient full name', required: true, colSpan: 2 },
+          { name: 'phone', label: 'Contact Phone', type: 'tel', placeholder: 'e.g. 09022222222', required: true, colSpan: 1 },
+          { name: 'address', label: 'Address', type: 'text', placeholder: 'Enter patient address', required: true, colSpan: 1 },
         ]
       },
       {
@@ -192,10 +208,10 @@ export const ENTITY_SCHEMAS = {
         title: 'Admission & Doctor Assignment',
         icon: 'bi-hospital-bed',
         fields: [
-          { name: 'treatment', label: 'Treatment Required', type: 'text', placeholder: 'e.g. Routine Check-Up', required: true, colSpan: 1 },
-          { name: 'doctor', label: 'Doctor Assigned', type: 'select', required: true, options: ['Dr. Petra Winsburry', 'Dr. Olivia Martinez', 'Dr. Damian Sanchez', 'Dr. Chloe Harrington', 'Dr. Julian Vance'], colSpan: 1 },
-          { name: 'room', label: 'Room Assignment', type: 'select', required: false, options: ['None (Outpatient)', 'Single - 304', 'Double - 303', 'ICU - 101', 'VIP Suite - 501'], colSpan: 1 },
-          { name: 'status', label: 'Patient Status', type: 'select', required: true, options: ['Active', 'New Patient', 'Inactive', 'Discharged', 'Critical', 'Recovering'], colSpan: 1 },
+          { name: 'treatment', label: 'Treatment Required', type: 'text', placeholder: 'e.g. Cancer', required: true, colSpan: 1 },
+          { name: 'doctorId', label: 'Doctor Assigned', type: 'select', placeholder: 'Select a doctor', required: true, options: [], optionValueKey: 'doctorId', optionLabelKey: 'name', colSpan: 1 },
+          { name: 'roomId', label: 'Room Assignment', type: 'select', placeholder: 'Select a room', required: true, options: [], optionValueKey: 'roomId', optionLabelKey: 'roomName', colSpan: 1 },
+          { name: 'statusId', label: 'Patient Status', type: 'select', required: true, options: [{ value: 'A', label: 'Active' }, { value: 'U', label: 'Inactive' }], optionValueKey: 'value', optionLabelKey: 'label', colSpan: 1 },
         ]
       }
     ]
@@ -220,12 +236,12 @@ export const ENTITY_SCHEMAS = {
         icon: 'bi-calendar-week',
         fields: [
           { name: 'patientName', label: 'Patient Name', type: 'text', placeholder: 'Search or enter patient name', required: true, colSpan: 2 },
-          { name: 'doctor', label: 'Doctor', type: 'select', required: true, options: ['Dr. Petra Winsburry', 'Dr. Olivia Martinez', 'Dr. Damian Sanchez', 'Dr. Chloe Harrington'], colSpan: 1 },
-          { name: 'department', label: 'Department', type: 'select', required: true, options: ['General Medicine', 'Cardiology', 'Pediatrics', 'Dermatology'], colSpan: 1 },
+          { name: 'doctor', label: 'Doctor', type: 'select', required: true, options: DEMO_DOCTOR_NAMES, colSpan: 1 },
+          { name: 'department', label: 'Department', type: 'select', required: true, options: APPOINTMENT_DEPARTMENTS, colSpan: 1 },
           { name: 'treatment', label: 'Treatment', type: 'text', placeholder: 'e.g. Routine Check-Up', required: true, colSpan: 2 },
           { name: 'date', label: 'Appointment Date', type: 'date', required: true, colSpan: 1 },
           { name: 'time', label: 'Time Slot', type: 'time', required: true, colSpan: 1 },
-          { name: 'status', label: 'Status', type: 'select', required: true, options: ['Scheduled', 'Confirmed'], colSpan: 2 },
+          { name: 'status', label: 'Status', type: 'select', required: true, options: ['Confirmed', 'Pending', 'Cancelled'], colSpan: 2 },
         ]
       }
     ],
@@ -236,12 +252,12 @@ export const ENTITY_SCHEMAS = {
         icon: 'bi-calendar-week',
         fields: [
           { name: 'patientName', label: 'Patient Name', type: 'text', placeholder: 'Search or enter patient name', required: true, colSpan: 2 },
-          { name: 'doctor', label: 'Doctor', type: 'select', required: true, options: ['Dr. Petra Winsburry', 'Dr. Olivia Martinez', 'Dr. Damian Sanchez', 'Dr. Chloe Harrington'], colSpan: 1 },
-          { name: 'department', label: 'Department', type: 'select', required: true, options: ['General Medicine', 'Cardiology', 'Pediatrics', 'Dermatology'], colSpan: 1 },
+          { name: 'doctor', label: 'Doctor', type: 'select', required: true, options: DEMO_DOCTOR_NAMES, colSpan: 1 },
+          { name: 'department', label: 'Department', type: 'select', required: true, options: APPOINTMENT_DEPARTMENTS, colSpan: 1 },
           { name: 'treatment', label: 'Treatment', type: 'text', placeholder: 'e.g. Routine Check-Up', required: true, colSpan: 2 },
           { name: 'date', label: 'Appointment Date', type: 'date', required: true, colSpan: 1 },
           { name: 'time', label: 'Time Slot', type: 'time', required: true, colSpan: 1 },
-          { name: 'status', label: 'Status', type: 'select', required: true, options: ['Scheduled', 'Confirmed', 'Completed', 'Cancelled', 'No Show'], colSpan: 2 },
+          { name: 'status', label: 'Status', type: 'select', required: true, options: ['Confirmed', 'Pending', 'Cancelled'], colSpan: 2 },
         ]
       }
     ]
@@ -267,7 +283,7 @@ export const ENTITY_SCHEMAS = {
         fields: [
           { name: 'title', label: 'Department Name', type: 'text', placeholder: 'e.g. Neurology', required: true, colSpan: 2 },
           { name: 'deptHead', label: 'Head of Department', type: 'text', placeholder: 'Dr. Nathan Drake', required: true, colSpan: 2 },
-          { name: 'status', label: 'Status', type: 'select', required: true, options: ['Active'], colSpan: 1 },
+          { name: 'status', label: 'Status', type: 'select', required: true, options: ['Active', 'Inactive'], colSpan: 1 },
           { name: 'staffCount', label: 'Initial Staff Count', type: 'number', placeholder: '15', required: false, colSpan: 1 },
           { name: 'desc', label: 'Description', type: 'textarea', placeholder: 'Enter department overview and services...', required: true, colSpan: 2 },
           { name: 'profileImage', label: 'Department Profile Image', type: 'file', accept: 'image/*', placeholder: 'Upload department profile picture', required: false, colSpan: 2 },
@@ -282,7 +298,7 @@ export const ENTITY_SCHEMAS = {
         fields: [
           { name: 'title', label: 'Department Name', type: 'text', placeholder: 'e.g. Neurology', required: true, colSpan: 2 },
           { name: 'deptHead', label: 'Head of Department', type: 'text', placeholder: 'Dr. Nathan Drake', required: true, colSpan: 2 },
-          { name: 'status', label: 'Status', type: 'select', required: true, options: ['Active', 'Inactive', 'Under Review'], colSpan: 1 },
+          { name: 'status', label: 'Status', type: 'select', required: true, options: ['Active', 'Inactive'], colSpan: 1 },
           { name: 'staffCount', label: 'Staff Count', type: 'number', placeholder: '15', required: false, colSpan: 1 },
           { name: 'desc', label: 'Description', type: 'textarea', placeholder: 'Enter department overview and services...', required: true, colSpan: 2 },
           { name: 'profileImage', label: 'Department Profile Image', type: 'file', accept: 'image/*', placeholder: 'Upload department profile picture', required: false, colSpan: 2 },
@@ -312,8 +328,9 @@ export const ENTITY_SCHEMAS = {
           { name: 'itemName', label: 'Item Name', type: 'text', placeholder: 'e.g. Amoxicillin 500mg', required: true, colSpan: 2 },
           { name: 'category', label: 'Category', type: 'select', required: true, options: ['Pharmaceuticals', 'Medical Supplies', 'Surgical Equipment', 'Personal Protective'], colSpan: 1 },
           { name: 'quantity', label: 'Quantity in Stock', type: 'number', placeholder: '500', required: true, colSpan: 1 },
+          { name: 'reorderQty', label: 'Reorder Quantity', type: 'number', placeholder: '100', required: false, colSpan: 1 },
           { name: 'unitPrice', label: 'Unit Price ($)', type: 'text', placeholder: '25.00', required: true, colSpan: 1 },
-          { name: 'status', label: 'Stock Status', type: 'select', required: true, options: ['In Stock', 'Low Stock'], colSpan: 1 },
+          { name: 'status', label: 'Stock Status', type: 'select', required: true, options: ['In Stock', 'Low Stock', 'Out of Stock'], colSpan: 1 },
         ]
       }
     ],
@@ -352,11 +369,9 @@ export const ENTITY_SCHEMAS = {
         title: 'Room Details',
         icon: 'bi-hospital-bed',
         fields: [
-          { name: 'roomName', label: 'Room Number / Name', type: 'text', placeholder: 'e.g. Ward 402', required: true, colSpan: 2 },
-          { name: 'roomType', label: 'Room Type', type: 'select', required: true, options: ['Single Ward', 'Double Ward', 'ICU', 'VIP Suite', 'Emergency Bed'], colSpan: 1 },
-          { name: 'capacity', label: 'Bed Capacity', type: 'number', placeholder: '2', required: true, colSpan: 1 },
-          { name: 'dailyRate', label: 'Daily Rate ($)', type: 'text', placeholder: '150.00', required: true, colSpan: 1 },
-          { name: 'status', label: 'Availability', type: 'select', required: true, options: ['Available'], colSpan: 1 },
+          { name: 'roomName', label: 'Room Name', type: 'text', placeholder: 'e.g. Block A', required: true, colSpan: 2 },
+          { name: 'capacity', label: 'Capacity', type: 'number', placeholder: '15', required: true, colSpan: 1 },
+          { name: 'status', label: 'Status', type: 'select', required: true, options: ['Available', 'Unavailable'], colSpan: 1 },
         ]
       }
     ],
@@ -366,11 +381,9 @@ export const ENTITY_SCHEMAS = {
         title: 'Room Details',
         icon: 'bi-hospital-bed',
         fields: [
-          { name: 'roomName', label: 'Room Number / Name', type: 'text', placeholder: 'e.g. Ward 402', required: true, colSpan: 2 },
-          { name: 'roomType', label: 'Room Type', type: 'select', required: true, options: ['Single Ward', 'Double Ward'], colSpan: 1 },
-          { name: 'capacity', label: 'Bed Capacity', type: 'number', placeholder: '2', required: true, colSpan: 1 },
-          { name: 'dailyRate', label: 'Daily Rate ($)', type: 'text', placeholder: '150.00', required: true, colSpan: 1 },
-          { name: 'status', label: 'Availability', type: 'select', required: true, options: ['Available', 'Occupied', 'Unavailable (Maintenance)', 'Reserved'], colSpan: 1 },
+          { name: 'roomName', label: 'Room Name', type: 'text', placeholder: 'e.g. Block A', required: true, colSpan: 2 },
+          { name: 'capacity', label: 'Capacity', type: 'number', placeholder: '15', required: true, colSpan: 1 },
+          { name: 'status', label: 'Status', type: 'select', required: true, options: ['Available', 'Occupied', 'Unavailable', 'Reserved'], colSpan: 1 },
         ]
       }
     ]
@@ -396,9 +409,10 @@ export const ENTITY_SCHEMAS = {
         fields: [
           { name: 'patientName', label: 'Patient Name', type: 'text', placeholder: 'Enter patient name', required: true, colSpan: 2 },
           { name: 'treatment', label: 'Treatment / Service', type: 'text', placeholder: 'e.g. Cardiac Surgery & Care', required: true, colSpan: 2 },
+          { name: 'date', label: 'Invoice Date', type: 'date', required: true, colSpan: 1 },
           { name: 'amount', label: 'Total Amount ($)', type: 'text', placeholder: '1,250.00', required: true, colSpan: 1 },
           { name: 'paymentMethod', label: 'Payment Method', type: 'select', required: true, options: ['Credit Card', 'Insurance Claim', 'Bank Transfer', 'Cash'], colSpan: 1 },
-          { name: 'status', label: 'Invoice Status', type: 'select', required: true, options: ['Pending'], colSpan: 2 },
+          { name: 'status', label: 'Invoice Status', type: 'select', required: true, options: ['Paid', 'Pending'], colSpan: 2 },
         ]
       }
     ],
@@ -413,7 +427,7 @@ export const ENTITY_SCHEMAS = {
           { name: 'amount', label: 'Total Amount ($)', type: 'text', placeholder: '1,250.00', required: true, colSpan: 1 },
           { name: 'paymentMethod', label: 'Payment Method', type: 'select', required: true, options: ['Credit Card', 'Insurance Claim', 'Bank Transfer', 'Cash'], colSpan: 1 },
           { name: 'date', label: 'Invoice Date', type: 'date', required: true, colSpan: 1 },
-          { name: 'status', label: 'Invoice Status', type: 'select', required: true, options: ['Paid', 'Pending', 'Overdue', 'Refunded', 'Cancelled'], colSpan: 1 },
+          { name: 'status', label: 'Invoice Status', type: 'select', required: true, options: ['Paid', 'Pending'], colSpan: 1 },
         ]
       }
     ]
@@ -477,12 +491,12 @@ export const FILTER_CONFIGS = {
     category: {
       label: 'All Category',
       icon: 'bi-funnel',
-      options: ['All Category', 'Pharmaceuticals', 'Medical Supplies', 'Surgical Equipment', 'Personal Protective', 'PPE']
+      options: ['All Category', 'Pharmaceuticals', 'Medical Supplies', 'Surgical Equipment', 'Personal Protective']
     },
     status: {
       label: 'All Status',
       icon: 'bi-funnel',
-      options: ['All Status', 'Available', 'Low Stock', 'Out of Stock']
+      options: ['All Status', 'In Stock', 'Low Stock', 'Out of Stock']
     }
   },
   payment: {

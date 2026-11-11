@@ -1,0 +1,132 @@
+# WebTesting Authentication App
+
+This file describes the routes and the authentication-related behavior that is
+currently implemented in this React/Vite project. In particular, the forgot-
+password and reset-password screens are currently front-end demonstrations;
+they do not send requests to the password-recovery API.
+
+## Where the reset-page email comes from
+
+The email shown on the Reset Password page is passed during navigation; it is
+not stored in a browser session:
+
+1. `src/pages/ForgotPassword.jsx` validates the entered email.
+2. Its success modal links to `/reset-password` and passes
+   `state={{ emailAddress: formData.emailAddress }}`.
+3. `src/components/AlertModal.jsx` forwards that state to React Router's
+   `<Link>`.
+4. `src/pages/ResetPassword.jsx` reads it with `useLocation()` and initializes
+   the email field from `location.state?.emailAddress` (or `location.state?.email`).
+
+This is React Router **location state**, not `sessionStorage` or
+`localStorage`. It is available when following that in-app link, but it is not
+a durable session: opening `/reset-password` directly or refreshing the page
+may leave the email blank. The reset page's email input is editable.
+
+## Routes and page flow
+
+Routes are declared in `src/App.jsx` with `createBrowserRouter`. The app is
+mounted through `RouterProvider` in `src/main.jsx`, inside the global
+`AuthProvider`.
+
+| URL | Page | Notes |
+| --- | --- | --- |
+| `/` | `src/pages/Home.jsx` | Landing page with links to sign in and sign up. |
+| `/sign-in`, `/sign_in` | `src/pages/SignIn.jsx` | Sign-in form. Successful API response opens a modal linking to `/profile`. |
+| `/sign-up`, `/sign_up` | `src/pages/SignUp.jsx` | Registration form; currently validates locally and displays a simulated success modal. |
+| `/forgot-password`, `/forgot_password` | `src/pages/ForgotPassword.jsx` | Validates an email locally, then displays a modal linking to `/reset-password` with the email in location state. |
+| `/reset-password`, `/reset_password` | `src/pages/ResetPassword.jsx` | Validates email, OTP, and new-password fields locally, then displays a simulated success modal linking to `/sign-in`. |
+| `/profile` | `src/pages/Profile.jsx` | Reads and displays user data from `localStorage`. |
+
+The underscore and hyphen variants above render the same page. There is no
+catch-all/not-found route and no route guard: `/profile` can be opened without
+being signed in.
+
+## Authentication state and browser storage
+
+`src/context/AuthContext.jsx` creates a React context shared by the app. On
+startup, `AuthProvider` reads:
+
+- `accessToken` from `localStorage`
+- `user` from `localStorage` (JSON)
+
+If both values exist and the user JSON parses, the context restores `user`.
+Malformed stored user JSON causes both keys to be removed. The context exposes
+`user`, `loading`, `isAuthenticated`, `login`, `logout`, and placeholder
+`signUp`, `forgotPassword`, and `resetPassword` methods.
+
+The current sign-in page independently sends its API request and stores
+successful response data:
+
+- `user`: serialized user object from `data` or `user`
+- `accessToken`: response `accessToken`, or `user.staffId` as a fallback
+
+`Profile.jsx` reads `user` directly from `localStorage`. `logout()` removes
+both storage entries and clears context state; no page currently exposes a
+logout control.
+
+These values use **localStorage**, which survives reloads and browser restarts
+until removed. It is not an HTTP-only cookie and is accessible to JavaScript
+running on the same origin. Do not store passwords, OTPs, or other secrets
+there. The forgot/reset email is not written to localStorage or sessionStorage.
+
+## API configuration and current API behavior
+
+`src/api/axios.js` exports the shared Axios instance. Its base URL comes from
+`VITE_API_BASE_URL`, with a development fallback configured in that file. It
+sets `Accept: application/json`; sign-in sends `FormData`, so the instance does
+not force a JSON `Content-Type` header.
+
+The only active network request found in the application is sign-in:
+
+- `src/pages/SignIn.jsx` sends `emailAddress` and `password` as `FormData`
+  using `api.post(...)`.
+- The full URL can be configured with `VITE_SIGN_IN_API_URL`; otherwise the
+  page uses the sign-in endpoint under the configured authentication API.
+- On `response.data.success === true`, the page stores the returned user and
+  token and shows its success modal. API failures are displayed in the form.
+
+`AuthContext.login()` also posts to `sign-in.php`, but the current
+`SignIn.jsx` does not call that context method; it performs the request and
+storage work itself. Keep in mind that these are two separate sign-in
+implementations.
+
+There are no active API requests for sign-up, forgot-password, or
+reset-password. The similarly named context functions are empty stubs, and
+those pages currently display success after client-side validation only. In
+particular, the current reset screen does not submit its OTP or new password
+to a server and does not actually change a password. Connect these pages to
+the backend before treating their success messages as completed operations.
+
+The project `.env` currently defines `VITE_API_BASE_URL` and
+`VITE_SIGN_IN_API_URL`. Vite exposes variables prefixed with `VITE_` to
+client-side code, so do not put private API credentials or secrets in them.
+
+## Shared components and form behavior
+
+- `src/components/InputFieldComponent.jsx` renders a labeled input and its
+  validation message.
+- `src/components/ButtonComponent.jsx` renders the form button.
+- `src/components/AlertModal.jsx` displays a success message and navigates to
+  a destination, forwarding optional React Router location state.
+
+The auth pages keep form values, field errors, API errors, and modal/loading
+flags in React component state. Field changes update the form and clear that
+field's validation message. Client-side validation does not replace backend
+validation.
+
+## Running and checking the app
+
+From the project directory:
+
+```sh
+npm install
+npm run dev
+```
+
+Available project scripts:
+
+- `npm run dev` — start the Vite development server.
+- `npm run build` — create a production build in `dist/`.
+- `npm run preview` — serve the production build locally.
+- `npm run lint` — run ESLint.

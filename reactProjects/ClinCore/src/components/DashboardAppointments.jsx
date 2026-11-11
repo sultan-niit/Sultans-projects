@@ -1,10 +1,34 @@
+import { Link } from "react-router-dom";
+import { useSessionCollection } from "../js/sessionData";
+
 export default function DashboardAppointments() {
+    const appointments = useSessionCollection("appointments");
+    const now = new Date();
+    const today = [
+        now.getFullYear(),
+        String(now.getMonth() + 1).padStart(2, "0"),
+        String(now.getDate()).padStart(2, "0"),
+    ].join("-");
+    const todaysAppointments = appointments.filter((appointment) => appointment.date === today);
+
     return (
         <div className="table-card">
             <div className="card-header">
-                <h2>Patient Appointment</h2>
-                <a href="#" className="view-all">View All</a>
+                <h2>Today's Appointments</h2>
+                <Link to="/appointments" className="view-all">View All</Link>
             </div>
+            {todaysAppointments.length === 0 ? (
+                <div className="dashboard-appointments-empty" role="status">
+                    <div className="dashboard-appointments-empty-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <rect x="3.5" y="5" width="17" height="16" rx="2.5" />
+                            <path d="M7.5 3.5v3M16.5 3.5v3M3.5 9.5h17m-11 5 2 2 4-4" />
+                        </svg>
+                    </div>
+                    <h3>Your schedule is clear</h3>
+                    <p>No appointments are scheduled for today.</p>
+                </div>
+            ) : (
             <div className="table-wrapper">
                 <table className="data-table">
                     <thead>
@@ -19,79 +43,28 @@ export default function DashboardAppointments() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className="patient-name">
-                                <div className="patient-cell">
-                                    <img src="all-images/body-images/patient-1.jpg" alt="Caren G. Simpson" className="patient-avatar" />
-                                    <span>Caren G. Simpson</span>
-                                </div>
-                            </td>
-                            <td>20-07-28</td>
-                            <td>09:00 AM</td>
-                            <td>Dr. Petra Winsburry</td>
-                            <td>Routine Check-Up</td>
-                            <td><span className="status-badge status-confirmed">Confirmed</span></td>
-                            <td><button type="button" className="row-menu"><i className="bi bi-three-dots"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td className="patient-name">
-                                <div className="patient-cell">
-                                    <img src="all-images/body-images/patient-2.jpg" alt="Edgar Warrow" className="patient-avatar" />
-                                    <span>Edgar Warrow</span>
-                                </div>
-                            </td>
-                            <td>20-07-28</td>
-                            <td>10:30 AM</td>
-                            <td>Dr. Olivia Martinez</td>
-                            <td>Cardiac Consultation</td>
-                            <td><span className="status-badge status-confirmed">Confirmed</span></td>
-                            <td><button type="button" className="row-menu"><i className="bi bi-three-dots"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td className="patient-name">
-                                <div className="patient-cell">
-                                    <img src="all-images/body-images/patient-3.jpg" alt="Ocean Jane Lupre" className="patient-avatar" />
-                                    <span>Ocean Jane Lupre</span>
-                                </div>
-                            </td>
-                            <td>20-07-28</td>
-                            <td>11:00 AM</td>
-                            <td>Dr. Damian Sanchez</td>
-                            <td>Pediatric Check-Up</td>
-                            <td><span className="status-badge status-pending">Pending</span></td>
-                            <td><button type="button" className="row-menu"><i className="bi bi-three-dots"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td className="patient-name">
-                                <div className="patient-cell">
-                                    <img src="all-images/body-images/patient-4.jpg" alt="Shane Riddick" className="patient-avatar" />
-                                    <span>Shane Riddick</span>
-                                </div>
-                            </td>
-                            <td>20-07-28</td>
-                            <td>01:00 PM</td>
-                            <td>Dr. Chloe Harrington</td>
-                            <td>Skin Allergy</td>
-                            <td><span className="status-badge status-cancelled">Cancelled</span></td>
-                            <td><button type="button" className="row-menu"><i className="bi bi-three-dots"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td className="patient-name">
-                                <div className="patient-cell">
-                                    <img src="all-images/body-images/patient-5.jpg" alt="Queen Lawnston" className="patient-avatar" />
-                                    <span>Queen Lawnston</span>
-                                </div>
-                            </td>
-                            <td>20-07-28</td>
-                            <td>02:30 PM</td>
-                            <td>Dr. Petra Winsburry</td>
-                            <td>Follow-Up Visit</td>
-                            <td><span className="status-badge status-confirmed">Confirmed</span></td>
-                            <td><button type="button" className="row-menu"><i className="bi bi-three-dots"></i></button></td>
-                        </tr>
+                        {todaysAppointments.slice(0, 5).map((appointment) => (
+                            <tr key={appointment.id}>
+                                <td className="patient-name">
+                                    <div className="patient-cell">
+                                        <span className="patient-avatar dashboard-appointment-avatar">
+                                            {appointment.patientName?.split(/\s+/).map((part) => part[0]).slice(0, 2).join("")}
+                                        </span>
+                                        <span>{appointment.patientName}</span>
+                                    </div>
+                                </td>
+                                <td>{appointment.date}</td>
+                                <td>{appointment.time}</td>
+                                <td>{appointment.doctor}</td>
+                                <td>{appointment.treatment}</td>
+                                <td><span className={`status-badge status-${appointment.status?.toLowerCase()}`}>{appointment.status}</span></td>
+                                <td></td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
+            )}
         </div>
     );
 }

@@ -1,7 +1,82 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useModalState } from '../components/ModalContext';
 import { ENTITY_SCHEMAS } from '../formSchemas';
-import { fetchDoctorMetadata } from '../../api/doctor';
+import { fetchAllDoctors, fetchDoctorMetadata, getStoredDoctors } from '../../api/doctor';
+import { fetchAllRooms, getStoredRooms } from '../../api/room';
+
+function getSelectOptionValue(option, field) {
+  if (typeof option !== 'object' || option === null) return option;
+  return option[field.optionValueKey] || option.value || option.id || option.name || '';
+}
+
+function getSelectOptionLabel(option, field) {
+  if (typeof option !== 'object' || option === null) return option;
+  return option[field.optionLabelKey] || option.label || option.name || option.value || '';
+}
+
+const EMPTY_BACKEND_OPTIONS = {};
+
+function getDrawerRecord(schemaType, record) {
+  const initial = { ...record };
+  const fill = (fieldName, ...values) => {
+    if (initial[fieldName] !== undefined && initial[fieldName] !== '') return;
+    initial[fieldName] = values.find((value) => value !== undefined && value !== null && value !== '') || '';
+  };
+
+  if (schemaType === 'doctor') {
+    const rawName = initial.doctor_name || initial.doctorName || initial.name || initial.fullName || '';
+    if ((!initial.firstName || !initial.lastName) && rawName) {
+      const parts = rawName.replace(/^(dr\.|dr\b|prof\.|prof\b|mr\.|mr\b|mrs\.|mrs\b|ms\.|ms\b)\s*/i, '').trim().split(/\s+/);
+      fill('firstName', parts[0]);
+      fill('lastName', parts.slice(1).join(' '));
+    }
+    fill('email', initial.emailAddress, initial.email_address);
+    fill('phone', initial.phoneNumber, initial.phone_number);
+    fill('department', initial.departmentName, initial.department_name);
+    fill('specialist', initial.role, initial.specialistName);
+  } else if (schemaType === 'patient') {
+    fill('fullName', initial.name, initial.patientName, initial.patient_name);
+    fill('email', initial.emailAddress, initial.email_address);
+    fill('phone', initial.phoneNumber, initial.phone_number);
+    fill('doctorId', initial.doctorId, initial.doctor_id);
+    fill('roomId', initial.roomId, initial.room_id);
+  } else if (schemaType === 'room') {
+    fill('roomName', initial.room_name, initial.name);
+    fill('capacity', initial.bedCapacity, initial.bed_capacity);
+    fill('status', initial.statusName, initial.status_name, initial.statusId, initial.status_id);
+    const status = String(initial.status || '').toLowerCase();
+    if (status === 'active' || status === 'available' || status === 'a') initial.status = 'Available';
+    if (status === 'inactive' || status === 'unavailable' || status.includes('maintenance') || status === 'u') {
+      initial.status = 'Unavailable';
+    }
+  } else if (schemaType === 'inventory') {
+    fill('itemName', initial.name, initial.item_name);
+    fill('quantity', initial.qty, initial.stock, initial.stockQuantity, initial.stock_quantity);
+    fill('reorderQty', initial.reorder_qty);
+    fill('unitPrice', initial.price, initial.unit_price);
+  } else if (schemaType === 'department') {
+    fill('title', initial.departmentName, initial.department_name, initial.name);
+    fill('deptHead', initial.headOfDepartment, initial.head_of_department);
+    fill('desc', initial.description);
+    fill('staffCount', initial.staff_count);
+  } else if (schemaType === 'appointment') {
+    fill('patientName', initial.patient_name);
+    fill('doctor', initial.doctorName, initial.doctor_name);
+    fill('date', initial.appointmentDate, initial.appointment_date);
+    fill('time', initial.appointmentTime, initial.appointment_time);
+  } else if (schemaType === 'payment') {
+    fill('patientName', initial.patient_name);
+    fill('paymentMethod', initial.payment_method);
+    fill('amount', initial.totalAmount, initial.total_amount);
+    fill('date', initial.invoiceDate, initial.invoice_date);
+  } else if (schemaType === 'staff') {
+    fill('email', initial.emailAddress, initial.email_address);
+    fill('phone', initial.phoneNumber, initial.phone_number);
+    fill('homeAddress', initial.address, initial.home_address);
+  }
+
+  return initial;
+}
 
 export default function AddFormDrawer() {
   const {
@@ -11,13 +86,18 @@ export default function AddFormDrawer() {
     drawerFormData,
     isDrawerSubmitting,
     closeAddDrawer,
-    submitDrawerForm
+    submitDrawerForm,
+    deleteDrawerRoom,
+    deleteDrawerDepartment
   } = useModalState();
 
   const schema = ENTITY_SCHEMAS[drawerSchemaType] || ENTITY_SCHEMAS.staff;
   const [formData, setFormData] = useState({});
   const [imagePreview, setImagePreview] = useState(null);
-  const [backendOptions, setBackendOptions] = useState({});
+  const [backendOptionsState, setBackendOptionsState] = useState({ schemaType: '', options: EMPTY_BACKEND_OPTIONS });
+  const backendOptions = backendOptionsState.schemaType === drawerSchemaType
+    ? backendOptionsState.options
+    : EMPTY_BACKEND_OPTIONS;
 
   // Use edit-specific sections when in edit mode, fallback to regular sections
   const activeSections = isDrawerEditMode && schema.editSections
@@ -34,25 +114,21 @@ export default function AddFormDrawer() {
   const drawerIcon = isDrawerEditMode ? 'bi-pencil-square' : schema.icon;
 
   // Empty defaults for add mode
-  const buildInitialData = (currentBackend = backendOptions) => {
+  const buildInitialData = useCallback(() => {
     const initialData = {};
     activeSections.forEach(sec => {
       sec.fields.forEach(field => {
         if (field.type === 'select') {
-          const opts = (currentBackend && currentBackend[field.name] && currentBackend[field.name].length > 0)
-            ? currentBackend[field.name]
-            : (field.options || []);
+          const opts = field.options || [];
           const first = opts[0];
-          initialData[field.name] = (typeof first === 'object' && first !== null)
-            ? (first.name || first.value || first.roleName || first.statusName || first.departmentName || '')
-            : (first || '');
+          initialData[field.name] = field.defaultValue || (first ? getSelectOptionValue(first, field) : '');
         } else {
           initialData[field.name] = '';
         }
       });
     });
     return initialData;
-  };
+  }, [activeSections]);
 
   // Reset/load form inputs when schema changes or drawer opens
   useEffect(() => {
@@ -64,7 +140,7 @@ export default function AddFormDrawer() {
           if (meta.roles?.length) overrides.specialist = meta.roles;
           if (meta.statuses?.length) overrides.status = meta.statuses;
           if (Object.keys(overrides).length > 0) {
-            setBackendOptions(overrides);
+            setBackendOptionsState({ schemaType: 'doctor', options: overrides });
             setFormData(prev => {
               const updated = { ...prev };
               Object.keys(overrides).forEach(k => {
@@ -83,32 +159,52 @@ export default function AddFormDrawer() {
             });
           }
         });
-      } else {
-        setBackendOptions({});
+      } else if (drawerSchemaType === 'patient') {
+        Promise.allSettled([fetchAllDoctors(), fetchAllRooms()]).then(([doctorsResult, roomsResult]) => {
+          if (doctorsResult.status === 'rejected') {
+            console.warn('Unable to load doctors for patient assignment:', doctorsResult.reason);
+          }
+          if (roomsResult.status === 'rejected') {
+            console.warn('Unable to load rooms for patient assignment:', roomsResult.reason);
+          }
+
+          const doctors = doctorsResult.status === 'fulfilled' && Array.isArray(doctorsResult.value)
+            ? doctorsResult.value
+            : getStoredDoctors();
+          const rooms = roomsResult.status === 'fulfilled' && Array.isArray(roomsResult.value)
+            ? roomsResult.value
+            : getStoredRooms();
+          const options = {
+            doctorId: doctors.map((doctor) => ({
+              doctorId: doctor.doctorId || doctor.doctor_id || doctor.id,
+              name: doctor.name || doctor.fullName || doctor.doctor_name || 'Doctor',
+            })).filter((doctor) => doctor.doctorId),
+            roomId: rooms.map((room) => ({
+              roomId: room.roomId || room.room_id || room.id,
+              roomName: room.roomName || room.room_name || room.name || 'Room',
+            })).filter((room) => room.roomId),
+          };
+
+          setBackendOptionsState({ schemaType: 'patient', options });
+          setFormData((previous) => ({
+            ...previous,
+            doctorId: previous.doctorId || options.doctorId[0]?.doctorId || '',
+            roomId: previous.roomId || options.roomId[0]?.roomId || '',
+          }));
+        });
       }
 
       if (isDrawerEditMode && drawerFormData && Object.keys(drawerFormData).length > 0) {
-        // Pre-fill with existing data for edit mode
-        const initial = { ...drawerFormData };
-        const rawDoctorName = initial.doctor_name || initial.name || initial.fullName || "";
-        if (!initial.firstName && rawDoctorName) {
-          const parts = rawDoctorName.replace(/^(dr\.|dr\b|prof\.|prof\b|mr\.|mr\b|mrs\.|mrs\b|ms\.|ms\b)\s*/i, "").trim().split(/\s+/);
-          initial.firstName = parts[0] || "";
-          initial.lastName = parts.slice(1).join(" ") || "";
-        }
-        if (!initial.email && (initial.emailAddress || initial.email_address)) {
-          initial.email = initial.emailAddress || initial.email_address;
-        }
-        if (!initial.phone && (initial.phoneNumber || initial.phone_number)) {
-          initial.phone = initial.phoneNumber || initial.phone_number;
-        }
-        setFormData(initial);
+        // The selected record is external state; copy it into the editable local draft.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setFormData(getDrawerRecord(drawerSchemaType, drawerFormData));
+        setImagePreview(typeof drawerFormData.profileImage === 'string' ? drawerFormData.profileImage : null);
       } else {
         setFormData(buildInitialData());
+        setImagePreview(null);
       }
-      setImagePreview(null);
     }
-  }, [isDrawerOpen, drawerSchemaType, isDrawerEditMode]);
+  }, [isDrawerOpen, drawerSchemaType, isDrawerEditMode, drawerFormData, buildInitialData]);
 
   const handleClearAll = () => {
     setFormData(buildInitialData());
@@ -125,9 +221,12 @@ export default function AddFormDrawer() {
   const handleFileChange = (e, fieldName) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData(prev => ({ ...prev, [fieldName]: file }));
       const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result);
+      reader.onloadend = () => {
+        const imageData = reader.result;
+        setImagePreview(imageData);
+        setFormData(prev => ({ ...prev, [fieldName]: imageData }));
+      };
       reader.readAsDataURL(file);
     }
   };
@@ -135,10 +234,19 @@ export default function AddFormDrawer() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const concatenatedName = [formData.firstName, formData.lastName].filter(Boolean).join(" ").trim();
+    const recordName =
+      concatenatedName ||
+      formData.name ||
+      formData.fullName ||
+      formData.roomName ||
+      formData.itemName ||
+      formData.title ||
+      formData.patientName ||
+      "";
     const payload = {
       ...formData,
-      name: concatenatedName || formData.name || formData.fullName || "",
-      fullName: concatenatedName || formData.name || formData.fullName || "",
+      name: recordName,
+      fullName: formData.fullName || recordName,
     };
     submitDrawerForm(payload);
   };
@@ -148,9 +256,7 @@ export default function AddFormDrawer() {
       ? backendOptions[field.name]
       : (field.options || []);
     const firstOpt = selectOpts[0];
-    const defaultFallback = typeof firstOpt === 'object' && firstOpt !== null
-      ? (firstOpt.name || firstOpt.value || firstOpt.roleName || firstOpt.statusName || firstOpt.departmentName || '')
-      : (firstOpt || '');
+    const defaultFallback = firstOpt ? getSelectOptionValue(firstOpt, field) : '';
     const currentValue = formData[field.name] !== undefined && formData[field.name] !== ''
       ? formData[field.name]
       : defaultFallback;
@@ -166,16 +272,13 @@ export default function AddFormDrawer() {
           className="clincore-input-select"
         >
           {selectOpts.map((opt, i) => {
-            const optVal = typeof opt === 'object' && opt !== null
-              ? (opt.name || opt.roleName || opt.statusName || opt.departmentName || opt.id || opt.value || '')
-              : opt;
-            const optLabel = typeof opt === 'object' && opt !== null
-              ? (opt.name || opt.label || opt.roleName || opt.statusName || opt.departmentName || optVal)
-              : opt;
+            const optVal = getSelectOptionValue(opt, field);
+            const optLabel = getSelectOptionLabel(opt, field) || optVal;
             return (
               <option key={i} value={optVal}>{optLabel}</option>
             );
           })}
+          {field.placeholder && <option value="">{field.placeholder}</option>}
         </select>
         <i className="bi bi-chevron-down select-arrow-icon"></i>
       </div>
@@ -290,6 +393,28 @@ export default function AddFormDrawer() {
 
           {/* Bottom Action Footer */}
           <div className="add-drawer-footer">
+            {isDrawerEditMode && drawerSchemaType === 'room' && (
+              <button
+                type="button"
+                className="btn-drawer-delete"
+                onClick={deleteDrawerRoom}
+                disabled={isDrawerSubmitting}
+              >
+                <i className="bi bi-trash3"></i>
+                <span>Delete Room</span>
+              </button>
+            )}
+            {isDrawerEditMode && drawerSchemaType === 'department' && (
+              <button
+                type="button"
+                className="btn-drawer-delete"
+                onClick={deleteDrawerDepartment}
+                disabled={isDrawerSubmitting}
+              >
+                <i className="bi bi-trash3"></i>
+                <span>Delete Department</span>
+              </button>
+            )}
             <button
               type="button"
               className="btn-drawer-cancel"
@@ -321,4 +446,3 @@ export default function AddFormDrawer() {
     </>
   );
 }
-

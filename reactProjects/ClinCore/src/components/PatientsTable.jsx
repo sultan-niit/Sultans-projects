@@ -112,7 +112,9 @@ export default function PatientsTable({
         <div className="offline-circle-indicator">
           <div className="offline-circle-ring"></div>
           <div className="offline-circle-badge">
-            <i className="bi bi-wifi-off"></i>
+            <svg className="offline-status-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M2.5 8.8a15 15 0 0 1 17.1-2.1M5.7 12a10 10 0 0 1 6.8-2.4M9.3 15.4a5 5 0 0 1 4.7.2M12 19h.01M3 3l18 18" />
+            </svg>
           </div>
         </div>
         <div className="offline-content-group">
@@ -126,7 +128,9 @@ export default function PatientsTable({
               className="btn-offline-retry"
               onClick={onRetry}
             >
-              <i className="bi bi-arrow-clockwise"></i>
+              <svg className="offline-retry-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3.5 4.5a5 5 0 1 1-1 4.5M2 2.5v3h3" />
+              </svg>
               <span>Retry Connection</span>
             </button>
           )}
@@ -363,7 +367,20 @@ export default function PatientsTable({
                 <tr key={patient.patientId || `patient-${index}`}>
                   <td>
                     <span className="patient-id-cell">
-                      <i className="bi bi-person-badge" aria-hidden="true"></i>
+                      <svg
+                        className="patient-id-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <rect x="3" y="4" width="18" height="16" rx="2" />
+                        <circle cx="9" cy="10" r="2" />
+                        <path d="M5.5 16a3.5 3.5 0 0 1 7 0M14 9h4M14 13h4" />
+                      </svg>
                       <span className="patient-id-txt">{patient.patientId || "-"}</span>
                     </span>
                   </td>

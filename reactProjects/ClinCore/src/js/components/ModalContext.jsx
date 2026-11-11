@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ENTITY_SCHEMAS } from '../formSchemas';
 import { createDoctorProfile, updateStoredDoctor, formatDoctorName } from '../../api/doctor';
 import { createPatientProfile, updateStoredPatient, normalizePatientRecord } from '../../api/patient';
+import { createRoomProfile, deleteRoomProfile, updateStoredRoom, normalizeRoomRecord } from '../../api/room';
+import { deleteSessionRecord, readSessionCollection, saveSessionRecord } from '../sessionData';
 
 const ModalContext = createContext(null);
 
@@ -141,6 +143,53 @@ export function ModalProvider({ children }) {
           showToast('Patient profile updated successfully!');
         }
         window.dispatchEvent(new CustomEvent('clincore:patient-changed', { detail: { record: createdRecord, isEdit: isDrawerEditMode } }));
+      } else if (drawerSchemaType === 'room') {
+        if (!isDrawerEditMode) {
+          const result = await createRoomProfile(formData);
+          createdRecord = result.data || formData;
+          showToast(result.message || 'Room created successfully!');
+        } else {
+          const updatedRecord = normalizeRoomRecord(formData);
+          updateStoredRoom(updatedRecord);
+          createdRecord = updatedRecord;
+          showToast('Room updated successfully!');
+        }
+        window.dispatchEvent(new CustomEvent('clincore:room-changed', { detail: { record: createdRecord, isEdit: isDrawerEditMode } }));
+      } else if (['appointment', 'department', 'payment', 'inventory'].includes(drawerSchemaType)) {
+        const record = { ...drawerFormData, ...formData };
+        let sessionRecord = record;
+
+        if (drawerSchemaType === 'inventory') {
+          sessionRecord = {
+            ...record,
+            name: formData.itemName,
+            qty: Number(formData.quantity),
+            reorderQty: Number(formData.reorderQty || 0),
+            price: formData.unitPrice,
+            image: drawerFormData.image || formData.image,
+          };
+        } else if (drawerSchemaType === 'department') {
+          sessionRecord = {
+            ...record,
+            title: formData.title,
+            staffCount: Number(formData.staffCount || 0),
+            profileImage: formData.profileImage || drawerFormData.profileImage,
+          };
+        } else if (drawerSchemaType === 'payment' && !isDrawerEditMode) {
+          const nextInvoiceNumber = readSessionCollection('payments').length + 1;
+          sessionRecord.invoiceId = `INV-WNH-${String(nextInvoiceNumber).padStart(3, '0')}`;
+        }
+
+        const collection = {
+          appointment: 'appointments',
+          department: 'departments',
+          payment: 'payments',
+          inventory: 'inventory',
+        }[drawerSchemaType];
+        createdRecord = saveSessionRecord(collection, sessionRecord, isDrawerEditMode);
+        const entityName = ENTITY_SCHEMAS[drawerSchemaType]?.entityName || 'Record';
+        const actionText = isDrawerEditMode ? 'updated' : 'created';
+        showToast(`${entityName} successfully ${actionText}!`);
       } else {
         const entityName = ENTITY_SCHEMAS[drawerSchemaType]?.entityName || 'Record';
         const actionText = isDrawerEditMode ? 'updated' : 'created';
@@ -157,6 +206,44 @@ export function ModalProvider({ children }) {
       showToast(err.message || 'Error saving record', 'error');
     } finally {
       setIsDrawerSubmitting(false);
+    }
+  };
+
+  const deleteDrawerRoom = async () => {
+    const roomId = drawerFormData.roomId || drawerFormData.room_id || drawerFormData.id;
+    if (!roomId) {
+      showToast('A room ID is required to delete this room.', 'error');
+      return;
+    }
+    if (!window.confirm('Are you sure you want to delete this room?')) return;
+
+    try {
+      setIsDrawerSubmitting(true);
+      await deleteRoomProfile(roomId);
+      showToast('Room deleted successfully!');
+      closeAddDrawer();
+    } catch (err) {
+      console.error('Error deleting room:', err);
+      showToast(err.message || 'Error deleting room', 'error');
+    } finally {
+      setIsDrawerSubmitting(false);
+    }
+  };
+
+  const deleteDrawerDepartment = () => {
+    if (!drawerFormData.id) {
+      showToast('A department ID is required to delete this department.', 'error');
+      return;
+    }
+    if (!window.confirm('Are you sure you want to delete this department?')) return;
+
+    try {
+      deleteSessionRecord('departments', drawerFormData.id);
+      showToast('Department deleted successfully!');
+      closeAddDrawer();
+    } catch (err) {
+      console.error('Error deleting department:', err);
+      showToast(err.message || 'Error deleting department', 'error');
     }
   };
 
@@ -180,6 +267,8 @@ export function ModalProvider({ children }) {
         openEditDrawer,
         closeAddDrawer,
         submitDrawerForm,
+        deleteDrawerRoom,
+        deleteDrawerDepartment,
 
         isProfileModalOpen,
         profileData,

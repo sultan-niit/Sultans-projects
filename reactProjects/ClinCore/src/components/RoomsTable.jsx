@@ -1,20 +1,41 @@
+import { useState } from "react";
+import { fetchEachRoom } from "../api/room";
 import { useModalState } from "../js/components/ModalContext";
 
-export default function RoomsTable({ ...props }) {
-    const { openEditDrawer } = useModalState();
+export default function RoomsTable({ rooms = [], isLoading = false }) {
+    const { openEditDrawer, showToast } = useModalState();
+    const [loadingRoomId, setLoadingRoomId] = useState(null);
 
-    const rooms = [
-        { id: 1, sn: 'RM-101', name: 'Deluxe General Ward A',       capacity: 'Single', status: 'Available',   statusClass: 'status-available',   data: { roomName: 'Deluxe General Ward A (RM-101)',         roomType: 'Single Ward',   capacity: 1, dailyRate: '120.00', status: 'Available' } },
-        { id: 2, sn: 'RM-102', name: 'Cardiology ICU Room 1',        capacity: 'Single', status: 'Occupied',    statusClass: 'status-occupied',    data: { roomName: 'Cardiology ICU Room 1 (RM-102)',         roomType: 'ICU',           capacity: 1, dailyRate: '450.00', status: 'Occupied' } },
-        { id: 3, sn: 'RM-103', name: 'Pediatrics Care Suite',        capacity: 'Double', status: 'Available',   statusClass: 'status-available',   data: { roomName: 'Pediatrics Care Suite (RM-103)',         roomType: 'Double Ward',   capacity: 2, dailyRate: '180.00', status: 'Available' } },
-        { id: 4, sn: 'RM-104', name: 'Post-Op Recovery Ward B',      capacity: 'Double', status: 'Occupied',    statusClass: 'status-occupied',    data: { roomName: 'Post-Op Recovery Ward B (RM-104)',       roomType: 'Double Ward',   capacity: 2, dailyRate: '200.00', status: 'Occupied' } },
-        { id: 5, sn: 'RM-105', name: 'Orthopedic Rehabilitation Unit', capacity: 'Single', status: 'Unavailable', statusClass: 'status-unavailable', data: { roomName: 'Orthopedic Rehabilitation Unit (RM-105)', roomType: 'Single Ward', capacity: 1, dailyRate: '160.00', status: 'Unavailable (Maintenance)' } },
-        { id: 6, sn: 'RM-106', name: 'Neurology Observation Room',   capacity: 'Single', status: 'Available',   statusClass: 'status-available',   data: { roomName: 'Neurology Observation Room (RM-106)',    roomType: 'Single Ward',   capacity: 1, dailyRate: '175.00', status: 'Available' } },
-        { id: 7, sn: 'RM-107', name: 'Maternity & Infant Suite',     capacity: 'Double', status: 'Occupied',    statusClass: 'status-occupied',    data: { roomName: 'Maternity & Infant Suite (RM-107)',      roomType: 'VIP Suite',     capacity: 2, dailyRate: '320.00', status: 'Occupied' } },
-        { id: 8, sn: 'RM-108', name: 'Emergency Isolation Room',     capacity: 'Single', status: 'Unavailable', statusClass: 'status-unavailable', data: { roomName: 'Emergency Isolation Room (RM-108)',      roomType: 'Emergency Bed', capacity: 1, dailyRate: '350.00', status: 'Unavailable (Maintenance)' } },
-        { id: 9, sn: 'RM-201', name: 'General Patient Room 201',     capacity: 'Double', status: 'Available',   statusClass: 'status-available',   data: { roomName: 'General Patient Room 201 (RM-201)',      roomType: 'Double Ward',   capacity: 2, dailyRate: '140.00', status: 'Available' } },
-        { id: 10, sn: 'RM-202', name: 'VIP Executive Recovery Suite', capacity: 'Single', status: 'Available',  statusClass: 'status-available',   data: { roomName: 'VIP Executive Recovery Suite (RM-202)', roomType: 'VIP Suite',     capacity: 1, dailyRate: '500.00', status: 'Available' } },
-    ];
+    const handleEditRoom = async (room) => {
+        const roomId = room.roomId || room.room_id || room.id;
+        setLoadingRoomId(roomId);
+        try {
+            const fetchedRoom = await fetchEachRoom(roomId);
+            openEditDrawer(fetchedRoom, "room");
+        } catch (error) {
+            console.error("Unable to fetch room details before editing:", error);
+            showToast(error.message || "Unable to load room details.", "error");
+        } finally {
+            setLoadingRoomId(null);
+        }
+    };
+
+    const formatStatusClass = (status = "") => {
+        const normalized = String(status).toLowerCase();
+        if (normalized.includes("occupied")) return "status-occupied";
+        if (normalized.includes("unavailable") || normalized.includes("maintenance") || normalized.includes("inactive")) return "status-unavailable";
+        return "status-available";
+    };
+
+    if (isLoading) {
+        return (
+            <div className="appointments-main-card">
+                <div className="doctors-loading-card" style={{ minHeight: 180 }}>
+                    <div className="rolling-circle-spinner" role="status" aria-label="Loading rooms" />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -46,41 +67,55 @@ export default function RoomsTable({ ...props }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {rooms.map((room) => (
-                                <tr key={room.id}>
-                                    <td>
-                                        <input type="checkbox" className="table-checkbox" />
-                                    </td>
-                                    <td>
-                                        <span className="room-name-txt">{room.id}</span>
-                                    </td>
-                                    <td>
-                                        <div className="room-cell-info">
-                                            <span className="room-name-txt">{room.name}</span>
-                                            <span className="room-id-txt">{room.sn}</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span className="room-capacity-badge">{room.capacity}</span>
-                                    </td>
-                                    <td>
-                                        <span className={`appointment-status-pill ${room.statusClass}`}>{room.status}</span>
-                                    </td>
-                                    <td>
-                                        <div className="appointment-row-actions">
-                                            <button
-                                                type="button"
-                                                className="btn-action-reschedule"
-                                                onClick={() => openEditDrawer(room.data, 'room')}
-                                                title="Edit Room"
-                                            >
-                                                <i className="bi bi-pencil-square"></i>
-                                                Edit
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
+                            {rooms.map((room, index) => {
+                                const roomStatus = room.status || "Available";
+                                const roomData = {
+                                    roomId: room.roomId || room.room_id || room.id,
+                                    room_id: room.roomId || room.room_id || room.id,
+                                    roomName: room.roomName || room.name || `Room ${room.roomId || index + 1}`,
+                                    roomType: room.roomType || room.room_type || "Single Ward",
+                                    capacity: room.capacity || 1,
+                                    dailyRate: room.dailyRate || room.daily_rate || "0.00",
+                                    status: roomStatus,
+                                };
+
+                                return (
+                                    <tr key={room.roomId || room.id || index}>
+                                        <td>
+                                            <input type="checkbox" className="table-checkbox" />
+                                        </td>
+                                        <td>
+                                            <span className="room-name-txt">{index + 1}</span>
+                                        </td>
+                                        <td>
+                                            <div className="room-cell-info">
+                                                <span className="room-name-txt">{room.name || room.roomName || `Room ${index + 1}`}</span>
+                                                <span className="room-id-txt">{room.roomId || room.room_id || room.id || `RM-${String(index + 1).padStart(3, "0")}`}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span className="room-capacity-badge">{room.capacity || 1}</span>
+                                        </td>
+                                        <td>
+                                            <span className={`appointment-status-pill ${formatStatusClass(roomStatus)}`}>{roomStatus}</span>
+                                        </td>
+                                        <td>
+                                            <div className="appointment-row-actions">
+                                                <button
+                                                    type="button"
+                                                    className="btn-action-reschedule"
+                                                    onClick={() => handleEditRoom(roomData)}
+                                                    disabled={String(loadingRoomId) === String(roomData.roomId)}
+                                                    title="Edit Room"
+                                                >
+                                                    <i className="bi bi-pencil-square"></i>
+                                                    {String(loadingRoomId) === String(roomData.roomId) ? "Loading..." : "Edit"}
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
@@ -93,7 +128,7 @@ export default function RoomsTable({ ...props }) {
                             <option value="25">25</option>
                             <option value="50">50</option>
                         </select>
-                        <span>out of 48</span>
+                        <span>out of {rooms.length}</span>
                     </div>
 
                     <div className="appointments-pagination-controls">
@@ -114,5 +149,3 @@ export default function RoomsTable({ ...props }) {
         </>
     );
 }
-
-

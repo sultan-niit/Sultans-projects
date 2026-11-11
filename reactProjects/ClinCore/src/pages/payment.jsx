@@ -8,13 +8,17 @@ import PaymentsTable from "../components/PaymentsTable";
 import PageFooter from "../components/PageFooter";
 import { useModalState } from "../js/components/ModalContext";
 import { FILTER_CONFIGS } from "../js/formSchemas";
-
+import { useSessionCollection } from "../js/sessionData";
 export default function Payments() {
-  const { openAddDrawer } = useModalState();
+  const {
+    openAddDrawer
+  } = useModalState();
+  const payments = useSessionCollection("payments");
+  const paidInvoices = payments.filter((payment) => payment.status === "Paid").length;
+  const pendingInvoices = payments.filter((payment) => payment.status === "Pending").length;
+  const overdueInvoices = payments.filter((payment) => payment.status === "Overdue").length;
   const paymentFilters = FILTER_CONFIGS.payment;
-
-  return (
-    <>
+  return <>
       <div className="dashboard-wrapper">
         <Sidebar />
 
@@ -30,7 +34,7 @@ export default function Payments() {
                             </div>
                             <div className="payment-stat-info">
                                 <span className="payment-stat-label">Total Invoice</span>
-                                <span className="payment-stat-value">865</span>
+                                <span className="payment-stat-value">{payments.length}</span>
                             </div>
                         </div>
                         <div className="payment-stat-trend trend-up">
@@ -46,7 +50,7 @@ export default function Payments() {
                             </div>
                             <div className="payment-stat-info">
                                 <span className="payment-stat-label">Paid Invoice</span>
-                                <span className="payment-stat-value">289</span>
+                                <span className="payment-stat-value">{paidInvoices}</span>
                             </div>
                         </div>
                         <div className="payment-stat-trend trend-up">
@@ -62,7 +66,7 @@ export default function Payments() {
                             </div>
                             <div className="payment-stat-info">
                                 <span className="payment-stat-label">Pending Invoice</span>
-                                <span className="payment-stat-value">98</span>
+                                <span className="payment-stat-value">{pendingInvoices}</span>
                             </div>
                         </div>
                         <div className="payment-stat-trend trend-down">
@@ -78,7 +82,7 @@ export default function Payments() {
                             </div>
                             <div className="payment-stat-info">
                                 <span className="payment-stat-label">Overdue</span>
-                                <span className="payment-stat-value">168</span>
+                                <span className="payment-stat-value">{overdueInvoices}</span>
                             </div>
                         </div>
                         <div className="payment-stat-trend trend-up">
@@ -89,42 +93,26 @@ export default function Payments() {
                 </div>
 
                 <div className="payments-toolbar">
-                    <div className="payments-toolbar-left" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <div className="payments-toolbar-left" style={{
+              display: 'flex',
+              gap: '10px',
+              alignItems: 'center'
+            }}>
                         <SearchBar className="payments-search-bar" placeHolder="Search name, treatment, etc" />
 
-                        <FilterDropdown
-                            icon={paymentFilters.dateRange.icon}
-                            label={paymentFilters.dateRange.label}
-                            options={paymentFilters.dateRange.options}
-                        />
+                        <FilterDropdown icon={paymentFilters.dateRange.icon} label={paymentFilters.dateRange.label} options={paymentFilters.dateRange.options} />
 
-                        <FilterDropdown
-                            icon={paymentFilters.status.icon}
-                            label={paymentFilters.status.label}
-                            options={paymentFilters.status.options}
-                        />
+                        <FilterDropdown icon={paymentFilters.status.icon} label={paymentFilters.status.label} options={paymentFilters.status.options} />
                     </div>
 
-                    <ButtonComponents
-                        className="btn-add-invoice-action"
-                        icon="bi-plus-lg"
-                        title="Add Invoice"
-                        onClick={() => openAddDrawer('payment')}
-                    />
+                    <ButtonComponents className="btn-add-invoice-action" icon="bi-plus-lg" title="Add Invoice" onClick={() => openAddDrawer('payment')} />
                 </div>
 
                 <PaymentsTable />
 
-                <PageFooter
-                  className="payments-page-footer"
-                  leftClass="payments-footer-left"
-                  socialsClass="payments-footer-socials"
-                />
+                <PageFooter className="payments-page-footer" leftClass="payments-footer-left" socialsClass="payments-footer-socials" />
             </div>
         </div>
     </div>
-    </>
-  );
+    </>;
 }
-
-

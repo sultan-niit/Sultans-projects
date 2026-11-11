@@ -108,7 +108,9 @@ export default function DoctorsTable({
         <div className="offline-circle-indicator">
           <div className="offline-circle-ring"></div>
           <div className="offline-circle-badge">
-            <i className="bi bi-wifi-off"></i>
+            <svg className="offline-status-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M2.5 8.8a15 15 0 0 1 17.1-2.1M5.7 12a10 10 0 0 1 6.8-2.4M9.3 15.4a5 5 0 0 1 4.7.2M12 19h.01M3 3l18 18" />
+            </svg>
           </div>
         </div>
         <div className="offline-content-group">
@@ -122,7 +124,9 @@ export default function DoctorsTable({
               className="btn-offline-retry"
               onClick={onRetry}
             >
-              <i className="bi bi-arrow-clockwise"></i>
+              <svg className="offline-retry-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3.5 4.5a5 5 0 1 1-1 4.5M2 2.5v3h3" />
+              </svg>
               <span>Retry Connection</span>
             </button>
           )}
@@ -137,12 +141,8 @@ export default function DoctorsTable({
     if (totalCount > 0 && doctors.length === 0) {
       return (
         <div className="doctors-empty-prompt-card">
-          <div className="empty-prompt-illustration">
-            <div className="empty-prompt-icon-ring outer">
-              <div className="empty-prompt-icon-ring inner">
-                <i className="bi bi-search"></i>
-              </div>
-            </div>
+          <div className="doctors-empty-icon" aria-hidden="true">
+            <i className="bi bi-search"></i>
           </div>
           <div className="empty-prompt-content">
             <h3 className="empty-prompt-title">No Matching Doctors Found</h3>
@@ -156,7 +156,9 @@ export default function DoctorsTable({
                 className="btn-create-doctor-prompt"
                 onClick={onClearFilters}
               >
-                <i className="bi bi-arrow-counterclockwise"></i>
+                <svg className="filter-reset-icon" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M3.5 4.5a5 5 0 1 1-1 4.5M2 2.5v3h3" />
+                </svg>
                 <span>Reset Filters</span>
               </button>
             )}

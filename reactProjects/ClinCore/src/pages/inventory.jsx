@@ -8,13 +8,12 @@ import InventoryTable from "../components/InventoryTable";
 import PageFooter from "../components/PageFooter";
 import { useModalState } from "../js/components/ModalContext";
 import { FILTER_CONFIGS } from "../js/formSchemas";
-
 export default function Inventory() {
-  const { openAddDrawer } = useModalState();
+  const {
+    openAddDrawer
+  } = useModalState();
   const inventoryFilters = FILTER_CONFIGS.inventory;
-
-  return (
-    <>
+  return <>
       <div className="dashboard-wrapper">
         <Sidebar />
 
@@ -23,18 +22,13 @@ export default function Inventory() {
 
           <div className="main-content">
                 <div className="inventory-toolbar">
-                    <div className="inventory-toolbar-left" style={{ display: 'flex', gap: '10px' }}>
-                        <FilterDropdown
-                            icon={inventoryFilters.category.icon}
-                            label={inventoryFilters.category.label}
-                            options={inventoryFilters.category.options}
-                        />
+                    <div className="inventory-toolbar-left" style={{
+              display: 'flex',
+              gap: '10px'
+            }}>
+                        <FilterDropdown icon={inventoryFilters.category.icon} label={inventoryFilters.category.label} options={inventoryFilters.category.options} />
 
-                        <FilterDropdown
-                            icon={inventoryFilters.status.icon}
-                            label={inventoryFilters.status.label}
-                            options={inventoryFilters.status.options}
-                        />
+                        <FilterDropdown icon={inventoryFilters.status.icon} label={inventoryFilters.status.label} options={inventoryFilters.status.options} />
                     </div>
 
                     <div className="inventory-toolbar-right">
@@ -44,27 +38,15 @@ export default function Inventory() {
                             <i className="bi bi-sliders"></i>
                         </button>
 
-                        <ButtonComponents
-                            className="btn-add-item-action"
-                            icon="bi-plus-lg"
-                            title="Add Item"
-                            onClick={() => openAddDrawer('inventory')}
-                        />
+                        <ButtonComponents className="btn-add-item-action" icon="bi-plus-lg" title="Add Item" onClick={() => openAddDrawer('inventory')} />
                     </div>
                 </div>
 
                 <InventoryTable />
 
-                <PageFooter
-                  className="inventory-page-footer"
-                  leftClass="footer-credits"
-                  socialsClass="footer-social-links"
-                />
+                <PageFooter className="inventory-page-footer" leftClass="footer-credits" socialsClass="footer-social-links" />
             </div>
         </div>
     </div>
-    </>
-  );
+    </>;
 }
-
-

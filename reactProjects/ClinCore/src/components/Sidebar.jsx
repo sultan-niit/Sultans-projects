@@ -67,11 +67,6 @@ export default function Sidebar() {
                         <span>Inventory</span>
                     </NavLink>
 
-                    <NavLink to="/messages" className="nav-link">
-                        <i className="bi bi-chat-dots"></i>
-                        <span>Messages</span>
-                        <span className="badge-count">7</span>
-                    </NavLink>
                 </div>
 
                 {/* Bottom Logout Section */}

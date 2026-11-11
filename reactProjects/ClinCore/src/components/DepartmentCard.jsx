@@ -9,11 +9,13 @@ export default function DepartmentCard({ ...props }) {
     const handleSeeDetail = (e) => {
         e.preventDefault();
         openEditDrawer({
+            id: props.id,
             title: props.title || "General Medicine",
             deptHead: props.deptHead || "Dr. Medical Director",
             status: statusText,
-            staffCount: parseInt((props.staffCount || "15").replace(/[^0-9]/g, '')) || 15,
-            desc: props.desc || ""
+            staffCount: parseInt(String(props.staffCount || "15").replace(/[^0-9]/g, '')) || 15,
+            desc: props.desc || "",
+            profileImage: props.profileImage || props.image,
         }, 'department');
     };
 
@@ -21,7 +23,7 @@ export default function DepartmentCard({ ...props }) {
         <>
             <div className="department-card">
                 <div className="department-img-box">
-                    <img src={props.image || "all-images/body-images/dept-general-medicine.jpg"} alt={props.title || "Department"} />
+                    <img src={props.profileImage || props.image || "all-images/body-images/dept-general-medicine.jpg"} alt={props.title || "Department"} />
                 </div>
                 <div className="department-body">
                     <div className="department-title-row">
@@ -45,10 +47,9 @@ export default function DepartmentCard({ ...props }) {
                         <button 
                             type="button" 
                             className="btn-see-detail" 
-                            style={{ background: 'none', border: 'none', cursor: 'pointer', font: 'inherit' }}
                             onClick={handleSeeDetail}
                         >
-                            See Detail
+                            Edit
                         </button>
                     </div>
                 </div>
@@ -56,5 +57,3 @@ export default function DepartmentCard({ ...props }) {
         </>
     );
 }
-
-

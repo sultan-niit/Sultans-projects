@@ -97,15 +97,13 @@ export function resolveDepartment(departmentId, departmentName, specialist = "")
   }
 
   if (!resolvedId) {
-    resolvedId = DEPARTMENT_ID_MAP[resolvedName] || "DEPARTMENT202609";
+    resolvedId = DEPARTMENT_ID_MAP[resolvedName] || "";
   }
 
   return { departmentId: resolvedId, department: resolvedName };
 }
 
-/**
- * Resolve status ID and status name
- */
+
 export function resolveStatus(statusId, statusName) {
   let resolvedId = statusId;
   let resolvedName = statusName;
@@ -122,9 +120,6 @@ export function resolveStatus(statusId, statusName) {
   return { statusId: resolvedId, status: resolvedName };
 }
 
-/**
- * Cleanly format doctor display name with proper title and capitalization
- */
 export function formatDoctorName(raw = "") {
   if (!raw || typeof raw !== "string") return "";
   let trimmed = raw.trim().replace(/\s+/g, " ");
@@ -383,7 +378,7 @@ export async function createDoctorProfile(formValues = {}) {
     const response = await api.post(CREATE_DOCTOR_API_URL, requestData);
     returnedData = response.data;
     if (returnedData) {
-      apiSuccess = returnedData.success !== false;
+      k = returnedData.success !== false;
       apiMessage = returnedData.message || "DOCTOR CREATED SUCCESSFUL";
     }
   } catch (err) {

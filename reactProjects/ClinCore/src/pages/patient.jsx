@@ -6,39 +6,28 @@ import PatientsTable from "../components/PatientsTable";
 import PageFooter from "../components/PageFooter";
 import { useModalState } from "../js/components/ModalContext";
 import { FILTER_CONFIGS } from "../js/formSchemas";
-import {
-  getStoredPatients,
-  removeStoredPatient,
-  deletePatientProfile,
-  fetchAllPatients,
-} from "../api/patient";
-
+import { getStoredPatients, removeStoredPatient, deletePatientProfile, fetchAllPatients } from "../api/patient";
 export default function Patients() {
-  const { openAddDrawer, showToast } = useModalState();
+  const {
+    openAddDrawer,
+    showToast
+  } = useModalState();
   const filters = FILTER_CONFIGS.patient;
-
   const [patients, setPatients] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isOffline, setIsOffline] = useState(
-    typeof navigator !== "undefined" ? !navigator.onLine : false
-  );
-
-  // Search & Filter state
+  const [isOffline, setIsOffline] = useState(typeof navigator !== "undefined" ? !navigator.onLine : false);
   const [searchQuery, setSearchQuery] = useState("");
   const [treatmentFilter, setTreatmentFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
-
   const fetchPatientsData = async (showLoadingSpinner = true) => {
     if (typeof navigator !== "undefined" && !navigator.onLine) {
       setIsOffline(true);
       setIsLoading(false);
       return;
     }
-
     if (showLoadingSpinner) {
       setIsLoading(true);
     }
-
     try {
       const fetched = await fetchAllPatients();
       if (fetched && fetched.length > 0) {
@@ -50,12 +39,7 @@ export default function Patients() {
       }
     } catch (err) {
       console.warn("Error fetching all patients on tab load:", err?.message || err);
-      const isNetErr =
-        (typeof navigator !== "undefined" && !navigator.onLine) ||
-        err?.code === "ERR_NETWORK" ||
-        err?.message?.toLowerCase().includes("network error") ||
-        err?.isNetworkError;
-
+      const isNetErr = typeof navigator !== "undefined" && !navigator.onLine || err?.code === "ERR_NETWORK" || err?.message?.toLowerCase().includes("network error") || err?.isNetworkError;
       if (isNetErr) {
         setIsOffline(true);
       } else {
@@ -71,11 +55,8 @@ export default function Patients() {
       }
     }
   };
-
-  // Initial data fetch and dynamic reactive listeners
   useEffect(() => {
     const initialFetch = window.setTimeout(() => fetchPatientsData(true), 0);
-
     const handleOnline = () => {
       setIsOffline(false);
       fetchPatientsData(true);
@@ -84,20 +65,15 @@ export default function Patients() {
       setIsOffline(true);
     };
     const handleStorage = () => setPatients(getStoredPatients());
-
-    const refreshPatients = async (e) => {
-      // Direct optimistic update if single record was edited
+    const refreshPatients = async e => {
       if (e?.detail?.isEdit && e?.detail?.record) {
         const updated = e.detail.record;
-        setPatients((prev) =>
-          prev.map((p) =>
-            String(p.patientId) === String(updated.patientId) ? { ...p, ...updated } : p
-          )
-        );
+        setPatients(prev => prev.map(p => String(p.patientId) === String(updated.patientId) ? {
+          ...p,
+          ...updated
+        } : p));
         return;
       }
-
-      // Otherwise re-sync
       try {
         const fetched = await fetchAllPatients();
         if (fetched && fetched.length > 0) {
@@ -110,12 +86,10 @@ export default function Patients() {
         setPatients(getStoredPatients());
       }
     };
-
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
     window.addEventListener("clincore:patient-changed", refreshPatients);
     window.addEventListener("storage", handleStorage);
-
     return () => {
       window.clearTimeout(initialFetch);
       window.removeEventListener("online", handleOnline);
@@ -124,11 +98,8 @@ export default function Patients() {
       window.removeEventListener("storage", handleStorage);
     };
   }, []);
-
-  // Filtered patients list based on search and selected dropdowns
   const filteredPatients = useMemo(() => {
-    return patients.filter((patient) => {
-      // Search term matching
+    return patients.filter(patient => {
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase().trim();
         const nameMatch = (patient.name || patient.fullName || "").toLowerCase().includes(query);
@@ -137,51 +108,46 @@ export default function Patients() {
         const treatmentMatch = (patient.treatment || "").toLowerCase().includes(query);
         const doctorMatch = (patient.doctor || "").toLowerCase().includes(query);
         const roomMatch = (patient.room || "").toLowerCase().includes(query);
-
         if (!nameMatch && !idMatch && !emailMatch && !treatmentMatch && !doctorMatch && !roomMatch) {
           return false;
         }
       }
-
-      // Treatment filter
       if (treatmentFilter && treatmentFilter !== "All Treatment") {
         if ((patient.treatment || "").toLowerCase() !== treatmentFilter.toLowerCase()) {
           return false;
         }
       }
-
-      // Status filter
       if (statusFilter && statusFilter !== "All Status") {
         if ((patient.status || "").toLowerCase() !== statusFilter.toLowerCase()) {
           return false;
         }
       }
-
       return true;
     });
   }, [patients, searchQuery, treatmentFilter, statusFilter]);
-
-  const handleDeletePatient = async (patientId) => {
+  const handleDeletePatient = async patientId => {
     if (window.confirm("Are you sure you want to delete this patient profile?")) {
-      const res = await deletePatientProfile(patientId);
-      if (res?.patients) {
-        setPatients(res.patients);
-      } else {
-        const updated = removeStoredPatient(patientId);
-        setPatients(updated);
+      try {
+        const res = await deletePatientProfile(patientId);
+        if (res?.patients) {
+          setPatients(res.patients);
+        } else {
+          const updated = removeStoredPatient(patientId);
+          setPatients(updated);
+        }
+        showToast("Patient record deleted successfully.");
+      } catch (error) {
+        console.error("Unable to delete patient:", error);
+        showToast(error.message || "Unable to delete patient.", "error");
       }
-      showToast("Patient record deleted successfully.");
     }
   };
-
   const handleClearFilters = () => {
     setSearchQuery("");
     setTreatmentFilter("");
     setStatusFilter("");
   };
-
-  return (
-    <div className="dashboard-wrapper">
+  return <div className="dashboard-wrapper">
       <Sidebar />
       <div className="content-wrapper">
         <TopHeader />
@@ -191,102 +157,45 @@ export default function Patients() {
               <div className="doctors-filters-group">
                 <div className="table-search-pill">
                   <i className="bi bi-search"></i>
-                  <input
-                    type="text"
-                    id="patientSearchInput"
-                    placeholder="Search name, ID, treatment, etc"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                  {searchQuery && (
-                    <button
-                      type="button"
-                      aria-label="Clear patient search"
-                      onClick={() => setSearchQuery("")}
-                    >
+                  <input type="text" id="patientSearchInput" placeholder="Search name, ID, treatment, etc" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+                  {searchQuery && <button type="button" aria-label="Clear patient search" onClick={() => setSearchQuery("")}>
                       <i className="bi bi-x-circle-fill"></i>
-                    </button>
-                  )}
+                    </button>}
                 </div>
 
-                <select
-                  id="treatmentFilter"
-                  className="filter-dropdown-btn"
-                  value={treatmentFilter}
-                  onChange={(e) => setTreatmentFilter(e.target.value)}
-                >
+                <select id="treatmentFilter" className="filter-dropdown-btn" value={treatmentFilter} onChange={e => setTreatmentFilter(e.target.value)}>
                   <option value="">Treatment</option>
-                  {filters.treatment.options
-                    .filter((option) => option !== "All Treatment")
-                    .map((option) => (
-                      <option key={option} value={option}>
+                  {filters.treatment.options.filter(option => option !== "All Treatment").map(option => <option key={option} value={option}>
                         {option}
-                      </option>
-                    ))}
+                      </option>)}
                 </select>
 
-                <select
-                  id="statusFilter"
-                  className="filter-dropdown-btn"
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                >
+                <select id="statusFilter" className="filter-dropdown-btn" value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
                   <option value="">Status</option>
-                  {filters.status.options
-                    .filter((option) => option !== "All Status")
-                    .map((option) => (
-                      <option key={option} value={option}>
+                  {filters.status.options.filter(option => option !== "All Status").map(option => <option key={option} value={option}>
                         {option}
-                      </option>
-                    ))}
+                      </option>)}
                 </select>
 
-                {(treatmentFilter || statusFilter || searchQuery) && (
-                  <button
-                    type="button"
-                    className="btn-clear-filters-pill"
-                    onClick={handleClearFilters}
-                    title="Clear all active filters"
-                  >
+                {(treatmentFilter || statusFilter || searchQuery) && <button type="button" className="btn-clear-filters-pill" onClick={handleClearFilters} title="Clear all active filters">
                     <i className="bi bi-arrow-counterclockwise"></i>
                     <span>Reset</span>
-                  </button>
-                )}
+                  </button>}
               </div>
 
               <div className="doctors-toolbar-actions">
-                <ButtonComponents
-                  className="btn-add-doctor-action"
-                  icon="bi-plus-lg"
-                  title="Add Patient"
-                  onClick={() => openAddDrawer("patient")}
-                />
+                <ButtonComponents className="btn-add-doctor-action" icon="bi-plus-lg" title="Add Patient" onClick={() => openAddDrawer("patient")} />
               </div>
             </div>
 
-            <PatientsTable
-              patients={filteredPatients}
-              totalCount={patients.length}
-              searchTerm={searchQuery}
-              isLoading={isLoading}
-              isOffline={isOffline}
-              onRetry={() => fetchPatientsData(true)}
-              onAddPatient={() => openAddDrawer("patient")}
-              onDeletePatient={handleDeletePatient}
-              onClearFilters={handleClearFilters}
-            />
+            <PatientsTable patients={filteredPatients} totalCount={patients.length} searchTerm={searchQuery} isLoading={isLoading} isOffline={isOffline} onRetry={() => fetchPatientsData(true)} onAddPatient={() => openAddDrawer("patient")} onDeletePatient={handleDeletePatient} onClearFilters={handleClearFilters} />
           </div>
 
-          {/* ============================================================ */}
-          {/* FOOTER SECTION: Copyright & Navigation Footer                */}
-          {/* ============================================================ */}
-          <PageFooter
-            className="patients-page-footer"
-            leftClass="patients-footer-left"
-            socialsClass="patients-footer-socials"
-          />
+          
+          
+          
+          <PageFooter className="patients-page-footer" leftClass="patients-footer-left" socialsClass="patients-footer-socials" />
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }

@@ -11,7 +11,6 @@ import Doctors from "./pages/doctors";
 import Departments from "./pages/department";
 import Payments from "./pages/payment";
 import Inventory from "./pages/inventory";
-import Messages from "./pages/messages";
 import "./index.css";
 import "./assets/styles/MainStyle.css";
 
@@ -116,13 +115,7 @@ export const router = createBrowserRouter([
     element: <Inventory />
   },
   {
-    path: "/messages",
-    element: <Messages />
-  },
-
-  {
     path: "*",
     element: <Navigate to="/dashboard" replace />
   }
 ]);
-

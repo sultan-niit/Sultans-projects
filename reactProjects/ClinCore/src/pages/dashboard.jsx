@@ -9,103 +9,78 @@ import DashboardAppointments from "../components/DashboardAppointments";
 import PageFooter from "../components/PageFooter";
 import { fetchAllPatients, getStoredPatients } from "../api/patient";
 import { fetchAllDoctors, getStoredDoctors } from "../api/doctor";
-
+import { fetchAllRooms, getStoredRooms } from "../api/room";
 export default function Dashboard() {
-    const [patientCount, setPatientCount] = useState(() => getStoredPatients().length);
-    const [doctorCount, setDoctorCount] = useState(() => getStoredDoctors().length);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        let isMounted = true;
-
-        const loadCounts = async () => {
-            try {
-                const [patientsResult, doctorsResult] = await Promise.allSettled([
-                    fetchAllPatients(),
-                    fetchAllDoctors(),
-                ]);
-
-                if (!isMounted) return;
-
-                if (patientsResult.status === "fulfilled") {
-                    setPatientCount(patientsResult.value.length);
-                } else {
-                    console.warn("Unable to load dashboard patient count:", patientsResult.reason);
-                }
-
-                if (doctorsResult.status === "fulfilled" && doctorsResult.value) {
-                    setDoctorCount(doctorsResult.value.length);
-                } else if (doctorsResult.status === "rejected") {
-                    console.warn("Unable to load dashboard doctor count:", doctorsResult.reason);
-                }
-            } finally {
-                if (isMounted) setIsLoading(false);
-            }
-        };
-
-        const refreshCounts = () => loadCounts();
-        loadCounts();
-        window.addEventListener("clincore:patient-changed", refreshCounts);
-        window.addEventListener("clincore:doctor-changed", refreshCounts);
-
-        return () => {
-            isMounted = false;
-            window.removeEventListener("clincore:patient-changed", refreshCounts);
-            window.removeEventListener("clincore:doctor-changed", refreshCounts);
-        };
-    }, []);
-
-    return (
-        <div className="dashboard-wrapper">
+  const [patientCount, setPatientCount] = useState(() => getStoredPatients().length);
+  const [doctorCount, setDoctorCount] = useState(() => getStoredDoctors().length);
+  const [roomCount, setRoomCount] = useState(() => getStoredRooms().length);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    let isMounted = true;
+    let roomChangedDuringLoad = false;
+    const loadCounts = async () => {
+      try {
+        const [patientsResult, doctorsResult, roomsResult] = await Promise.allSettled([
+          fetchAllPatients(),
+          fetchAllDoctors(),
+          fetchAllRooms(),
+        ]);
+        if (!isMounted) return;
+        if (patientsResult.status === "fulfilled") {
+          setPatientCount(patientsResult.value.length);
+        } else {
+          console.warn("Unable to load dashboard patient count:", patientsResult.reason);
+        }
+        if (doctorsResult.status === "fulfilled" && doctorsResult.value) {
+          setDoctorCount(doctorsResult.value.length);
+        } else if (doctorsResult.status === "rejected") {
+          console.warn("Unable to load dashboard doctor count:", doctorsResult.reason);
+        }
+        if (roomsResult.status === "fulfilled" && !roomChangedDuringLoad) {
+          setRoomCount(roomsResult.value.length);
+        } else if (roomsResult.status === "rejected") {
+          console.warn("Unable to load dashboard room count:", roomsResult.reason);
+        }
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    };
+    const refreshCounts = () => loadCounts();
+    const refreshRoomCount = () => {
+      roomChangedDuringLoad = true;
+      setRoomCount(getStoredRooms().length);
+    };
+    loadCounts();
+    window.addEventListener("clincore:patient-changed", refreshCounts);
+    window.addEventListener("clincore:doctor-changed", refreshCounts);
+    window.addEventListener("clincore:room-changed", refreshRoomCount);
+    return () => {
+      isMounted = false;
+      window.removeEventListener("clincore:patient-changed", refreshCounts);
+      window.removeEventListener("clincore:doctor-changed", refreshCounts);
+      window.removeEventListener("clincore:room-changed", refreshRoomCount);
+    };
+  }, []);
+  return <div className="dashboard-wrapper">
             <Sidebar />
             <div className="content-wrapper">
                 <TopHeader />
                 <div className="main-content">
-                    {isLoading ? (
-                        <div className="doctors-loading-card" aria-label="Loading dashboard">
-                            <div
-                                className="rolling-circle-spinner"
-                                role="status"
-                                aria-label="Loading dashboard data"
-                            ></div>
-                        </div>
-                    ) : (
-                    <>
+                    {isLoading ? <div className="doctors-loading-card" aria-label="Loading dashboard">
+                            <div className="rolling-circle-spinner" role="status" aria-label="Loading dashboard data"></div>
+                        </div> : <>
                     <div className="stats-grid">
-                        {/* StatCard Component — Total Doctors */}
-                        <StatCard
-                            icon="bi bi-heart-pulse"
-                            title="Total Doctors"
-                            value={doctorCount.toLocaleString()}
-                            desc="Registered doctors"
-                        />
+                        
+                        <StatCard icon="bi bi-heart-pulse" title="Total Doctors" value={doctorCount.toLocaleString()} desc="Registered doctors" />
 
-                        {/* StatCard Component — Total Patients */}
-                        <StatCard
-                            icon="bi bi-person"
-                            title="Total Patients"
-                            value={patientCount.toLocaleString()}
-                            desc="Registered patients"
-                        />
+                        
+                        <StatCard icon="bi bi-person" title="Total Patients" value={patientCount.toLocaleString()} desc="Registered patients" />
 
-                        {/* StatCard Component — Appointments */}
-                        <StatCard
-                            icon="bi bi-calendar-check"
-                            title="Appointments"
-                            value="128"
-                            trend="-1.56%"
-                            desc="18 less than yesterday"
-                            trendDown
-                        />
+                        
+                        <StatCard icon="bi bi-calendar-check" title="Appointments" value="0" trend="0%" desc="Total appointments" />
 
-                        {/* StatCard Component — Bedroom */}
-                        <StatCard
-                            icon="bi bi-person-wheelchair"
-                            title="Bedroom"
-                            value="315"
-                            trend="+1.64%"
-                            desc="56 more than yesterday"
-                        />
+                        
+                        <StatCard icon="bi bi-hospital-bed" title="Rooms" value={roomCount.toLocaleString()} trend="0%" desc="Registered rooms" />
                     </div>
 
                     <div className="details-grid">
@@ -114,26 +89,23 @@ export default function Dashboard() {
                     </div>
 
                     <div className="bottom-grid">
-                        {/* ============================================================ */}
-                        {/* TABLE CARD: Patient Appointment Table                         */}
-                        {/* ============================================================ */}
+                        
+                        
+                        
                         <DashboardAppointments />
 
-                        {/* ============================================================ */}
-                        {/* ACTIVITY CARD: Recent Activity Feed                           */}
-                        {/* ============================================================ */}
+                        
+                        
+                        
                         <DashboardActivity />
                     </div>
 
-                    {/* ============================================================ */}
-                    {/* FOOTER SECTION: Copyright & Social Links (PageFooter)        */}
-                    {/* ============================================================ */}
+                    
+                    
+                    
                     <PageFooter variant="dashboard" />
-                    </>
-                    )}
+                    </>}
                 </div>
             </div>
-        </div>
-
-    );
+        </div>;
 }
