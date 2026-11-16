@@ -27,7 +27,7 @@ function createPatientFormData(values) {
   const patientName = values.patientName || values.fullName || values.name || "";
   const emailAddress = values.emailAddress || values.email || "";
   const phone = values.phone || values.phoneNumber || "";
-  const address = values.address || values.homeAddress || "";
+  const homeAddress = values.homeAddress || values.home_address || values.address || "";
   const doctorId = values.doctorId || values.doctor_id || values.doctor || "";
   const roomId = values.roomId || values.room_id || values.room || "";
   const rawStatus = String(values.statusId || values.status_id || values.status || "A").toLowerCase();
@@ -36,7 +36,7 @@ function createPatientFormData(values) {
   requestData.append("patientName", String(patientName).trim());
   requestData.append("emailAddress", String(emailAddress).trim());
   requestData.append("phone", String(phone).trim());
-  requestData.append("homeAddress", String(address).trim());
+  requestData.append("homeAddress", String(homeAddress).trim());
   requestData.append("treatment", String(values.treatment || "").trim());
   requestData.append("doctorId", String(doctorId).trim());
   requestData.append("doctor_id", String(doctorId).trim());
@@ -112,7 +112,7 @@ export function normalizePatientRecord(record = {}) {
     emailAddress: email,
     phone,
     phoneNumber: phone,
-    address: record.address || record.home_address || "",
+    address: record.address || record.homeAddress || record.home_address || "",
     age: record.age === "" || record.age == null ? "" : Number(record.age),
     gender: record.gender || "",
     checkIn:

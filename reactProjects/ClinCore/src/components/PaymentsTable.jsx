@@ -65,7 +65,15 @@ export default function PaymentsTable() {
                             </tr>
                         ))}
                         {payments.length === 0 && (
-                            <tr><td colSpan="8">No invoices found.</td></tr>
+                            <tr>
+                                <td className="table-empty-cell" colSpan="8">
+                                    <div className="table-empty-state">
+                                        <span className="table-empty-icon"><i className="bi bi-receipt"></i></span>
+                                        <strong>No invoices yet</strong>
+                                        <span>Add an invoice to start tracking payments.</span>
+                                    </div>
+                                </td>
+                            </tr>
                         )}
                     </tbody>
                 </table>

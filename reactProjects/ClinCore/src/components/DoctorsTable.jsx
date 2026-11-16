@@ -34,6 +34,9 @@ export default function DoctorsTable({
 
     openProfileModal(
       {
+        ...doc,
+        doctorId: doc.doctorId || doc.doctor_id || doc.id || "",
+        doctor_id: doc.doctor_id || doc.doctorId || doc.id || "",
         fullName: docName,
         email: doc.emailAddress || doc.email || doc.email_address || "doctor@clincore.com",
         position: `${doc.department || doc.departmentName || "Medical Department"} - ${formatSpecialist(doc.specialist || doc.role || "Specialist")}`,

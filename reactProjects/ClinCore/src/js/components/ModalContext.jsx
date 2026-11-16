@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ENTITY_SCHEMAS } from '../formSchemas';
-import { createDoctorProfile, updateStoredDoctor, formatDoctorName } from '../../api/doctor';
+import { createDoctorProfile, updateDoctorProfile } from '../../api/doctor';
 import { createPatientProfile, updateStoredPatient, normalizePatientRecord } from '../../api/patient';
 import { createRoomProfile, deleteRoomProfile, updateStoredRoom, normalizeRoomRecord } from '../../api/room';
 import { deleteSessionRecord, readSessionCollection, saveSessionRecord } from '../sessionData';
@@ -114,20 +114,9 @@ export function ModalProvider({ children }) {
           createdRecord = result.data || formData;
           showToast(result.message || 'Doctor profile created successfully!');
         } else {
-          // Build the merged updated record (keep all existing fields, merge with form edits)
-          const updatedRecord = {
-            ...formData,
-            name: formatDoctorName([formData.firstName, formData.lastName].filter(Boolean).join(" ").trim() || formData.name || formData.fullName || formData.doctor_name || ''),
-            fullName: formatDoctorName([formData.firstName, formData.lastName].filter(Boolean).join(" ").trim() || formData.name || formData.fullName || formData.doctor_name || ''),
-            doctor_name: formatDoctorName([formData.firstName, formData.lastName].filter(Boolean).join(" ").trim() || formData.name || formData.fullName || formData.doctor_name || ''),
-            // Normalize status
-            status: formData.status || 'Available',
-            statusId: (formData.status === 'Unavailable' || formData.status === 'Inactive') ? 'U' : 'A',
-          };
-          // Save to localStorage
-          updateStoredDoctor(updatedRecord);
-          createdRecord = updatedRecord;
-          showToast('Doctor profile updated successfully!');
+          const result = await updateDoctorProfile(formData);
+          createdRecord = result.data || formData;
+          showToast(result.message || 'Doctor profile updated successfully!');
         }
         window.dispatchEvent(new CustomEvent('clincore:doctor-changed', { detail: { record: createdRecord, isEdit: isDrawerEditMode } }));
       } else if (drawerSchemaType === 'patient') {
@@ -248,11 +237,50 @@ export function ModalProvider({ children }) {
   };
 
 
-  const submitProfileForm = (updatedData) => {
+  const submitProfileForm = async (updatedData) => {
     console.log('Saved Profile Edits:', updatedData);
-    setProfileData(prev => ({ ...prev, ...updatedData }));
-    setIsEditMode(false);
-    showToast('Profile information successfully updated!');
+    try {
+      if (profileSchemaType === 'patient') {
+        const updatedPatient = normalizePatientRecord({
+          ...profileData,
+          ...updatedData,
+          address: updatedData.homeAddress ?? updatedData.address ?? updatedData.home_address ?? profileData.address,
+        });
+        updateStoredPatient(updatedPatient);
+        setProfileData(updatedPatient);
+        window.dispatchEvent(new CustomEvent('clincore:patient-changed', {
+          detail: { record: updatedPatient, isEdit: true },
+        }));
+      } else if (profileSchemaType === 'doctor') {
+        const fullName = updatedData.fullName || updatedData.name || profileData.fullName || profileData.name || '';
+        const [firstName = '', ...lastNameParts] = fullName.trim().split(/\s+/);
+        const positionParts = String(updatedData.position || profileData.position || '').split(' - ');
+        const result = await updateDoctorProfile({
+          ...profileData,
+          ...updatedData,
+          firstName,
+          lastName: lastNameParts.join(' '),
+          doctorId: profileData.doctorId || profileData.doctor_id || profileData.id,
+          doctor_id: profileData.doctor_id || profileData.doctorId || profileData.id,
+          emailAddress: updatedData.email || updatedData.emailAddress || profileData.emailAddress,
+          specialist: updatedData.specialist || updatedData.role || positionParts.at(-1) || profileData.specialist,
+        });
+        setProfileData(result.data);
+        window.dispatchEvent(new CustomEvent('clincore:doctor-changed', {
+          detail: { record: result.data, isEdit: true },
+        }));
+        showToast(result.message || 'Doctor profile updated successfully!');
+        setIsEditMode(false);
+        return;
+      } else {
+        setProfileData(prev => ({ ...prev, ...updatedData }));
+      }
+      setIsEditMode(false);
+      showToast('Profile information successfully updated!');
+    } catch (error) {
+      console.error('Unable to update profile:', error);
+      showToast(error.message || 'Unable to update profile.', 'error');
+    }
   };
 
   return (

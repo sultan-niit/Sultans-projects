@@ -229,6 +229,26 @@ export default function ProfileEditModal() {
               </div>
             </div>
 
+            {profileSchemaType === 'patient' && (
+              <>
+                <div className="profile-section-heading col-span-2">
+                  ADDRESS
+                </div>
+                <div className="profile-field-group col-span-2">
+                  <label className="profile-field-label" htmlFor="patient-home-address">Home Address</label>
+                  <input
+                    id="patient-home-address"
+                    type="text"
+                    name="homeAddress"
+                    value={formData.homeAddress || formData.address || formData.home_address || ''}
+                    onChange={handleChange}
+                    className="clincore-input-text"
+                    placeholder="Enter patient address"
+                  />
+                </div>
+              </>
+            )}
+
             {/* Profile Picture Upload */}
             <div className="profile-field-group col-span-2">
               <label className="profile-field-label">Profile Picture</label>
@@ -280,5 +300,4 @@ export default function ProfileEditModal() {
     </>
   );
 }
-
 

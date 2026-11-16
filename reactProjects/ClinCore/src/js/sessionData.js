@@ -60,37 +60,15 @@ export const SESSION_SEEDS = {
     deptHead: "Dr. Medical Director",
     profileImage: departmentImages[title],
   })),
-  payments: [
-    { id: "payment-001", invoiceId: "INV-WNH-001", patientName: "John Doe", treatment: "Routine Check-Up", department: "General Medicine", date: "2028-07-01", amount: "100.00", paymentMethod: "Credit Card", status: "Paid" },
-    { id: "payment-002", invoiceId: "INV-WNH-002", patientName: "Mary Johnson", treatment: "Heart Surgery", department: "Cardiology", date: "2028-07-02", amount: "5000.00", paymentMethod: "Bank Transfer", status: "Pending" },
-    { id: "payment-003", invoiceId: "INV-WNH-003", patientName: "Robert Brown", treatment: "Flu Symptoms", department: "General Medicine", date: "2028-07-03", amount: "120.00", paymentMethod: "Credit Card", status: "Paid" },
-    { id: "payment-004", invoiceId: "INV-WNH-004", patientName: "Susan Lee", treatment: "Skin Treatment", department: "Dermatology", date: "2028-07-04", amount: "200.00", paymentMethod: "Cash", status: "Paid" },
-    { id: "payment-005", invoiceId: "INV-WNH-005", patientName: "James Wilson", treatment: "Arthritis Management", department: "Orthopedics", date: "2028-07-05", amount: "140.00", paymentMethod: "Credit Card", status: "Pending" },
-    { id: "payment-006", invoiceId: "INV-WNH-006", patientName: "Caren G. Simpson", treatment: "Routine Check-Up", department: "General Medicine", date: "2028-07-06", amount: "100.00", paymentMethod: "Cash", status: "Paid" },
-    { id: "payment-007", invoiceId: "INV-WNH-007", patientName: "Patricia Clark", treatment: "Hypertension Management", department: "Internal Medicine", date: "2028-07-07", amount: "150.00", paymentMethod: "Bank Transfer", status: "Pending" },
-    { id: "payment-008", invoiceId: "INV-WNH-008", patientName: "Kevin White", treatment: "Respiratory Infection", department: "General Medicine", date: "2028-07-08", amount: "180.00", paymentMethod: "Credit Card", status: "Paid" },
-    { id: "payment-009", invoiceId: "INV-WNH-009", patientName: "Jennifer Adams", treatment: "Preventive Care", department: "General Medicine", date: "2028-07-09", amount: "130.00", paymentMethod: "Cash", status: "Paid" },
-    { id: "payment-010", invoiceId: "INV-WNH-010", patientName: "Barbara Harris", treatment: "Medication Review", department: "Internal Medicine", date: "2028-07-10", amount: "110.00", paymentMethod: "Credit Card", status: "Pending" },
-    { id: "payment-011", invoiceId: "INV-WNH-011", patientName: "Michael Thompson", treatment: "Routine Check-Up", department: "General Medicine", date: "2028-07-11", amount: "100.00", paymentMethod: "Credit Card", status: "Paid" },
-    { id: "payment-012", invoiceId: "INV-WNH-012", patientName: "Rachel Green", treatment: "Asthma Management", department: "Pulmonology", date: "2028-07-12", amount: "160.00", paymentMethod: "Cash", status: "Pending" },
-  ],
-  inventory: [
-    { id: "inventory-001", name: "Surgical Masks", category: "Personal Protective", qty: 500, reorderQty: 200, price: "12.50", status: "In Stock", image: "all-images/body-images/surgical-masks.svg" },
-    { id: "inventory-002", name: "Gloves", category: "Personal Protective", qty: 50, reorderQty: 150, price: "15.00", status: "Low Stock", image: "all-images/body-images/gloves.svg" },
-    { id: "inventory-003", name: "Hand Sanitizer", category: "Medical Supplies", qty: 200, reorderQty: 100, price: "8.00", status: "In Stock", image: "all-images/body-images/hand-sanitizer.svg" },
-    { id: "inventory-004", name: "Thermometers", category: "Medical Supplies", qty: 0, reorderQty: 300, price: "45.00", status: "Out of Stock", image: "all-images/body-images/thermometers.svg" },
-    { id: "inventory-005", name: "Stethoscopes", category: "Medical Supplies", qty: 30, reorderQty: 50, price: "85.00", status: "In Stock", image: "all-images/body-images/stethoscopes.svg" },
-    { id: "inventory-006", name: "Blood Pressure Monitors", category: "Medical Supplies", qty: 20, reorderQty: 100, price: "65.00", status: "Low Stock", image: "all-images/body-images/blood-pressure-monitors.svg" },
-    { id: "inventory-007", name: "Bandages", category: "Medical Supplies", qty: 300, reorderQty: 200, price: "5.00", status: "In Stock", image: "all-images/body-images/bandages.svg" },
-    { id: "inventory-008", name: "IV Fluids", category: "Pharmaceuticals", qty: 10, reorderQty: 150, price: "22.00", status: "Low Stock", image: "all-images/body-images/iv-fluids.svg" },
-    { id: "inventory-009", name: "Scalpel Blades", category: "Surgical Equipment", qty: 0, reorderQty: 200, price: "30.00", status: "Out of Stock", image: "all-images/body-images/scalpel-blades.svg" },
-    { id: "inventory-010", name: "Syringes", category: "Medical Supplies", qty: 400, reorderQty: 300, price: "18.00", status: "In Stock", image: "all-images/body-images/syringes.svg" },
-    { id: "inventory-011", name: "Medical Gowns", category: "Personal Protective", qty: 150, reorderQty: 100, price: "28.00", status: "In Stock", image: "all-images/body-images/medical-gowns.svg" },
-    { id: "inventory-012", name: "Disinfectant Wipes", category: "Medical Supplies", qty: 25, reorderQty: 200, price: "9.00", status: "Low Stock", image: "all-images/body-images/disinfectant-wipes.svg" },
-  ],
+  payments: [],
+  inventory: [],
 };
 
 const storageKey = (collection) => `clincore:session:${collection}`;
+const legacyDemoIdPatterns = {
+  payments: /^payment-\d{3}$/,
+  inventory: /^inventory-\d{3}$/,
+};
 
 export function readSessionCollection(collection) {
   const key = storageKey(collection);
@@ -99,6 +77,14 @@ export function readSessionCollection(collection) {
     let records = JSON.parse(saved);
     if (!Array.isArray(records)) {
       throw new Error(`Saved ${collection} data must be an array.`);
+    }
+    const legacyDemoIdPattern = legacyDemoIdPatterns[collection];
+    if (legacyDemoIdPattern) {
+      const activeRecords = records.filter((record) => !legacyDemoIdPattern.test(record.id));
+      if (activeRecords.length !== records.length) {
+        records = activeRecords;
+        window.sessionStorage.setItem(key, JSON.stringify(records));
+      }
     }
     if (collection === "appointments") {
       const activeRecords = records.filter((record) => !legacyAppointmentIds.has(record.id));

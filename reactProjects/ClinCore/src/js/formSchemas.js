@@ -176,7 +176,7 @@ export const ENTITY_SCHEMAS = {
           { name: 'patientName', label: 'Patient Name', type: 'text', placeholder: 'Enter patient full name', required: true, colSpan: 2 },
           { name: 'emailAddress', label: 'Email Address', type: 'email', placeholder: 'Enter patient email address', required: true, colSpan: 1 },
           { name: 'phone', label: 'Contact Phone', type: 'tel', placeholder: 'e.g. 09022222222', required: true, colSpan: 1 },
-          { name: 'homeAddress', label: 'Address', type: 'text', placeholder: 'Enter patient address', required: true, colSpan: 2 },
+          { name: 'homeAddress', label: 'Home Address', type: 'text', placeholder: 'Enter patient address', required: true, colSpan: 2 },
         ]
       },
       {
@@ -199,7 +199,7 @@ export const ENTITY_SCHEMAS = {
         fields: [
           { name: 'fullName', label: 'Full Name', type: 'text', placeholder: 'Enter patient full name', required: true, colSpan: 2 },
           { name: 'phone', label: 'Contact Phone', type: 'tel', placeholder: 'e.g. 09022222222', required: true, colSpan: 1 },
-          { name: 'homeAddress', label: 'Address', type: 'text', placeholder: 'Enter patient address', required: true, colSpan: 2 },
+          { name: 'homeAddress', label: 'Home Address', type: 'text', placeholder: 'Enter patient address', required: true, colSpan: 2 },
         ]
       },
       {

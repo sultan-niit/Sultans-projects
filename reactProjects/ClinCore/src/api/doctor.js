@@ -8,6 +8,10 @@ export const CREATE_DOCTOR_API_URL =
   import.meta.env.VITE_CREATE_DOCTOR_API_URL ||
   "";
 
+export const UPDATE_DOCTOR_API_URL =
+  import.meta.env.VITE_UPDATE_DOCTOR_API_URL ||
+  "https://clincore.niitwebdev.com.ng/clincore-api/admin/doctor/update-doctor.php";
+
 export const FETCH_EACH_DOCTOR_API_URL =
   import.meta.env.VITE_FETCH_EACH_DOCTOR_API_URL ||
   "";
@@ -378,7 +382,7 @@ export async function createDoctorProfile(formValues = {}) {
     const response = await api.post(CREATE_DOCTOR_API_URL, requestData);
     returnedData = response.data;
     if (returnedData) {
-      k = returnedData.success !== false;
+      apiSuccess = returnedData.success !== false;
       apiMessage = returnedData.message || "DOCTOR CREATED SUCCESSFUL";
     }
   } catch (err) {
@@ -427,6 +431,109 @@ export async function createDoctorProfile(formValues = {}) {
     message: apiMessage || "DOCTOR CREATED SUCCESSFUL",
     data: createdDoctor,
     apiSuccess,
+  };
+}
+
+export async function updateDoctorProfile(formValues = {}) {
+  const doctorId = String(
+    formValues.doctorId || formValues.doctor_id || formValues.id || ""
+  ).trim();
+  if (!doctorId) {
+    throw new Error("A doctor ID is required to update the doctor profile.");
+  }
+
+  const firstName = (formValues.firstName || "").trim();
+  const lastName = (formValues.lastName || "").trim();
+  const rawName =
+    [firstName, lastName].filter(Boolean).join(" ") ||
+    formValues.name ||
+    formValues.fullName ||
+    formValues.doctor_name ||
+    "";
+  const name = formatDoctorName(rawName);
+  const emailAddress = (
+    formValues.emailAddress ||
+    formValues.email ||
+    formValues.email_address ||
+    ""
+  ).trim();
+  const phone = (
+    formValues.phone ||
+    formValues.phoneNumber ||
+    formValues.phone_number ||
+    ""
+  ).trim();
+  const specialist = formatSpecialist(
+    formValues.specialist || formValues.role || formValues.position || "heart specialist"
+  );
+  const { departmentId, department } = resolveDepartment(
+    formValues.departmentId || formValues.department_id,
+    formValues.department || formValues.departmentName || formValues.department_name,
+    specialist
+  );
+  const { statusId, status } = resolveStatus(
+    formValues.statusId || formValues.status_id,
+    formValues.status || formValues.statusName || formValues.status_name
+  );
+
+  const requestData = new FormData();
+  requestData.append("doctorId", doctorId);
+  requestData.append("doctor_id", doctorId);
+  requestData.append("name", name);
+  requestData.append("doctor_name", name);
+  requestData.append("emailAddress", emailAddress);
+  requestData.append("email_address", emailAddress);
+  requestData.append("phone", phone);
+  requestData.append("specialist", specialist);
+  requestData.append("departmentId", String(departmentId));
+  requestData.append("department_id", String(departmentId));
+  requestData.append("statusId", String(statusId));
+  requestData.append("status_id", String(statusId));
+
+  let response;
+  try {
+    response = await api.post(UPDATE_DOCTOR_API_URL, requestData);
+  } catch (error) {
+    const responseData = error.response?.data;
+    const message =
+      responseData?.message ||
+      responseData?.error ||
+      (error.response?.status
+        ? `Doctor update failed with HTTP ${error.response.status}.`
+        : error.message || "Unable to update doctor profile.");
+    throw new Error(message, { cause: error });
+  }
+
+  const responseData = response?.data;
+  if (responseData?.success === false) {
+    throw new Error(responseData.message || "Unable to update doctor profile.");
+  }
+
+  const returnedRecord = responseData?.data || {};
+  const updatedDoctor = normalizeDoctorRecord({
+    ...formValues,
+    ...returnedRecord,
+    doctorId,
+    doctor_id: doctorId,
+    name,
+    fullName: name,
+    doctor_name: name,
+    emailAddress,
+    email: emailAddress,
+    phone,
+    phoneNumber: phone,
+    specialist,
+    departmentId,
+    department,
+    statusId,
+    status,
+  });
+  updateStoredDoctor(updatedDoctor);
+
+  return {
+    success: true,
+    message: responseData?.message || "Doctor profile updated successfully.",
+    data: updatedDoctor,
   };
 }
 
@@ -661,6 +768,7 @@ export async function fetchDoctorMetadata() {
 
 export default {
   createDoctorProfile,
+  updateDoctorProfile,
   fetchEachDoctor,
   fetchAllDoctors,
   syncAllDoctorsWithApi,

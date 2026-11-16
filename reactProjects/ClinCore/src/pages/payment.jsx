@@ -3,16 +3,11 @@ import Sidebar from "../components/Sidebar";
 import TopHeader from "../components/TopHeader";
 import SearchBar from "../components/SearchBar";
 import FilterDropdown from "../components/FilterDropdown";
-import ButtonComponents from "../components/ButtonComponents";
 import PaymentsTable from "../components/PaymentsTable";
 import PageFooter from "../components/PageFooter";
-import { useModalState } from "../js/components/ModalContext";
 import { FILTER_CONFIGS } from "../js/formSchemas";
 import { useSessionCollection } from "../js/sessionData";
 export default function Payments() {
-  const {
-    openAddDrawer
-  } = useModalState();
   const payments = useSessionCollection("payments");
   const paidInvoices = payments.filter((payment) => payment.status === "Paid").length;
   const pendingInvoices = payments.filter((payment) => payment.status === "Pending").length;
@@ -105,7 +100,6 @@ export default function Payments() {
                         <FilterDropdown icon={paymentFilters.status.icon} label={paymentFilters.status.label} options={paymentFilters.status.options} />
                     </div>
 
-                    <ButtonComponents className="btn-add-invoice-action" icon="bi-plus-lg" title="Add Invoice" onClick={() => openAddDrawer('payment')} />
                 </div>
 
                 <PaymentsTable />

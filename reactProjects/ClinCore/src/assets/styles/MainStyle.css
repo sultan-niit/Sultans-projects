@@ -4616,6 +4616,45 @@ input.input-error {
     font-family: sub-title-font;
 }
 
+.table-empty-cell {
+    white-space: normal !important;
+}
+
+.table-empty-state {
+    min-height: 150px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+}
+
+.table-empty-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 4px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: var(--hover-bg-color);
+    color: var(--primary-color-dark);
+    font-size: 18px;
+}
+
+.table-empty-state strong {
+    color: var(--text-dark-color);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.table-empty-state > span:last-child {
+    color: var(--text-secondary-color);
+    font-size: 12px;
+    font-weight: 400;
+}
+
 .dashboard-wrapper .content-wrapper .main-content .table-checkbox,
 .table-checkbox {
     width: 17px;

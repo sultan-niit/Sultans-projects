@@ -59,7 +59,15 @@ export default function InventoryTable() {
                             );
                         })}
                         {inventory.length === 0 && (
-                            <tr><td colSpan="8">No inventory items found.</td></tr>
+                            <tr>
+                                <td className="table-empty-cell" colSpan="8">
+                                    <div className="table-empty-state">
+                                        <span className="table-empty-icon"><i className="bi bi-box-seam"></i></span>
+                                        <strong>No inventory items yet</strong>
+                                        <span>Add an item to start managing your stock.</span>
+                                    </div>
+                                </td>
+                            </tr>
                         )}
                     </tbody>
                 </table>
