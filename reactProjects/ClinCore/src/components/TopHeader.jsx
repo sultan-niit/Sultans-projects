@@ -1,26 +1,20 @@
 import { useModalState } from "../js/components/ModalContext";
+import { normalizeAuthUser } from "../js/authUser";
 import { useAuth } from "../context/AuthContext";
 
 export default function TopHeader({ ...props }) {
     const { openProfileModal } = useModalState();
     const { user } = useAuth() || {};
 
-    const currentUser = user || (() => {
+    const currentUser = normalizeAuthUser(user || (() => {
         try {
             return JSON.parse(localStorage.getItem("user") || "null");
         } catch {
             return null;
         }
-    })();
+    })() || {});
 
-    const displayName =
-        currentUser?.fullName ||
-        currentUser?.name ||
-        currentUser?.staffName ||
-        [currentUser?.firstName, currentUser?.lastName].filter(Boolean).join(" ") ||
-        currentUser?.emailAddress ||
-        currentUser?.email ||
-        "Sultoon Abdulraheem";
+    const displayName = currentUser.fullName;
 
     const email = currentUser?.emailAddress || currentUser?.email || "sultoon.abdulraheem@clincore.com";
     const position = currentUser?.position || currentUser?.role || "Chief Medical Administrator";

@@ -1,28 +1,27 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import api from "../api/axios";
+import { normalizeAuthUser } from "../js/authUser";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
+  const [user, setUser] = useState(() => {
     const token = localStorage.getItem("accessToken");
     const savedUser = localStorage.getItem("user");
 
-    if (token && savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch (error) {
-        console.error("Error parsing stored user:", error);
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("user");
-      }
-    }
+    if (!token || !savedUser) return null;
 
-    setLoading(false);
-  }, []);
+    try {
+      const normalizedUser = normalizeAuthUser(JSON.parse(savedUser));
+      localStorage.setItem("user", JSON.stringify(normalizedUser));
+      return normalizedUser;
+    } catch (error) {
+      console.error("Error parsing stored user:", error);
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("user");
+      return null;
+    }
+  });
 
   // LOGIN
   const login = async (email, password) => {
@@ -34,16 +33,10 @@ export const AuthProvider = ({ children }) => {
     const responseData = response.data;
 
     if (responseData?.success) {
-      const staff = responseData.data || {};
-      const fullName = staff.name || `${staff.firstName || ""} ${staff.lastName || ""}`.trim() || staff.emailAddress || "User";
-
-      const userData = {
-        ...staff,
-        fullName,
-      };
+      const userData = normalizeAuthUser(responseData.data || responseData.user || {});
 
       localStorage.setItem("user", JSON.stringify(userData));
-      localStorage.setItem("accessToken", responseData.accessToken || staff.staffId);
+      localStorage.setItem("accessToken", responseData.accessToken || userData.staffId || userData.staff_id);
       setUser(userData);
     }
 
@@ -60,7 +53,7 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     setUser,
-    loading,
+    loading: false,
     login,
     logout,
     isAuthenticated: !!user,
@@ -73,6 +66,7 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   return useContext(AuthContext);
 };

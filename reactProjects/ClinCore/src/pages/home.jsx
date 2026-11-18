@@ -7,6 +7,7 @@ import AlertModal from "../components/AlertModal";
 import api from "../api/axios";
 import successImage from "../assets/success.jpeg";
 import { useAuth } from "../context/AuthContext";
+import { normalizeAuthUser } from "../js/authUser";
 const SIGN_IN_API_URL = import.meta.env.VITE_SIGN_IN_API_URL || "https://clincore.niitwebdev.com.ng/clincore-api/admin/auth/sign-in.php";
 export default function Home() {
   const { setUser } = useAuth() || {};
@@ -69,14 +70,9 @@ export default function Home() {
       const response = await api.post(SIGN_IN_API_URL, requestData);
       const responseData = response.data;
       if (responseData?.success) {
-        const staff = responseData.data || {};
-        const fullName = staff.name || `${staff.firstName || ""} ${staff.lastName || ""}`.trim() || staff.emailAddress || "User";
-        const userData = {
-          ...staff,
-          fullName
-        };
+        const userData = normalizeAuthUser(responseData.data || responseData.user || {});
         localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("accessToken", responseData.accessToken || staff.staffId);
+        localStorage.setItem("accessToken", responseData.accessToken || userData.staffId || userData.staff_id);
         if (setUser) setUser(userData);
         setSuccess(responseData.message || "LOGIN SUCCESSFUL");
         setModal(true);

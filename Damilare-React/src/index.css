@@ -1,0 +1,112 @@
+@import "./assets/styles/icons-1.11.3/font/bootstrap-icons.min.css";
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: body-font;
+    background-color: var(--white-color);
+    color: var(--black-color);
+    min-height: 100vh;
+}
+
+:root {
+    --primary-color: #121936;
+    --secondary-color: #1e293b;
+    --white-color: #ffffff;
+    --semiblack-color: #334155;
+    --gray-color: #e2e8f0;
+    --border-color: #e2e8f0;
+    --input-bg-color: #f1f3f7;
+    --dashboard-bg: #edf2f7;
+    --card-bg: #ffffff;
+    --black-color: #0f172a;
+    --muted-color: #64748b;
+    --aqua-color: #6ef6e6;
+    --chart-yellow: #fed143;
+    --chart-blue: #5b76f7;
+    --chart-navy: #121936;
+    --green-plus: #22c55e;
+    --pink-color: #f5c2c7;
+    --lemon-color: #b2f0c0;
+    --purple-primary: #7029c4;
+    --purple-hover: #5b21b6;
+    --purple-light-hover: #f5f3ff;
+    --completed-bg: #3bb77e;
+    --pending-bg: #bef264;
+    --pending-text: #365314;
+    --stock-blue: #1886f7;
+    --sales-orange: #ff5722;
+    --sales-blue: #0284c7;
+    --alert-bg: #fee2e2;
+    --alert-text: #b91c1c;
+    --danger-color: #ef4444;
+    --danger-bg: #fef2f2;
+    --checkbox-border: #cbd5e1;
+    --table-hover-bg: #fafbfc;
+    --table-thumb-bg: #f8fafc;
+    --avatar-blue: #3b82f6;
+    --avatar-purple: #8b5cf6;
+    --avatar-orange: #f97316;
+    --avatar-teal: #0d9488;
+    --avatar-gray: #64748b;
+    --role-admin-bg: #ede9fe;
+    --role-admin-text: #6d28d9;
+    --role-manager-bg: #e0f2fe;
+    --role-manager-text: #0369a1;
+    --role-sales-bg: #fef3c7;
+    --role-sales-text: #b45309;
+    --role-tech-bg: #ffedd5;
+    --role-tech-text: #c2410c;
+    --role-store-bg: #ccfbf1;
+    --role-store-text: #0f766e;
+    --role-staff-bg: #f1f5f9;
+    --role-staff-text: #475569;
+    --action-edit-hover: #eff6ff;
+    --badge-verified-bg: #dcfce7;
+    --badge-verified-text: #15803d;
+    --badge-success-text: #16a34a;
+    --badge-warning-text: #d97706;
+    --sidebar-link-color: rgba(255, 255, 255, 0.75);
+    --sidebar-link-hover-bg: rgba(255, 255, 255, 0.1);
+}
+
+@font-face {
+    font-family: title-font;
+    src: url(./assets/styles/Poppins/Poppins-Bold.ttf);
+}
+
+@font-face {
+    font-family: sub-title-font;
+    src: url(./assets/styles/Poppins/Poppins-Medium.ttf);
+}
+
+@font-face {
+    font-family: body-font;
+    src: url(./assets/styles/Poppins/Poppins-Regular.ttf);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: title-font;
+    margin: 0px;
+    padding: 0px;
+    color: var(--primary-color);
+}
+
+p {
+    margin: 0px;
+    padding: 0px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
